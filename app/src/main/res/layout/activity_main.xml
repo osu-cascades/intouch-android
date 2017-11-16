@@ -8,27 +8,13 @@
     android:layout_height="match_parent"
     tools:context="com.bakeaaro.intouch.MainActivity">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_recv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/activit_main_fragment_container"
+        android:id="@+id/activity_main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintTop_toBottomOf="@+id/message">
-
-
+        app:layout_constraintTop_toBottomOf="@+id/container"
+        app:layout_constraintBottom_toTopOf="@+id/navigation">
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
