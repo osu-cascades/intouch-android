@@ -7,6 +7,7 @@
     <string name="groups_spinner_title">Choose a group</string>
 
     <string-array name="groups_array">
+        <item>Select Group</item>
         <item>All</item>
         <item>Staff</item>
         <item>Clients</item>
