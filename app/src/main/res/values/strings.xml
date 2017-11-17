@@ -3,4 +3,16 @@
     <string name="title_recv">Received</string>
     <string name="title_sent">Sent</string>
     <string name="title_create">Create</string>
+
+    <string name="groups_spinner_title">Choose a group</string>
+
+    <string-array name="groups_array">
+        <item>All</item>
+        <item>Staff</item>
+        <item>Clients</item>
+        <item>Fight Club</item>
+        <item>Whittling</item>
+        <item>Interpretive Massage</item>
+    </string-array>
+
 </resources>
