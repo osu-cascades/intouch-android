@@ -15,6 +15,13 @@ import android.widget.TextView;
 
 public class CreateMessageFragment extends Fragment {
 
+    private Notification mNotification;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mNotification = new Notification();
+    }
 
     @Nullable
     @Override
