@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
 
     protected Fragment receivedMessagesFragment() {
 
-        return new ReceivedMessagesFragment();
+        return new ReceivedNotificationsFragment();
     }
 
     protected Fragment sentMessagesFragment() {
-        return new SentMessagesFragment();
+        return new SentNotificationsFragment();
     }
 
     protected Fragment createMessageFragment() {
 
-        return new CreateMessageFragment();
+        return new CreateNotificationFragment();
     }
 
 }
