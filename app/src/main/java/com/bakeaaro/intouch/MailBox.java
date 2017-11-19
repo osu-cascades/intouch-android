@@ -10,7 +10,8 @@ import java.util.Random;
 public class MailBox {
 
     private static MailBox sMailBox;
-    private List<Notification> mNotifications;
+    private List<Notification> mReceivedNotifications;
+    private List<Notification> mSentNotifications;
 
     public static MailBox get(Context context) {
         if (sMailBox == null) {
@@ -20,7 +21,9 @@ public class MailBox {
     }
 
     private MailBox(Context context){
-        mNotifications = new ArrayList<>();
+        mReceivedNotifications = new ArrayList<>();
+        mSentNotifications = new ArrayList<>();
+
         for (int i = 0; i < 50; i++) {
             Notification notification = new Notification();
             notification.setDbId(new Random().nextInt());
@@ -31,15 +34,32 @@ public class MailBox {
                     "that cost the Greeks Incalculable pain, pitched countless souls " +
                     "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
                     "For dogs and birds, as Zeus' will was done.");
+            if (notification.isAuthor())
+                mSentNotifications.add(notification);
+            else
+                mReceivedNotifications.add(notification);
         }
     }
 
-    public List<Notification> getNotifications() {
-        return mNotifications;
+    public List<Notification> getReceivedNotifications() {
+        return mReceivedNotifications;
     }
 
-    public Notification getNotification(int id) {
-        for (Notification notification : mNotifications) {
+    public Notification getReceivedNotification(int id) {
+        for (Notification notification : mReceivedNotifications) {
+            if (notification.getDbId() == id) {
+                return notification;
+            }
+        }
+        return null;
+    }
+
+    public List<Notification> getSentNotifications() {
+        return mSentNotifications;
+    }
+
+    public Notification getSentNotification(int id) {
+        for (Notification notification : mSentNotifications) {
             if (notification.getDbId() == id) {
                 return notification;
             }
