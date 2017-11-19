@@ -16,7 +16,6 @@ public class Notification {
     public Notification() {
     }
 
-
     public void setDbId(int dbId) {
         mDbId = dbId;
     }
