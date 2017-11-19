@@ -24,7 +24,7 @@ public class MailBox {
         mReceivedNotifications = new ArrayList<>();
         mSentNotifications = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             Notification notification = new Notification();
             notification.setDbId(new Random().nextInt());
             notification.setTitle(String.format("Notification #%d", notification.getDbId()));

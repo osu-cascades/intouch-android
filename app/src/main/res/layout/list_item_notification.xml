@@ -8,6 +8,7 @@
         android:id="@+id/notification_list_item_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notification #"/>
+        android:hint="Notification #"
+        />
 
 </android.support.constraint.ConstraintLayout>
