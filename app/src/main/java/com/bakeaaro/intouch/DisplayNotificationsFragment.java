@@ -13,7 +13,7 @@ public class DisplayNotificationsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.received_notifications_fragment, container, false);
+        View view = inflater.inflate(R.layout.display_notifications_fragment, container, false);
 
         return view;
     }

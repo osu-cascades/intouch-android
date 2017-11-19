@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_received:
                     fragment = fm.findFragmentByTag(receivedMessagesFragmentTag);
                     if (fragment == null) {
-                        fragment = receivedMessagesFragment();
+                        fragment = DisplayNotificationsFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
                     }
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).addToBackStack(null).commit();
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_sent:
                     fragment = fm.findFragmentByTag(sentMessagesFragmentTag);
                     if (fragment == null) {
-                        fragment = sentMessagesFragment();
+                        fragment = SentNotificationsFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).commit();
                     }
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).addToBackStack(null).commit();
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_create:
                     fragment = fm.findFragmentByTag(createMessageFragmentTag);
                     if (fragment == null) {
-                        fragment = createMessageFragment();
+                        fragment = CreateNotificationFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).commit();
                     }
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).addToBackStack(null).commit();
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);
         if (fragment == null) {
-            fragment = receivedMessagesFragment();
+            fragment = DisplayNotificationsFragment();
             fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
         }
 
@@ -70,16 +70,16 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    protected Fragment receivedMessagesFragment() {
+    protected Fragment DisplayNotificationsFragment() {
 
         return new DisplayNotificationsFragment();
     }
 
-    protected Fragment sentMessagesFragment() {
+    protected Fragment SentNotificationsFragment() {
         return new SentNotificationsFragment();
     }
 
-    protected Fragment createMessageFragment() {
+    protected Fragment CreateNotificationFragment() {
 
         return new CreateNotificationFragment();
     }
