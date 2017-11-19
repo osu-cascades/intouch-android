@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class Notification {
 
-    private UUID mUUID;
     private int mDbId;
     private String mTitle;
     //private Date mDateCreated;
@@ -15,20 +14,27 @@ public class Notification {
     private String mMessageBody;
 
     public Notification() {
-        mUUID = UUID.randomUUID();
-        mDbId = new Random().nextInt();
-        mTitle = String.format("Notification #%d", mDbId);
-        mDateCreated = "Right now";
-        isAuthor = (new Random().nextInt() % 2 == 0) ? false : true;
-        mMessageBody = "RAGE: Sing, Goddess, Achilles' rage, Black and murderous, " +
-                "that cost the Greeks Incalculable pain, pitched countless souls " +
-                "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
-                "For dogs and birds, as Zeus' will was done.";
-
     }
 
-    public UUID getUUID() {
-        return mUUID;
+
+    public void setDbId(int dbId) {
+        mDbId = dbId;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        mDateCreated = dateCreated;
+    }
+
+    public void setAuthor(boolean author) {
+        isAuthor = author;
+    }
+
+    public void setMessageBody(String messageBody) {
+        mMessageBody = messageBody;
     }
 
     public int getDbId() {
@@ -39,7 +45,7 @@ public class Notification {
         return mTitle;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return mDateCreated;
     }
 
