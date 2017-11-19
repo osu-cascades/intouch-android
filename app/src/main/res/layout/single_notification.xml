@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="2dp">
 
     <TextView android:id="@+id/fragment_title_tv"
         android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
         <TextView android:id="@+id/message_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
             android:hint="If you didn't want to smell, you should have taken a shower. "/>
 
     </LinearLayout>

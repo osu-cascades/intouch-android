@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected Fragment receivedMessagesFragment() {
 
-        return new ReceivedNotificationsFragment();
+        return new DisplayNotificationsFragment();
     }
 
     protected Fragment sentMessagesFragment() {
