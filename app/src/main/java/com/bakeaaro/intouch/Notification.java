@@ -12,6 +12,15 @@ public class Notification {
     private String mDateCreated;
     private boolean isAuthor;
     private String mMessageBody;
+    private String mFrom;
+
+    public String getFrom() {
+        return mFrom;
+    }
+
+    public void setFrom(String from) {
+        mFrom = from;
+    }
 
     public Notification() {
     }
