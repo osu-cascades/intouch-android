@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class DispaySingleNotificationFragment extends Fragment {
+public class DisplaySingleNotificationFragment extends Fragment {
 
     private Notification mNotification;
 
@@ -33,11 +33,11 @@ public class DispaySingleNotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.single_notification, container, false);
 
-        mTitleTV = (TextView) view.findViewById(R.id.title_tv);
-        mDateTV = (TextView) view.findViewById(R.id.title_tv);
-        mFromTV = (TextView) view.findViewById(R.id.title_tv);
-        mMessageTV = (TextView) view.findViewById(R.id.title_tv);
-        mDeleteBtn = (Button) view.findViewById(R.id.delete_notification_btn);
+        mTitleTV = view.findViewById(R.id.title_tv);
+        mDateTV = view.findViewById(R.id.title_tv);
+        mFromTV = view.findViewById(R.id.title_tv);
+        mMessageTV = view.findViewById(R.id.title_tv);
+        mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
 
         return view;
     }
