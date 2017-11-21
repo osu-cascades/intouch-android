@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 public class DisplaySingleNotificationFragment extends Fragment {
 
+    private static final String ARG_NOTIFICATION_ID = "notification_id";
+
     private Notification mNotification;
 
     private TextView mTitleTV;
@@ -20,11 +22,19 @@ public class DisplaySingleNotificationFragment extends Fragment {
     private TextView mMessageTV;
     private Button mDeleteBtn;
 
+    public static DisplaySingleNotificationFragment newInstance(int notificationId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_NOTIFICATION_ID, notificationId);
+        DisplaySingleNotificationFragment fragment = new DisplaySingleNotificationFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int notificationId = (int) getActivity().getIntent().getSerializableExtra(DisplaySingleNotificationActivity.EXTRA_NOTIFICATION_ID);
+        int notificationId = (int) getArguments().getSerializable(ARG_NOTIFICATION_ID);
         mNotification = MailBox.getInstance(getActivity()).getReceivedNotification(notificationId);
     }
 
@@ -43,6 +53,8 @@ public class DisplaySingleNotificationFragment extends Fragment {
         mDateTV.setText(mNotification.getDateCreated());
         mFromTV.setText(mNotification.getFrom());
         mMessageTV.setText(mNotification.getMessageBody());
+
+        mNotification.setViewed();
 
         return view;
     }

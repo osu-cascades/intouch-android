@@ -10,7 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 
 public class DisplaySingleNotificationActivity extends AppCompatActivity {
 
-    public static final String EXTRA_NOTIFICATION_ID = "notification_id";
+    private static final String EXTRA_NOTIFICATION_ID = "notification_id";
+
+    protected Fragment createFragment() {
+        int id = (int) getIntent().getSerializableExtra(EXTRA_NOTIFICATION_ID);
+        return DisplaySingleNotificationFragment.newInstance(id);
+    }
 
     public static Intent newIntent(Context packageContext, int notificationId) {
         Intent intent = new Intent(packageContext, DisplaySingleNotificationActivity.class);
@@ -26,7 +31,7 @@ public class DisplaySingleNotificationActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);
         if (fragment == null) {
-            fragment = new DisplaySingleNotificationFragment();
+            fragment = createFragment();
             fm.beginTransaction()
                     .add(R.id.single_notification_fragment_container, fragment)
                     .commit();

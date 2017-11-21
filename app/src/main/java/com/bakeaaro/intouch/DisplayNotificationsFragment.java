@@ -99,9 +99,9 @@ public class DisplayNotificationsFragment extends Fragment {
         @Override
         public NotificationHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            LayoutInflater layoutInfalter = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            return new NotificationHolder(layoutInfalter, parent);
+            return new NotificationHolder(layoutInflater, parent);
 
         }
 
