@@ -25,13 +25,15 @@
             android:text="TITLE:"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
+
         <TextView
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="title"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginRight="4dp"
+            android:hint="title"
+            android:textColor="@android:color/black"/>
         <TextView
             android:id="@+id/date_label_tv"
             android:layout_width="wrap_content"
@@ -39,13 +41,15 @@
             android:text="DATE:"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
+
         <TextView
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="NOV 4th"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginRight="4dp"
+            android:hint="NOV 4th"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,13 +63,15 @@
             android:text="FROM:"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
+
         <TextView
             android:id="@+id/from_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="from"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginRight="4dp"
+            android:hint="from"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
   </LinearLayout>
 
@@ -73,7 +79,6 @@
         android:id="@+id/read_iv"
         android:layout_width="65dp"
         android:layout_height="match_parent"
-
         android:src="@drawable/closed_letter"/>
 
 </LinearLayout>

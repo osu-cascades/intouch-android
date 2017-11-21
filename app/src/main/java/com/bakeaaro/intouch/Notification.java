@@ -13,7 +13,7 @@ public class Notification {
     private boolean isAuthor;
     private String mMessageBody;
     private String mFrom;
-    private Boolean mViewed;
+    private Boolean mViewed = false;
 
     public Boolean hasBeenViewed() {
         return mViewed;

@@ -1,6 +1,7 @@
 package com.bakeaaro.intouch;
 
 
+import android.content.Intent;
 import android.content.ReceiverCallNotAllowedException;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -53,15 +55,17 @@ public class DisplayNotificationsFragment extends Fragment {
         private TextView mTitleTV;
         private TextView mDateTV;
         private TextView mFromTV;
+        private ImageView mOpenedIV;
 
         public NotificationHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_notification, parent, false));
 
             itemView.setOnClickListener(this);
 
-            mTitleTV = (TextView) itemView.findViewById(R.id.title_tv);
-            mDateTV = (TextView) itemView.findViewById(R.id.date_tv);
-            mFromTV = (TextView) itemView.findViewById(R.id.from_tv);
+            mTitleTV = itemView.findViewById(R.id.title_tv);
+            mDateTV = itemView.findViewById(R.id.date_tv);
+            mFromTV = itemView.findViewById(R.id.from_tv);
+            mOpenedIV = itemView.findViewById(R.id.read_iv);
 
         }
 
@@ -70,11 +74,16 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV.setText(mNotification.getTitle());
             mDateTV.setText(mNotification.getDateCreated());
             mFromTV.setText(mNotification.getFrom());
+            if (mNotification.hasBeenViewed())
+                mOpenedIV.setVisibility(View.GONE);
+            else
+                mOpenedIV.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onClick(View view){
-
+            Intent intent = new Intent(getActivity(), DisplaySingleNotificationActivity.class);
+            startActivity(intent);
         }
 
     }

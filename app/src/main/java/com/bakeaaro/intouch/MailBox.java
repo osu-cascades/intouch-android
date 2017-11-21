@@ -29,8 +29,12 @@ public class MailBox {
             notification.setDbId(new Random().nextInt());
             notification.setTitle(String.format("Notification #%d", notification.getDbId()));
             notification.setDateCreated("right now");
-            notification.setAuthor((new Random().nextInt() % 2 == 0) ? false : true);
+            if (new Random().nextInt() % 2 == 1)
+                notification.setAuthor(true);
+
             notification.setFrom("Someone");
+            if (notification.isAuthor())
+                notification.setViewed();
             notification.setMessageBody("RAGE: Sing, Goddess, Achilles' rage, Black and murderous, " +
                     "that cost the Greeks Incalculable pain, pitched countless souls " +
                     "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
