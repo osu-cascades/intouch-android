@@ -45,7 +45,8 @@ public class DisplayNotificationsFragment extends Fragment {
         mNotificationRV.setAdapter(mAdapter);
     }
 
-    private class NotificationHolder extends RecyclerView.ViewHolder {
+    private class NotificationHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         private Notification mNotification;
 
@@ -55,6 +56,8 @@ public class DisplayNotificationsFragment extends Fragment {
 
         public NotificationHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_notification, parent, false));
+
+            itemView.setOnClickListener(this);
 
             mTitleTV = (TextView) itemView.findViewById(R.id.title_tv);
             mDateTV = (TextView) itemView.findViewById(R.id.date_tv);
@@ -67,6 +70,11 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV.setText(mNotification.getTitle());
             mDateTV.setText(mNotification.getDateCreated());
             mFromTV.setText(mNotification.getFrom());
+        }
+
+        @Override
+        public void onClick(View view){
+
         }
 
     }
