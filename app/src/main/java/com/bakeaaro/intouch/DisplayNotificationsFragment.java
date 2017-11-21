@@ -2,6 +2,7 @@ package com.bakeaaro.intouch;
 
 
 import android.content.ReceiverCallNotAllowedException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -91,7 +92,8 @@ public class DisplayNotificationsFragment extends Fragment {
         public void onBindViewHolder(NotificationHolder holder, int position) {
             Notification notification = mNotifications.get(position);
             holder.bind(notification);
-            //holder.itemView.setBackground();
+            if (notification.isAuthor())
+                holder.itemView.setBackgroundColor(Color.GRAY);
         }
 
         @Override
