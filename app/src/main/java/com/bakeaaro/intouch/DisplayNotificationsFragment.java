@@ -40,11 +40,22 @@ public class DisplayNotificationsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
         List<Notification> notifications = mailBox.getReceivedNotifications();
-        mAdapter = new NotificationAdapter(notifications);
-        mNotificationRV.setAdapter(mAdapter);
+
+        if (mAdapter == null) {
+            mAdapter = new NotificationAdapter(notifications);
+            mNotificationRV.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class NotificationHolder extends RecyclerView.ViewHolder
@@ -109,8 +120,6 @@ public class DisplayNotificationsFragment extends Fragment {
         public void onBindViewHolder(NotificationHolder holder, int position) {
             Notification notification = mNotifications.get(position);
             holder.bind(notification);
-//            if (notification.isAuthor())
-//                holder.itemView.setBackgroundColor(Color.GRAY);
         }
 
         @Override

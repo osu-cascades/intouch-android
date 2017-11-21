@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class DisplaySingleNotificationFragment extends Fragment {
@@ -53,6 +54,14 @@ public class DisplaySingleNotificationFragment extends Fragment {
         mDateTV.setText(mNotification.getDateCreated());
         mFromTV.setText(mNotification.getFrom());
         mMessageTV.setText(mNotification.getMessageBody());
+        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Notification will be deleted at a later date", Toast.LENGTH_SHORT).show();
+                //TODO AsyncTask delete entry from db table?
+                //TODO remove from view pager, show next notification
+            }
+        });
 
         mNotification.setViewed();
 
