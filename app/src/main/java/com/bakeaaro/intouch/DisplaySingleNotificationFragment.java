@@ -24,8 +24,8 @@ public class DisplaySingleNotificationFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mNotification = new Notification();
-
+        int notificationId = (int) getActivity().getIntent().getSerializableExtra(DisplaySingleNotificationActivity.EXTRA_NOTIFICATION_ID);
+        mNotification = MailBox.getInstance(getActivity()).getReceivedNotification(notificationId);
     }
 
     @Nullable
@@ -34,10 +34,15 @@ public class DisplaySingleNotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.single_notification, container, false);
 
         mTitleTV = view.findViewById(R.id.title_tv);
-        mDateTV = view.findViewById(R.id.title_tv);
-        mFromTV = view.findViewById(R.id.title_tv);
-        mMessageTV = view.findViewById(R.id.title_tv);
+        mDateTV = view.findViewById(R.id.date_tv);
+        mFromTV = view.findViewById(R.id.from_tv);
+        mMessageTV = view.findViewById(R.id.message_tv);
         mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
+
+        mTitleTV.setText(mNotification.getTitle());
+        mDateTV.setText(mNotification.getDateCreated());
+        mFromTV.setText(mNotification.getFrom());
+        mMessageTV.setText(mNotification.getMessageBody());
 
         return view;
     }

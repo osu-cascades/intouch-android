@@ -13,7 +13,7 @@ public class MailBox {
     private List<Notification> mReceivedNotifications;
     private List<Notification> mSentNotifications;
 
-    public static MailBox get(Context context) {
+    public static MailBox getInstance(Context context) {
         if (sMailBox == null) {
             sMailBox = new MailBox(context);
         }
@@ -26,23 +26,23 @@ public class MailBox {
 
         for (int i = 0; i < 100; i++) {
             Notification notification = new Notification();
-            notification.setDbId(new Random().nextInt());
+            notification.setDbId(i);
             notification.setTitle(String.format("Notification #%d", notification.getDbId()));
-            notification.setDateCreated("right now");
-            if (new Random().nextInt() % 2 == 1)
+            notification.setDateCreated("right now " + String.valueOf(i));
+            if (i % 2 == 1)
                 notification.setAuthor(true);
-
-            notification.setFrom("Someone");
+            notification.setFrom("Someone " + String.valueOf(i));
             if (notification.isAuthor())
                 notification.setViewed();
             notification.setMessageBody("RAGE: Sing, Goddess, Achilles' rage, Black and murderous, " +
                     "that cost the Greeks Incalculable pain, pitched countless souls " +
                     "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
                     "For dogs and birds, as Zeus' will was done.");
-            if (notification.isAuthor())
-                mSentNotifications.add(notification);
-            else
-                mReceivedNotifications.add(notification);
+            mReceivedNotifications.add(notification);
+//            if (notification.isAuthor())
+//                mSentNotifications.add(notification);
+//            else
+//                mReceivedNotifications.add(notification);
         }
     }
 

@@ -41,7 +41,7 @@ public class DisplayNotificationsFragment extends Fragment {
     }
 
     private void updateUI() {
-        MailBox mailBox = MailBox.get(getActivity());
+        MailBox mailBox = MailBox.getInstance(getActivity());
         List<Notification> notifications = mailBox.getReceivedNotifications();
         mAdapter = new NotificationAdapter(notifications);
         mNotificationRV.setAdapter(mAdapter);
@@ -82,7 +82,7 @@ public class DisplayNotificationsFragment extends Fragment {
 
         @Override
         public void onClick(View view){
-            Intent intent = new Intent(getActivity(), DisplaySingleNotificationActivity.class);
+            Intent intent = DisplaySingleNotificationActivity.newIntent(getActivity(), mNotification.getDbId());
             startActivity(intent);
         }
 
@@ -109,8 +109,8 @@ public class DisplayNotificationsFragment extends Fragment {
         public void onBindViewHolder(NotificationHolder holder, int position) {
             Notification notification = mNotifications.get(position);
             holder.bind(notification);
-            if (notification.isAuthor())
-                holder.itemView.setBackgroundColor(Color.GRAY);
+//            if (notification.isAuthor())
+//                holder.itemView.setBackgroundColor(Color.GRAY);
         }
 
         @Override
