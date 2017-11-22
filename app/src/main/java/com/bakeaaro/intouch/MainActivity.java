@@ -10,9 +10,9 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String receivedMessagesFragmentTag = "rmf";
-    private static final String sentMessagesFragmentTag = "smf";
-    private static final String createMessageFragmentTag = "dmf";
+    private static final String receivedNotificationsFragmentTag = "receivedNotifications";
+    private static final String sentNotificationsFragmentTag = "sentNotifications";
+    private static final String createNotificationFragmentTag = "createNotification";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -22,32 +22,33 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment;
+            //TODO refactor each case into method(string fragtype, callback);
             switch (item.getItemId()) {
                 case R.id.navigation_received:
-                    fragment = fm.findFragmentByTag(receivedMessagesFragmentTag);
+                    fragment = fm.findFragmentByTag(receivedNotificationsFragmentTag);
                     if (fragment == null) {
                         fragment = DisplayNotificationsFragment();
-                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
+                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedNotificationsFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedNotificationsFragmentTag).commit();
                     return true;
 
                     case R.id.navigation_sent:
-                    fragment = fm.findFragmentByTag(sentMessagesFragmentTag);
+                    fragment = fm.findFragmentByTag(sentNotificationsFragmentTag);
                     if (fragment == null) {
-                        fragment = SentNotificationsFragment();
-                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).commit();
+                        fragment = DisplayNotificationsFragment();
+                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, sentNotificationsFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentNotificationsFragmentTag).commit();
                     return true;
 
                     case R.id.navigation_create:
-                    fragment = fm.findFragmentByTag(createMessageFragmentTag);
+                    fragment = fm.findFragmentByTag(createNotificationFragmentTag);
                     if (fragment == null) {
                         fragment = CreateNotificationFragment();
-                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).commit();
+                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, createNotificationFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createNotificationFragmentTag).commit();
                     return true;
             }
             return false;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);
         if (fragment == null) {
             fragment = DisplayNotificationsFragment();
-            fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
+            fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedNotificationsFragmentTag).commit();
         }
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected Fragment SentNotificationsFragment() {
+
         return new SentNotificationsFragment();
     }
 

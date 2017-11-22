@@ -21,11 +21,16 @@ import java.util.List;
 
 public class DisplayNotificationsFragment extends Fragment {
 
+    private static String FRAGMENT_TAG;
+
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
 
-    private List<Notification> mNotifications;
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FRAGMENT_TAG = this.getTag();
+    }
 
     @Nullable
     @Override
@@ -48,12 +53,12 @@ public class DisplayNotificationsFragment extends Fragment {
 
     private void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
-        List<Notification> notifications = mailBox.getReceivedNotifications();
-
+        List<Notification> notifications = mailBox.getNotifications(FRAGMENT_TAG);
         if (mAdapter == null) {
             mAdapter = new NotificationAdapter(notifications);
             mNotificationRV.setAdapter(mAdapter);
         } else {
+            mAdapter.setNotifications(notifications);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -94,7 +99,7 @@ public class DisplayNotificationsFragment extends Fragment {
         @Override
         public void onClick(View view){
             // pass desired String type received or sent
-            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId());
+            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId(), FRAGMENT_TAG);
             startActivity(intent);
         }
 
@@ -102,7 +107,7 @@ public class DisplayNotificationsFragment extends Fragment {
 
     private class NotificationAdapter extends RecyclerView.Adapter<NotificationHolder> {
 
-        private List<Notification> mNotification;
+        private List<Notification> mNotifications;
 
         public NotificationAdapter(List<Notification> notifications) {
             mNotifications = notifications;
@@ -126,6 +131,10 @@ public class DisplayNotificationsFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mNotifications.size();
+        }
+
+        public void setNotifications(List<Notification> notifications) {
+            mNotifications = notifications;
         }
     }
 

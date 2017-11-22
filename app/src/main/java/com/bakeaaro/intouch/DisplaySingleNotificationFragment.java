@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class DisplaySingleNotificationFragment extends Fragment {
 
     private static final String ARG_NOTIFICATION_ID = "notification_id";
+    private static final String ARG_TYPE = "type";
 
     private Notification mNotification;
 
@@ -25,9 +26,10 @@ public class DisplaySingleNotificationFragment extends Fragment {
     private TextView mMessageTV;
     private Button mDeleteBtn;
 
-    public static DisplaySingleNotificationFragment newInstance(int notificationId) {
+    public static DisplaySingleNotificationFragment newInstance(int notificationId, String type) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_NOTIFICATION_ID, notificationId);
+        args.putSerializable(ARG_TYPE, type);
         DisplaySingleNotificationFragment fragment = new DisplaySingleNotificationFragment();
         fragment.setArguments(args);
         return fragment;
@@ -38,7 +40,8 @@ public class DisplaySingleNotificationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         int notificationId = (int) getArguments().getSerializable(ARG_NOTIFICATION_ID);
-        mNotification = MailBox.getInstance(getActivity()).getReceivedNotification(notificationId);
+        String type = (String) getArguments().getSerializable(ARG_TYPE);
+        mNotification = MailBox.getInstance(getActivity()).getNotification(type, notificationId);
     }
 
     @Nullable

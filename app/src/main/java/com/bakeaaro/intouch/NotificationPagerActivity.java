@@ -15,14 +15,17 @@ import java.util.List;
 public class NotificationPagerActivity extends AppCompatActivity {
 
     private static final String EXTRA_NOTIFICATION_ID = "notification_id";
+    private static final String EXTRA_FRAGMENT_TYPE = "type";
+    private String FRAGMENT_TYPE;
 
     private ViewPager mViewPager;
     private List<Notification> mNotifications;
 
-    public static Intent newIntent(Context packageContext, int notificationId) {
+    public static Intent newIntent(Context packageContext, int notificationId, String type) {
         Intent intent = new Intent(packageContext, NotificationPagerActivity.class);
         // put string extra representing received or sent list
         intent.putExtra(EXTRA_NOTIFICATION_ID, notificationId);
+        intent.putExtra(EXTRA_FRAGMENT_TYPE, type);
         return intent;
     }
 
@@ -35,7 +38,8 @@ public class NotificationPagerActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.notification_view_pager);
         int notificationId = (int) getIntent().getSerializableExtra(EXTRA_NOTIFICATION_ID);
         // get serializable string for type
-        mNotifications = MailBox.getInstance(this).getNotifications("received");
+        FRAGMENT_TYPE = (String) getIntent().getSerializableExtra(EXTRA_FRAGMENT_TYPE);
+        mNotifications = MailBox.getInstance(this).getNotifications(FRAGMENT_TYPE);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
@@ -43,7 +47,7 @@ public class NotificationPagerActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int position) {
                 Notification notification = mNotifications.get(position);
-                return DisplaySingleNotificationFragment.newInstance(notification.getDbId());
+                return DisplaySingleNotificationFragment.newInstance(notification.getDbId(), FRAGMENT_TYPE);
 
             }
 

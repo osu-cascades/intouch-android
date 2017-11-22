@@ -29,7 +29,7 @@ public class MailBox {
             notification.setDbId(i);
             notification.setTitle(String.format("Notification #%d", notification.getDbId()));
             notification.setDateCreated("right now " + String.valueOf(i));
-            if (i % 2 == 1)
+            if (i % 4 == 1 || i % 4 == 2)
                 notification.setAuthor(true);
             notification.setFrom("Someone " + String.valueOf(i));
             if (notification.isAuthor())
@@ -38,49 +38,61 @@ public class MailBox {
                     "that cost the Greeks Incalculable pain, pitched countless souls " +
                     "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
                     "For dogs and birds, as Zeus' will was done.");
-            mReceivedNotifications.add(notification);
-//            if (notification.isAuthor())
-//                mSentNotifications.add(notification);
-//            else
-//                mReceivedNotifications.add(notification);
+            //mReceivedNotifications.add(notification);
+            if (notification.isAuthor())
+                mSentNotifications.add(notification);
+            else
+                mReceivedNotifications.add(notification);
         }
     }
 
-    public List<Notification> getReceivedNotifications() {
-        return mReceivedNotifications;
-    }
+    public Notification getNotification(String type, int id) {
 
-    public Notification getReceivedNotification(int id) {
-        for (Notification notification : mReceivedNotifications) {
-            if (notification.getDbId() == id) {
-                return notification;
-            }
+        Notification notification = new Notification();
+
+        switch (type) {
+            case "receivedNotifications":
+                for (Notification n : mReceivedNotifications) {
+                    if (n.getDbId() == id) {
+                        notification = n;
+                        break;
+                    }
+                    notification = null;
+                }
+                break;
+            case "sentNotifications":
+                for (Notification n : mSentNotifications) {
+                    if (n.getDbId() == id) {
+                        notification = n;
+                        break;
+                    }
+                    notification = null;
+                }
+                break;
+            default:
+                notification = null;
+                break;
         }
-        return null;
-    }
-
-    public List<Notification> getSentNotifications() {
-        return mSentNotifications;
-    }
-
-    public Notification getSentNotification(int id) {
-        for (Notification notification : mSentNotifications) {
-            if (notification.getDbId() == id) {
-                return notification;
-            }
-        }
-        return null;
+        return notification;
     }
 
     public List<Notification> getNotifications(String type) {
+
+        List<Notification> mNotifications;
+
         switch (type) {
-            case "received":
-                return mReceivedNotifications;
-            case "sent":
-                return mSentNotifications;
+            case "receivedNotifications":
+                mNotifications = mReceivedNotifications;
+                break;
+            case "sentNotifications":
+                mNotifications = mSentNotifications;
+                break;
             default:
-                return null;
+                mNotifications = new ArrayList<>();
+                break;
         }
+
+        return mNotifications;
 
     }
 
