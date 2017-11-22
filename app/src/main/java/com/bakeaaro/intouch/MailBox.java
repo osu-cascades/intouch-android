@@ -72,4 +72,16 @@ public class MailBox {
         return null;
     }
 
+    public List<Notification> getNotifications(String type) {
+        switch (type) {
+            case "received":
+                return mReceivedNotifications;
+            case "sent":
+                return mSentNotifications;
+            default:
+                return null;
+        }
+
+    }
+
 }
