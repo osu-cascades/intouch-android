@@ -93,7 +93,7 @@ public class DisplayNotificationsFragment extends Fragment {
 
         @Override
         public void onClick(View view){
-            Intent intent = DisplaySingleNotificationActivity.newIntent(getActivity(), mNotification.getDbId());
+            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId());
             startActivity(intent);
         }
 
