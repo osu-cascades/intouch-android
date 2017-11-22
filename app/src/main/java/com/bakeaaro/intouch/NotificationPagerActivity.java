@@ -54,7 +54,7 @@ public class NotificationPagerActivity extends AppCompatActivity {
         });
 
         for (int i = 0; i < mNotifications.size(); i++) {
-            if (mNotifications.get(i).getDbId() == (notificationId)) {
+            if (mNotifications.get(i).getDbId() == notificationId) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

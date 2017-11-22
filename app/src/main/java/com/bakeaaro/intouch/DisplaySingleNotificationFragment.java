@@ -1,8 +1,10 @@
 package com.bakeaaro.intouch;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,9 +59,28 @@ public class DisplaySingleNotificationFragment extends Fragment {
         mDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Notification will be deleted at a later date", Toast.LENGTH_SHORT).show();
-                //TODO AsyncTask delete entry from db table?
-                //TODO remove from view pager, show next notification
+
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setMessage("Are you sure you want to delete this notification?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getActivity(), "Notification will be deleted at a later date", Toast.LENGTH_SHORT).show();
+                                // TODO AsyncTask delete entry from db table?
+                                // TODO remove from view pager
+                                // TODO update mNotifications
+                                // TODO show next notification
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
             }
         });
 

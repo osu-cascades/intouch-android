@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
                         fragment = DisplayNotificationsFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).addToBackStack(null).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag)
+                            .addToBackStack(null)
+                            .commit();
                     return true;
 
                     case R.id.navigation_sent:
