@@ -29,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = DisplayNotificationsFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag)
-                            .addToBackStack(null)
-                            .commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedMessagesFragmentTag).commit();
                     return true;
 
                     case R.id.navigation_sent:
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = SentNotificationsFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).addToBackStack(null).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentMessagesFragmentTag).commit();
                     return true;
 
                     case R.id.navigation_create:
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = CreateNotificationFragment();
                         fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).commit();
                     }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).addToBackStack(null).commit();
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createMessageFragmentTag).commit();
                     return true;
             }
             return false;
