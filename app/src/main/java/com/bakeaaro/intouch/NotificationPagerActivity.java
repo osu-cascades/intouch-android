@@ -21,6 +21,7 @@ public class NotificationPagerActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context packageContext, int notificationId) {
         Intent intent = new Intent(packageContext, NotificationPagerActivity.class);
+        // put string extra representing received or sent list
         intent.putExtra(EXTRA_NOTIFICATION_ID, notificationId);
         return intent;
     }
@@ -33,6 +34,7 @@ public class NotificationPagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.notification_view_pager);
         int notificationId = (int) getIntent().getSerializableExtra(EXTRA_NOTIFICATION_ID);
+        // get serializable string for type
         mNotifications = MailBox.getInstance(this).getNotifications("received");
         FragmentManager fragmentManager = getSupportFragmentManager();
 

@@ -93,6 +93,7 @@ public class DisplayNotificationsFragment extends Fragment {
 
         @Override
         public void onClick(View view){
+            // pass desired String type received or sent
             Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId());
             startActivity(intent);
         }
