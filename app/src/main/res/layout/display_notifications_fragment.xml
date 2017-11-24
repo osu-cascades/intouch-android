@@ -7,9 +7,10 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/display_notifications_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Received Messages" />
+        android:layout_gravity="center"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/notifcation_rv"

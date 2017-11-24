@@ -25,6 +25,7 @@ public class DisplayNotificationsFragment extends Fragment {
 
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
+    private TextView mTitleTV;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +40,20 @@ public class DisplayNotificationsFragment extends Fragment {
 
         mNotificationRV = (RecyclerView) view.findViewById(R.id.notifcation_rv);
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mTitleTV = (TextView) view.findViewById(R.id.display_notifications_title_tv);
+
+        switch (FRAGMENT_TAG) {
+            case "receivedNotifications" :
+                mTitleTV.setText(" Received Notifications");
+                break;
+            case "sentNotifications":
+                mTitleTV.setText("Sent Notifications");
+                break;
+            default:
+                break;
+        }
+
 
         updateUI();
 
