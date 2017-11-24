@@ -87,8 +87,6 @@ public class DisplaySingleNotificationFragment extends Fragment {
             }
         });
 
-        mNotification.setViewed();
-
         return view;
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -37,12 +38,18 @@ public class NotificationPagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.notification_view_pager);
         int notificationId = (int) getIntent().getSerializableExtra(EXTRA_NOTIFICATION_ID);
-        // get serializable string for type
         FRAGMENT_TYPE = (String) getIntent().getSerializableExtra(EXTRA_FRAGMENT_TYPE);
         mNotifications = MailBox.getInstance(this).getNotifications(FRAGMENT_TYPE);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+
+            @Override
+            public void setPrimaryItem(ViewGroup container, int position, Object object) {
+                super.setPrimaryItem(container, position, object);
+                Notification notification = mNotifications.get(position);
+                notification.setViewed();
+            }
 
             @Override
             public Fragment getItem(int position) {
