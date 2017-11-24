@@ -76,11 +76,6 @@ public class MainActivity extends AppCompatActivity {
         return new DisplayNotificationsFragment();
     }
 
-    protected Fragment SentNotificationsFragment() {
-
-        return new SentNotificationsFragment();
-    }
-
     protected Fragment CreateNotificationFragment() {
 
         return new CreateNotificationFragment();
