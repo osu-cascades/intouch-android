@@ -12,8 +12,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/activity_main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="@+id/container"
         app:layout_constraintBottom_toTopOf="@+id/navigation">
     </FrameLayout>

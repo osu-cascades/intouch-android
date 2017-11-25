@@ -42,15 +42,12 @@ public class DisplayNotificationsFragment extends Fragment {
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mTitleTV = (TextView) view.findViewById(R.id.display_notifications_title_tv);
-
         switch (FRAGMENT_TAG) {
-            case "receivedNotifications" :
-                mTitleTV.setText(" Received Notifications");
+            case "receivedNotifications":
+                mTitleTV.setText("Received Notifications");
                 break;
             case "sentNotifications":
                 mTitleTV.setText("Sent Notifications");
-                break;
-            default:
                 break;
         }
 
