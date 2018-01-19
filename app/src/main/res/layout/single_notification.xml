@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:hint="Captain Obvious"/>
+            android:hint="Staff Member"/>
 
     </LinearLayout>
 
@@ -87,16 +87,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:hint="If you didn't want to smell, you should have taken a shower. "/>
+            android:hint="Hello"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/reply_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Reply"
+        app:layout_constraintTop_toBottomOf="@+id/notifcation_ll" />
 
     <Button android:id="@+id/delete_notification_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/notifcation_ll" />
+        app:layout_constraintTop_toBottomOf="@id/reply_btn" />
 
 
 </android.support.constraint.ConstraintLayout>

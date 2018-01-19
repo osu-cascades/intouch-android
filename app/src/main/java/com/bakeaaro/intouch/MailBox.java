@@ -28,16 +28,13 @@ public class MailBox {
             Notification notification = new Notification();
             notification.setDbId(i);
             notification.setTitle(String.format("Notification #%d", notification.getDbId()));
-            notification.setDateCreated("right now " + String.valueOf(i));
+            notification.setDateCreated("1-8-18");
             if (i % 4 == 1 || i % 4 == 2)
                 notification.setAuthor(true);
-            notification.setFrom("Someone " + String.valueOf(i));
+            notification.setFrom("Group Leader " + String.valueOf(i));
             if (notification.isAuthor())
                 notification.setViewed();
-            notification.setMessageBody("RAGE: Sing, Goddess, Achilles' rage, Black and murderous, " +
-                    "that cost the Greeks Incalculable pain, pitched countless souls " +
-                    "Of heroes into Hades' dark, And left their bodies to rot as feasts " +
-                    "For dogs and birds, as Zeus' will was done.");
+            notification.setMessageBody("Sample notification text.");
             //mReceivedNotifications.add(notification);
             if (notification.isAuthor())
                 mSentNotifications.add(notification);
