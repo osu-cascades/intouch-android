@@ -52,6 +52,7 @@ public class NotificationService extends IntentService {
             public void onEvent(String channelName, String eventName, String data) {
 
                 // add notification to mailbox
+
                 Resources resources = getResources();
                 //Intent mainIntent = MainActivity.newIntent(getApplicationContext());
                 //mainIntent.putExtra("channel", channelName);
