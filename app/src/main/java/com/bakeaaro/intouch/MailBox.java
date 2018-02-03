@@ -23,24 +23,6 @@ public class MailBox {
     private MailBox(Context context){
         mReceivedNotifications = new ArrayList<>();
         mSentNotifications = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            Notification notification = new Notification();
-            notification.setDbId(i);
-            notification.setTitle(String.format("Notification #%d", notification.getDbId()));
-            notification.setDateCreated("1-8-18");
-            if (i % 4 == 1 || i % 4 == 2)
-                notification.setAuthor(true);
-            notification.setFrom("Group Leader " + String.valueOf(i));
-            if (notification.isAuthor())
-                notification.setViewed();
-            notification.setMessageBody("Sample notification text.");
-            //mReceivedNotifications.add(notification);
-            if (notification.isAuthor())
-                mSentNotifications.add(notification);
-            else
-                mReceivedNotifications.add(notification);
-        }
     }
 
     public Notification getNotification(String type, int id) {
