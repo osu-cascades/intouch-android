@@ -16,13 +16,13 @@ import android.widget.TextView;
 
 public class OptionsFragment extends Fragment {
 
-    private final static String TAG = "Pusher MainActivity";
+    private final static String TAG = "OptionsFragment";
     private static String FRAGMENT_TAG;
 
-    private Switch mToggleSerice;
+    private Switch mToggleServiceSw;
     private Intent mServiceIntent;
 
-    private boolean mSwitchState = false;
+    //private boolean mSwitchState = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,24 +38,20 @@ public class OptionsFragment extends Fragment {
 
         mServiceIntent = NotificationService.newIntent(getActivity());
 
-        mToggleSerice = (Switch) view.findViewById(R.id.service_switch);
-        mToggleSerice.setChecked(false);
-        mToggleSerice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mToggleServiceSw = (Switch) view.findViewById(R.id.service_switch);
+
+        mToggleServiceSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    getActivity().stopService(mServiceIntent);
-                    mSwitchState = false;
-                    mToggleSerice.setChecked(false);
-                    Log.i(TAG, "Service stopped");
-                } else {
                     getActivity().startService(mServiceIntent);
-                    mSwitchState = true;
-                    mToggleSerice.setChecked(true);
                     Log.i(TAG, "Service started");
+
+                } else {
+                    getActivity().stopService(mServiceIntent);
+                    Log.i(TAG, "Service stopped");
                 }
             }
         });
-
 
         return view;
 
