@@ -50,24 +50,27 @@ public class NotificationService extends IntentService {
         mChannel.bind("my-event", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, String data) {
+
+                // add notification to mailbox
                 Resources resources = getResources();
-                Intent mainIntent = MainActivity.newIntent(getApplicationContext());
-                mainIntent.putExtra("channel", channelName);
-                mainIntent.putExtra("event", eventName);
-                mainIntent.putExtra("data", data);
-                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, mainIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                //Intent mainIntent = MainActivity.newIntent(getApplicationContext());
+                //mainIntent.putExtra("channel", channelName);
+                //mainIntent.putExtra("event", eventName);
+                //mainIntent.putExtra("data", data);
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, null, PendingIntent.FLAG_CANCEL_CURRENT);
 
-                Notification notification = new Notification.Builder(getApplicationContext())
-                        .setTicker("Abilitree")
-                        .setSmallIcon(R.drawable.ic_message_black_24dp)
-                        .setContentTitle("Notification")
-                        .setContentText("Tap to view notification")
-                        .setContentIntent(pendingIntent)
-                        .setAutoCancel(true)
-                        .build();
-                NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                notificationManagerCompat.notify(0, notification);
-
+                //if (appOpen) {
+                    Notification notification = new Notification.Builder(getApplicationContext())
+                            .setTicker("Abilitree")
+                            .setSmallIcon(R.drawable.ic_message_green_24dp)
+                            .setContentTitle("Notification")
+                            .setContentText("Tap to view notification")
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
+                            .build();
+                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                    notificationManagerCompat.notify(0, notification);
+                //}
                 Log.i(TAG, channelName + " " + eventName + " " + data);
             }
         });
