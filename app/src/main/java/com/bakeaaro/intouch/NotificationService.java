@@ -46,7 +46,6 @@ public class NotificationService extends IntentService {
         mChannel = mPusher.subscribe("my-channel");
 
         // listen for events
-
         mChannel.bind("my-event", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, String data) {
@@ -54,11 +53,8 @@ public class NotificationService extends IntentService {
                 // add notification to mailbox
 
                 Resources resources = getResources();
-                //Intent mainIntent = MainActivity.newIntent(getApplicationContext());
-                //mainIntent.putExtra("channel", channelName);
-                //mainIntent.putExtra("event", eventName);
-                //mainIntent.putExtra("data", data);
-                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, null, PendingIntent.FLAG_CANCEL_CURRENT);
+                Intent mainAppIntent = MainActivity.newIntent(getApplicationContext());
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, mainAppIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                 //if (appOpen) {
                     Notification notification = new Notification.Builder(getApplicationContext())
@@ -66,7 +62,7 @@ public class NotificationService extends IntentService {
                             .setSmallIcon(R.drawable.ic_message_green_24dp)
                             .setContentTitle("Notification")
                             .setContentText("Tap to view notification")
-                            .setContentIntent(pendingIntent)
+                            .setContentIntent(null)
                             .setAutoCancel(true)
                             .build();
                     NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
@@ -80,31 +76,6 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-//        if (!isNetworkAvailableAndConnected()) {
-//            return;
-//        }
-//
-//        Log.i(TAG, "Received an intent: " + intent);
-//
-//        try {
-//            Thread.sleep(2000);
-//        } catch (Exception e) {}
-//
-//        Resources resources = getResources();
-//        Intent mainIntent = MainActivity.newIntent(this);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, 0);
-//
-//        Notification notification = new Notification.Builder(this)
-//                .setTicker("Abilitree")
-//                .setSmallIcon(R.drawable.ic_message_black_24dp)
-//                .setContentTitle("Dance Party")
-//                .setContentText("Everyone report to the dance floor!")
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true)
-//                .build();
-//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-//        notificationManagerCompat.notify(0, notification);
 
     }
 
