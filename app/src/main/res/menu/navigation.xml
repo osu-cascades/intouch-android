@@ -16,4 +16,9 @@
         android:icon="@drawable/create_icon"
         android:title="@string/title_create"/>
 
+    <item
+        android:id="@+id/navigation_options"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="@string/nav_options"/>
+
 </menu>

@@ -68,7 +68,7 @@ public class DisplaySingleNotificationFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(), "Notification Deleted", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getActivity(), "Notification Deleted", Toast.LENGTH_SHORT).show();
                                 // TODO AsyncTask delete entry from db table?
                                 // TODO remove from view pager
                                 // TODO update mNotifications
