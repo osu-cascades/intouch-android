@@ -1,5 +1,7 @@
 package com.bakeaaro.intouch;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String receivedNotificationsFragmentTag = "receivedNotifications";
     private static final String sentNotificationsFragmentTag = "sentNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
+    private static final String optionsFragmentTag = "options";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, receivedNotificationsFragmentTag).commit();
                     return true;
 
-                    case R.id.navigation_sent:
+                case R.id.navigation_sent:
                     fragment = fm.findFragmentByTag(sentNotificationsFragmentTag);
                     if (fragment == null) {
                         fragment = DisplayNotificationsFragment();
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, sentNotificationsFragmentTag).commit();
                     return true;
 
-                    case R.id.navigation_create:
+                case R.id.navigation_create:
                     fragment = fm.findFragmentByTag(createNotificationFragmentTag);
                     if (fragment == null) {
                         fragment = CreateNotificationFragment();
@@ -50,10 +53,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createNotificationFragmentTag).commit();
                     return true;
+
+                case R.id.navigation_options:
+                    fragment = fm.findFragmentByTag(optionsFragmentTag);
+                    if (fragment == null) {
+                        fragment = OptionsFragment();
+                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, optionsFragmentTag).commit();
+                    }
+                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, optionsFragmentTag).commit();
+                    return true;
+
             }
             return false;
         }
     };
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
     protected Fragment CreateNotificationFragment() {
 
         return new CreateNotificationFragment();
+    }
+
+    protected Fragment OptionsFragment() {
+
+        return new OptionsFragment();
     }
 
 }
