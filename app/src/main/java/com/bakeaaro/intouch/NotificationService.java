@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
@@ -43,14 +44,20 @@ public class NotificationService extends IntentService {
         mPusher.connect();
 
         // subscribe to public channel
-        mChannel = mPusher.subscribe("my-channel");
+        mChannel = mPusher.subscribe("abilitree");
 
         // listen for events
-        mChannel.bind("my-event", new SubscriptionEventListener() {
+        mChannel.bind("notifications", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channelName, String eventName, String data) {
 
-                // add notification to mailbox
+                // TODO add notification to mailbox
+
+                // de-jsonify
+                String json = data;
+                Gson gson = new Gson();
+                Note note = gson.fromJson(json, Note.class);
+                Log.i(TAG, note.message);
 
                 Resources resources = getResources();
                 Intent mainAppIntent = MainActivity.newIntent(getApplicationContext());
@@ -61,7 +68,7 @@ public class NotificationService extends IntentService {
                             .setTicker("Abilitree")
                             .setSmallIcon(R.drawable.ic_message_green_24dp)
                             .setContentTitle("Notification")
-                            .setContentText("Tap to view notification")
+                            .setContentText(note.message)
                             .setContentIntent(null)
                             .setAutoCancel(true)
                             .build();
