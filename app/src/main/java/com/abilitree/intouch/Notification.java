@@ -1,8 +1,4 @@
-package com.bakeaaro.intouch;
-
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+package com.abilitree.intouch;
 
 public class Notification {
 

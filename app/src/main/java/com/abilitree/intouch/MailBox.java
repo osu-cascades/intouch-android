@@ -1,11 +1,10 @@
-package com.bakeaaro.intouch;
+package com.abilitree.intouch;
 
 
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MailBox {
 

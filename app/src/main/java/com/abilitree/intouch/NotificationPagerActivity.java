@@ -1,4 +1,4 @@
-package com.bakeaaro.intouch;
+package com.abilitree.intouch;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.bakeaaro.intouch;
+package com.abilitree.intouch;
 
 import org.junit.Test;
 
