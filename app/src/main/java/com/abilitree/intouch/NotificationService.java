@@ -83,7 +83,8 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        //url request
+        //make notification
     }
 
     private boolean isNetworkAvailableAndConnected() {
