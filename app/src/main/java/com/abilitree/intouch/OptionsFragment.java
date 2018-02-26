@@ -33,8 +33,6 @@ public class OptionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.options_fragment, container, false);
 
-        mServiceIntent = NotificationService.newIntent(getActivity());
-
         mToggleServiceSw = (Switch) view.findViewById(R.id.service_switch);
 
         mToggleServiceSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

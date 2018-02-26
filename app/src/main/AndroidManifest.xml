@@ -23,8 +23,6 @@
         </activity>
         <activity android:name="com.abilitree.intouch.NotificationPagerActivity"/>
 
-        <service android:name="com.abilitree.intouch.NotificationService" />
-
     </application>
 
 </manifest>
