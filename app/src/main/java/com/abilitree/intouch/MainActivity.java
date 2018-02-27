@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import com.pusher.pushnotifications.PushNotifications;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, createNotificationFragmentTag).commit();
                     return true;
 
-                case R.id.navigation_options:
-                    fragment = fm.findFragmentByTag(optionsFragmentTag);
-                    if (fragment == null) {
-                        fragment = OptionsFragment();
-                        fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, optionsFragmentTag).commit();
-                    }
-                    fm.beginTransaction().replace(R.id.activity_main_fragment_container, fragment, optionsFragmentTag).commit();
-                    return true;
-
             }
             return false;
         }
@@ -76,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //This is for FCM
+        PushNotifications.start(getApplicationContext(), "9313976c-3ca4-4a1c-9538-1627280923f4");
+        PushNotifications.subscribe("hello");
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);

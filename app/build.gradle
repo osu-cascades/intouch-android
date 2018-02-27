@@ -24,6 +24,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:11.6.2'
+    implementation 'com.pusher:push-notifications-android:0.9.9'
+
     compile 'com.pusher:pusher-java-client:1.6.0'
     compile 'com.google.code.gson:gson:2.8.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -36,3 +39,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

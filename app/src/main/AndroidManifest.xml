@@ -21,9 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.abilitree.intouch.NotificationPagerActivity"/>
 
-        <service android:name="com.abilitree.intouch.NotificationService" />
+        <service
+            android:name=".FCMReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.abilitree.intouch.NotificationPagerActivity"/>
 
     </application>
 
