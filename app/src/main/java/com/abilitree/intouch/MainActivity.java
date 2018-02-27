@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
             fm.beginTransaction().add(R.id.activity_main_fragment_container, fragment, receivedNotificationsFragmentTag).commit();
         }
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        //BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     protected Fragment DisplayNotificationsFragment() {
