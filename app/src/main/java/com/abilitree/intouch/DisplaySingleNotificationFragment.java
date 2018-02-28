@@ -52,40 +52,40 @@ public class DisplaySingleNotificationFragment extends Fragment {
         mDateTV = view.findViewById(R.id.date_tv);
         mFromTV = view.findViewById(R.id.from_tv);
         mMessageTV = view.findViewById(R.id.message_tv);
-        mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
+        //mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
 
         mTitleTV.setText(mNotification.getTitle());
         mDateTV.setText(mNotification.getDateCreated());
         mFromTV.setText(mNotification.getFrom());
         mMessageTV.setText(mNotification.getMessageBody());
-        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setMessage("Are you sure you want to delete this notification?");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Toast.makeText(getActivity(), "Notification Deleted", Toast.LENGTH_SHORT).show();
-                                // TODO AsyncTask delete entry from db table?
-                                // TODO remove from view pager
-                                // TODO update mNotifications
-                                // TODO show next notification
-                                dialog.dismiss();
-
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-
-            }
-        });
+//        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setMessage("Are you sure you want to delete this notification?");
+//                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                //Toast.makeText(getActivity(), "Notification Deleted", Toast.LENGTH_SHORT).show();
+//                                // TODO AsyncTask delete entry from db table?
+//                                // TODO remove from view pager
+//                                // TODO update mNotifications
+//                                // TODO show next notification
+//                                dialog.dismiss();
+//
+//                            }
+//                        });
+//                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                alertDialog.show();
+//
+//            }
+//        });
 
         return view;
     }
