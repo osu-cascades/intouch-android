@@ -2,11 +2,14 @@ package com.abilitree.intouch;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MailBox {
+
+    String TAG = "FireTree-MailBox";
 
     private static MailBox sMailBox;
     private List<Notification> mReceivedNotifications;
@@ -26,7 +29,7 @@ public class MailBox {
 
     public Notification getNotification(String type, int id) {
 
-        Notification notification = new Notification();
+        Notification notification = null;
 
         switch (type) {
             case "receivedNotifications":
@@ -72,6 +75,27 @@ public class MailBox {
 
         return mNotifications;
 
+    }
+
+    public void createNotification(String title, String from, String datetime, String body) {
+
+        for (Notification notification : mReceivedNotifications) {
+            String titleStr = notification.getTitle();
+            String fromStr = notification.getFrom();
+            String datetimeStr = notification.getDateCreated();
+            String bodyStr = notification.getMessageBody();
+            Log.d(TAG, title); Log.d(TAG, notification.getTitle());
+            Log.d(TAG, from); Log.d(TAG, notification.getFrom());
+            Log.d(TAG, datetime); Log.d(TAG, notification.getDateCreated());
+            Log.d(TAG, body); Log.d(TAG, notification.getMessageBody());
+            if (titleStr == null)
+                continue;
+            if(titleStr.equals(title) && fromStr.equals(from) && datetimeStr.equals(datetime) && bodyStr.equals(body))
+                return;
+
+        }
+        Notification notification = new Notification(title, from, datetime, body);
+        mReceivedNotifications.add(0, notification);
     }
 
 }
