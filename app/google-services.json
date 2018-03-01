@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:895715316630:android:ad9e410bc7b328d5",
         "android_client_info": {
-          "package_name": "com.bakeaaro.intouch"
+          "package_name": "com.abilitree.intouch"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "895715316630-61badc38j2iulis4de0dbebahkv8ir2g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bakeaaro.intouch",
+            "package_name": "com.abilitree.intouch",
             "certificate_hash": "4e15395a0059cb5db7f4096d94e2ab0baf235030"
           }
         },
