@@ -27,7 +27,11 @@ public class Notification {
         mFrom = from;
     }
 
-    public Notification() {
+    public Notification(String title, String from, String datetime, String body) {
+        mTitle = title;
+        mFrom = from;
+        mDateCreated = datetime;
+        mMessageBody = body;
     }
 
     public void setDbId(int dbId) {
