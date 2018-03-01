@@ -76,17 +76,20 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
             String title = bundle.getString("title");
-            String body = bundle.getString("body");
             String from = bundle.getString("by");
             String datetime = bundle.getString("datetime");
+            String body = bundle.getString("body");
+
             Log.d(TAG, "Key: title, Value:  " + title);
             Log.d(TAG, "Key: by, Value:  " + from);
-            Log.d(TAG, "Key: body, Value:  " + body);
             Log.d(TAG, "Key: datetime, Value:  " + datetime);
+            Log.d(TAG, "Key: body, Value:  " + body);
 
 
-            MailBox mailBox = MailBox.getInstance(this);
-            mailBox.createNotification(title, from, datetime, body);
+            if (title != null && from != null && datetime != null && body != null) {
+                MailBox mailBox = MailBox.getInstance(this);
+                mailBox.createNotification(title, from, datetime, body);
+            }
 
         }
 
