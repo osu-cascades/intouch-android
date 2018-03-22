@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import com.pusher.pushnotifications.PushNotifications;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "FireTree-Main";
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "Key: body, Value:  " + body);
 
 
+
             if (title != null && from != null && datetime != null && body != null) {
                 MailBox mailBox = MailBox.getInstance(this);
                 mailBox.createNotification(title, from, datetime, body);
@@ -95,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         //This is for FCM
         PushNotifications.start(getApplicationContext(), "9313976c-3ca4-4a1c-9538-1627280923f4");
-        PushNotifications.subscribe("abilitree");
+        //PushNotifications.subscribe("abilitree");
+        PushNotifications.subscribe("test_abilitree");
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);
@@ -116,11 +120,6 @@ public class MainActivity extends AppCompatActivity {
     protected Fragment CreateNotificationFragment() {
 
         return new CreateNotificationFragment();
-    }
-
-    protected Fragment OptionsFragment() {
-
-        return new OptionsFragment();
     }
 
 }

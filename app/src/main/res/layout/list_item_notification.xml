@@ -22,7 +22,7 @@
             android:id="@+id/title_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TITLE:"
+            android:text="@string/title"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
 
@@ -32,13 +32,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:hint="title"
+            android:hint="@string/hint_title"
             android:textColor="@android:color/black"/>
         <TextView
             android:id="@+id/date_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DATE:"
+            android:text="@string/date"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:hint="NOV 4th"
+            android:hint="@string/nov_4th"
             android:textColor="@android:color/black"/>
     </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:id="@+id/from_label_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FROM:"
+            android:text="@string/from"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:hint="from"
+            android:hint="@string/hint_from"
             android:textColor="@android:color/black"/>
     </LinearLayout>
   </LinearLayout>

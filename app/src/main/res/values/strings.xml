@@ -6,6 +6,13 @@
     <string name="nav_options">Options</string>
 
     <string name="groups_spinner_title">Choose a group</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="title">TITLE:</string>
+    <string name="hint_title">title</string>
+    <string name="date">DATE:</string>
+    <string name="nov_4th">NOV 4th</string>
+    <string name="from">FROM:</string>
+    <string name="hint_from">from</string>
 
     <string-array name="groups_array">
         <item>Select Group</item>
