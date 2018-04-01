@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.pusher:push-notifications-android-0.9.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/push-notifications-android-0.9.9.aar/2bddd7591cc33bd58fb27581f6780104/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/push-notifications-android-0.9.9.aar/2bddd7591cc33bd58fb27581f6780104/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.pusher/push-notifications-android/0.9.9/469a47759024558d0f728ea27e29a207e14a8316/push-notifications-android-0.9.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

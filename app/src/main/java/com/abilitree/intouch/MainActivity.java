@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.pusher.pushnotifications.PushNotifications;
 
 import java.util.Date;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         if (getIntent().getExtras() != null ) {
 
             Intent intent = getIntent();
@@ -101,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         //PushNotifications.subscribe("abilitree");
         PushNotifications.subscribe("test_abilitree");
 
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("MainActivity", "Token: " + refreshedToken);
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_main_fragment_container);
         if (fragment == null) {
@@ -121,5 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
         return new CreateNotificationFragment();
     }
+
 
 }

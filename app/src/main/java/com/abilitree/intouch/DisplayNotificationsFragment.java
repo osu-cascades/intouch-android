@@ -2,20 +2,25 @@ package com.abilitree.intouch;
 
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class DisplayNotificationsFragment extends Fragment {
+
+    private static final String TAG = "Display";
 
     private static String FRAGMENT_TAG;
 
@@ -27,6 +32,7 @@ public class DisplayNotificationsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FRAGMENT_TAG = this.getTag();
+
     }
 
     @Nullable
@@ -34,7 +40,7 @@ public class DisplayNotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.display_notifications_fragment, container, false);
 
-        mNotificationRV = (RecyclerView) view.findViewById(R.id.notifcation_rv);
+        mNotificationRV =  view.findViewById(R.id.notifcation_rv);
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mTitleTV = (TextView) view.findViewById(R.id.display_notifications_title_tv);
@@ -61,6 +67,9 @@ public class DisplayNotificationsFragment extends Fragment {
 
     private void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
+
+
+
         List<Notification> notifications = mailBox.getNotifications(FRAGMENT_TAG);
         if (mAdapter == null) {
             mAdapter = new NotificationAdapter(notifications);
@@ -79,6 +88,7 @@ public class DisplayNotificationsFragment extends Fragment {
         private TextView mTitleTV;
         private TextView mDateTV;
         private TextView mFromTV;
+        private TextView mBodyTv;
         private ImageView mOpenedIV;
 
         public NotificationHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -89,6 +99,7 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV = itemView.findViewById(R.id.title_tv);
             mDateTV = itemView.findViewById(R.id.date_tv);
             mFromTV = itemView.findViewById(R.id.from_tv);
+            mBodyTv = itemView.findViewById(R.id.body_tv);
             mOpenedIV = itemView.findViewById(R.id.read_iv);
 
         }
@@ -98,16 +109,24 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV.setText(mNotification.getTitle());
             mDateTV.setText(mNotification.getDateCreated());
             mFromTV.setText(mNotification.getFrom());
+            mBodyTv.setText(mNotification.getMessageBody());
             if (mNotification.hasBeenViewed())
                 mOpenedIV.setVisibility(View.GONE);
             else
                 mOpenedIV.setVisibility(View.VISIBLE);
         }
 
+
+
         @Override
         public void onClick(View view){
-            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId(), FRAGMENT_TAG);
-            startActivity(intent);
+//            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId(), FRAGMENT_TAG);
+//            startActivity(intent);
+
+
+
+            Log.d(TAG, "Inside on click view");
+            Log.v(TAG, "Key:mNotification:  " + mNotification);
         }
 
     }
