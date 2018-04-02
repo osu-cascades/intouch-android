@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
-    }
+//    public static Intent newIntent(Context context) {
+//        return new Intent(context, MainActivity.class);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

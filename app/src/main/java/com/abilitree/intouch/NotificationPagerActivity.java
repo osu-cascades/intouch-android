@@ -39,6 +39,7 @@ public class NotificationPagerActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.notification_view_pager);
         int notificationId = (int) getIntent().getSerializableExtra(EXTRA_NOTIFICATION_ID);
         FRAGMENT_TYPE = (String) getIntent().getSerializableExtra(EXTRA_FRAGMENT_TYPE);
+
         mNotifications = MailBox.getInstance(this).getNotifications(FRAGMENT_TYPE);
         FragmentManager fragmentManager = getSupportFragmentManager();
 

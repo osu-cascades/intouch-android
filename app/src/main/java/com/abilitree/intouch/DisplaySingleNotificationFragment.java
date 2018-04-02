@@ -43,21 +43,21 @@ public class DisplaySingleNotificationFragment extends Fragment {
         mNotification = MailBox.getInstance(getActivity()).getNotification(type, notificationId);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.single_notification, container, false);
-
-        mTitleTV = view.findViewById(R.id.title_tv);
-        mDateTV = view.findViewById(R.id.date_tv);
-        mFromTV = view.findViewById(R.id.from_tv);
-        mMessageTV = view.findViewById(R.id.message_tv);
-        //mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
-
-        mTitleTV.setText(mNotification.getTitle());
-        mDateTV.setText(mNotification.getDateCreated());
-        mFromTV.setText(mNotification.getFrom());
-        mMessageTV.setText(mNotification.getMessageBody());
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.single_notification, container, false);
+//
+//        mTitleTV = view.findViewById(R.id.title_tv);
+//        mDateTV = view.findViewById(R.id.date_tv);
+//        mFromTV = view.findViewById(R.id.from_tv);
+//        mMessageTV = view.findViewById(R.id.message_tv);
+//        //mDeleteBtn = view.findViewById(R.id.delete_notification_btn);
+//
+//        mTitleTV.setText(mNotification.getTitle());
+//        mDateTV.setText(mNotification.getDateCreated());
+//        mFromTV.setText(mNotification.getFrom());
+//        mMessageTV.setText(mNotification.getMessageBody());
 //        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -87,8 +87,8 @@ public class DisplaySingleNotificationFragment extends Fragment {
 //            }
 //        });
 
-        return view;
+//        return view;
     }
 
 
-}
+

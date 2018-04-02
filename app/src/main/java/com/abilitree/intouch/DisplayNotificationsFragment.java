@@ -18,9 +18,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static java.lang.Boolean.TRUE;
+
 public class DisplayNotificationsFragment extends Fragment {
 
-    private static final String TAG = "Display";
 
     private static String FRAGMENT_TAG;
 
@@ -88,7 +89,7 @@ public class DisplayNotificationsFragment extends Fragment {
         private TextView mTitleTV;
         private TextView mDateTV;
         private TextView mFromTV;
-        private TextView mBodyTv;
+        //private TextView mBodyTv;
         private ImageView mOpenedIV;
 
         public NotificationHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -99,7 +100,7 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV = itemView.findViewById(R.id.title_tv);
             mDateTV = itemView.findViewById(R.id.date_tv);
             mFromTV = itemView.findViewById(R.id.from_tv);
-            mBodyTv = itemView.findViewById(R.id.body_tv);
+            //mBodyTv = itemView.findViewById(R.id.body_tv);
             mOpenedIV = itemView.findViewById(R.id.read_iv);
 
         }
@@ -109,7 +110,7 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV.setText(mNotification.getTitle());
             mDateTV.setText(mNotification.getDateCreated());
             mFromTV.setText(mNotification.getFrom());
-            mBodyTv.setText(mNotification.getMessageBody());
+            //mBodyTv.setText(mNotification.getMessageBody());
             if (mNotification.hasBeenViewed())
                 mOpenedIV.setVisibility(View.GONE);
             else
@@ -117,16 +118,23 @@ public class DisplayNotificationsFragment extends Fragment {
         }
 
 
-
+/*
+This is for passing data from listing notification to viewing single notifications
+ */
         @Override
         public void onClick(View view){
 //            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId(), FRAGMENT_TAG);
 //            startActivity(intent);
 
+            //Have to use getActivity() passing a fragment as Context is invalid
+            String noteTitle = mNotification.getTitle();
+            String noteDate = mNotification.getDateCreated();
+            String noteFrom = mNotification.getFrom();
+            String noteBody = mNotification.getMessageBody();
 
+            Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody);
+            startActivity(intent);
 
-            Log.d(TAG, "Inside on click view");
-            Log.v(TAG, "Key:mNotification:  " + mNotification);
         }
 
     }

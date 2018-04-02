@@ -34,4 +34,13 @@
     <string name="body">BODY:</string>
     <string name="body_hint">body</string>
 
+    <string name="error">Error</string>
+    <string name="received_sent">Received/Sent</string>
+    <string name="title_single_note">Title:</string>
+    <string name="message_title">message title</string>
+    <string name="date_single_note">Date:</string>
+    <string name="create_notification">Create Notification</string>
+    <string name="nov_17th">Nov 17th</string>
+    <string name="Envelope">Envelope</string>
+
 </resources>
