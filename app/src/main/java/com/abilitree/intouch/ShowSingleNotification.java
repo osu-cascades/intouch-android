@@ -16,6 +16,9 @@ public class ShowSingleNotification extends AppCompatActivity {
     private static final String EXTRA_NOTIFICATION_FROM = "com.abilitree.intouch.noteFrom";
     private static final String EXTRA_NOTIFICATION_BODY = "com.abilitree.intouch.noteBody";
 
+    //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
+    private static final String EXTRA_NOTIFICATION_READ = "com.abilitree.intouch.noteRead";
+
 
     private String mNoteTitle;
     private String mNoteDate;
@@ -36,6 +39,10 @@ public class ShowSingleNotification extends AppCompatActivity {
         intent.putExtra(EXTRA_NOTIFICATION_FROM, noteFrom);
         intent.putExtra(EXTRA_NOTIFICATION_BODY, noteBody);
         return intent;
+    }
+
+    public static boolean wasLetterRead(Intent result) {
+        return true;
     }
 
     @Override
@@ -59,6 +66,12 @@ public class ShowSingleNotification extends AppCompatActivity {
     mNotificationFrom.setText(mNoteFrom);
     mNotificationBody.setText(mNoteBody);
 
+    setLetterOpened(true);
+    }
 
+    private void setLetterOpened(boolean isLetterRead) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_NOTIFICATION_READ, isLetterRead);
+        setResult(RESULT_OK, data);
     }
 }

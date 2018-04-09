@@ -1,6 +1,7 @@
 package com.abilitree.intouch;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -25,8 +26,14 @@ public class DisplayNotificationsFragment extends Fragment {
 
     private static String FRAGMENT_TAG;
 
+    //This is for intent for opening and closing letter
+    private static final int REQUEST_CODE_LETTER = 0;
+    private boolean mNoteRead;
+
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
+
+
     private TextView mTitleTV;
 
     @Override
@@ -100,8 +107,8 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV = itemView.findViewById(R.id.title_tv);
             mDateTV = itemView.findViewById(R.id.date_tv);
             mFromTV = itemView.findViewById(R.id.from_tv);
-            //mBodyTv = itemView.findViewById(R.id.body_tv);
-            mOpenedIV = itemView.findViewById(R.id.read_iv);
+
+
 
         }
 
@@ -110,11 +117,6 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV.setText(mNotification.getTitle());
             mDateTV.setText(mNotification.getDateCreated());
             mFromTV.setText(mNotification.getFrom());
-            //mBodyTv.setText(mNotification.getMessageBody());
-            if (mNotification.hasBeenViewed())
-                mOpenedIV.setVisibility(View.GONE);
-            else
-                mOpenedIV.setVisibility(View.VISIBLE);
         }
 
 
@@ -123,9 +125,6 @@ This is for passing data from listing notification to viewing single notificatio
  */
         @Override
         public void onClick(View view){
-//            Intent intent = NotificationPagerActivity.newIntent(getActivity(), mNotification.getDbId(), FRAGMENT_TAG);
-//            startActivity(intent);
-
             //Have to use getActivity() passing a fragment as Context is invalid
             String noteTitle = mNotification.getTitle();
             String noteDate = mNotification.getDateCreated();
@@ -133,10 +132,25 @@ This is for passing data from listing notification to viewing single notificatio
             String noteBody = mNotification.getMessageBody();
 
             Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody);
-            startActivity(intent);
+            //startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_LETTER);
 
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_CODE_LETTER){
+            if (data == null){
+                return;
+            }
+            mNoteRead = ShowSingleNotification.wasLetterRead(data);
+        }
     }
 
     private class NotificationAdapter extends RecyclerView.Adapter<NotificationHolder> {
