@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class DisplayNotificationsFragment extends Fragment {
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
 
-
+    private Button mLogoutBtn;
     private TextView mTitleTV;
 
     @Override
@@ -52,14 +53,17 @@ public class DisplayNotificationsFragment extends Fragment {
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mTitleTV = (TextView) view.findViewById(R.id.display_notifications_title_tv);
-        switch (FRAGMENT_TAG) {
-            case "receivedNotifications":
-                mTitleTV.setText("Received Notifications");
-                break;
-            case "sentNotifications":
-                mTitleTV.setText("Sent Notifications");
-                break;
-        }
+        mLogoutBtn = view. findViewById(R.id.logout_btn);
+        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                Settings.clearLoginSettings(activity);
+                Intent intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
+                activity.finish();
+            }
+        });
 
 
         updateUI();
