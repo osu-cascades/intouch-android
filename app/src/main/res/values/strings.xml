@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">InTouch</string>
-    <string name="title_recv">Received</string>
-    <string name="title_sent">Sent</string>
+    <string name="title_view">View</string>
     <string name="title_create">Create</string>
-    <string name="nav_options">Options</string>
 
     <string name="groups_spinner_title">Choose a group</string>
     <string name="send_notification">Send Notification</string>
