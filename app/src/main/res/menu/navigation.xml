@@ -2,23 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_received"
+        android:id="@+id/navigation_view"
         android:icon="@drawable/recv_icon_2"
-        android:title="@string/title_recv"/>
-
-    <item
-        android:id="@+id/navigation_sent"
-        android:icon="@drawable/sent_icon"
-        android:title="@string/title_sent"/>
+        android:title="@string/title_view"/>
 
     <item
         android:id="@+id/navigation_create"
         android:icon="@drawable/create_icon"
         android:title="@string/title_create"/>
-
-    <item
-        android:id="@+id/navigation_options"
-        android:icon="@drawable/ic_settings_24dp"
-        android:title="@string/nav_options"/>
 
 </menu>
