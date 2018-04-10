@@ -18,28 +18,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getIntent().getExtras() != null ) {
+        boolean loggedIn = Settings.getLoginStatus(getApplicationContext());
+        Log.i(TAG, String.format("logged in: %b", loggedIn));
 
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-            String title = bundle.getString("title");
-            String from = bundle.getString("by");
-            String datetime = bundle.getString("datetime");
-            String body = bundle.getString("body");
+        if (!loggedIn) {
+            //start log in activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
 
-            Log.d(TAG, "Key: title, Value:  " + title);
-            Log.d(TAG, "Key: by, Value:  " + from);
-            Log.d(TAG, "Key: datetime, Value:  " + datetime);
-            Log.d(TAG, "Key: body, Value:  " + body);
+        } else {
+            if (getIntent().getExtras() != null ) {
 
+                Intent intent = getIntent();
+                Bundle bundle = intent.getExtras();
+                String title = bundle.getString("title");
+                String from = bundle.getString("by");
+                String datetime = bundle.getString("datetime");
+                String body = bundle.getString("body");
 
+                Log.d(TAG, "Key: title, Value:  " + title);
+                Log.d(TAG, "Key: by, Value:  " + from);
+                Log.d(TAG, "Key: datetime, Value:  " + datetime);
+                Log.d(TAG, "Key: body, Value:  " + body);
 
-            if (title != null && from != null && datetime != null && body != null) {
-                MailBox mailBox = MailBox.getInstance(this);
-                mailBox.createNotification(title, from, datetime, body);
+                if (title != null && from != null && datetime != null && body != null) {
+                    MailBox mailBox = MailBox.getInstance(this);
+                    mailBox.createNotification(title, from, datetime, body);
+                }
+
             }
 
+            Intent intent = new Intent(this, TabViewActivity.class);
+            startActivity(intent);
         }
+
+
 
     }
 
