@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -70,15 +72,18 @@ public class CreateNotificationFragment extends Fragment {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.i(TAG, String.format("response: %s", response));
-
-                                    //TODO show alert with response
-//                                        runOnUiThread(new Runnable() {
-//                                            @Override
-//                                            public void run() {
-//
-//                                            }
-//                                        });
-
+                                    Toast toast= Toast.makeText(getActivity(),
+                                            response, Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 30);
+                                    toast.show();
+                                    if (response.contains("notification sent"))
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mTitleEt.setText("");
+                                                mMessageEt.setText("");
+                                            }
+                                        });
                                 }
                             }, new Response.ErrorListener() {
                         @Override
