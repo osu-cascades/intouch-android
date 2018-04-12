@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                mUsername = mUsernameEt.getText().toString();
-                mPassword = mPasswordEt.getText().toString();
+                mUsername = mUsernameEt.getText().toString().trim();
+                mPassword = mPasswordEt.getText().toString().trim();
                 Log.i(TAG, String.format("username: %s password: %s", mUsername, mPassword));
 
                 if (mUsername.matches("") || mPassword.matches("")) {
