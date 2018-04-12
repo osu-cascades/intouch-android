@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/create_messages_layout"
+    android:id="@+id/create_notifications_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="81dp">
@@ -15,6 +15,7 @@
 
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/create_notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,27 +23,45 @@
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
-        android:id="@+id/to_layout"
+        android:id="@+id/title_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/screen_title_text_view">
 
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:text="TITLE:"/>
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="title"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/to_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/title_ll"
+        app:layout_constraintTop_toBottomOf="@+id/title_ll">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="TO:"/>
 
         <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/to_spinner"
+            android:id="@+id/to_spnr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -52,7 +71,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/msg_body_edit_text"
+        android:id="@+id/message_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -61,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/to_layout"/>
 
     <Button
-        android:id="@+id/send_button"
+        android:id="@+id/send_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
