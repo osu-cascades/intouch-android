@@ -80,8 +80,6 @@ public class DisplayNotificationsFragment extends Fragment {
     private void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
 
-
-
         List<Notification> notifications = mailBox.getNotifications(FRAGMENT_TAG);
         if (mAdapter == null) {
             mAdapter = new NotificationAdapter(notifications);
