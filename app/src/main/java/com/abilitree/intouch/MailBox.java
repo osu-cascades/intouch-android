@@ -74,32 +74,6 @@ public class MailBox {
             cursor.close();
         }
 
-//        Notification notification = null;
-//
-//        switch (type) {
-//            case "receivedNotifications":
-//                for (Notification n : mReceivedNotifications) {
-//                    if (n.getDbId() == id) {
-//                        notification = n;
-//                        break;
-//                    }
-//                    notification = null;
-//                }
-//                break;
-//            case "sentNotifications":
-//                for (Notification n : mSentNotifications) {
-//                    if (n.getDbId() == id) {
-//                        notification = n;
-//                        break;
-//                    }
-//                    notification = null;
-//                }
-//                break;
-//            default:
-//                notification = null;
-//                break;
-//        }
-//        return notification;
     }
 
 
@@ -117,7 +91,7 @@ public class MailBox {
     }
 
 
-    public List<Notification> getNotifications(String type) {
+    public List<Notification> getNotifications() {
 
         List<Notification> notes = new ArrayList<>();
 
@@ -133,21 +107,6 @@ public class MailBox {
             cursor.close();
         }
 
-//        List<Notification> mNotifications;
-//
-//        switch (type) {
-//            case "receivedNotifications":
-//                mNotifications = mReceivedNotifications;
-//                break;
-//            case "sentNotifications":
-//                mNotifications = mSentNotifications;
-//                break;
-//            default:
-//                mNotifications = new ArrayList<>();
-//                break;
-//        }
-//
-//        return mNotifications;
         return notes;
 
     }
@@ -155,25 +114,6 @@ public class MailBox {
 
 
     public void createNotification(String title, String from, String datetime, String body) {
-
-//        for (Notification notification : mReceivedNotifications) {
-//            String titleStr = notification.getTitle();
-//            String fromStr = notification.getFrom();
-//            String datetimeStr = notification.getDateCreated();
-//            String bodyStr = notification.getMessageBody();
-//
-//            Log.d(TAG, title); Log.d(TAG, notification.getTitle());
-//            Log.d(TAG, from); Log.d(TAG, notification.getFrom());
-//            //Log.d(TAG, datetime); Log.d(TAG, notification.getDateCreated().toString());
-//            Log.d(TAG, body); Log.d(TAG, notification.getMessageBody());
-//            if (titleStr == null)
-//                continue;
-//            if(titleStr.equals(title) && fromStr.equals(from) && datetimeStr.equals(datetime) && bodyStr.equals(body))
-//                return;
-//
-//        }
-//        Notification notification = new Notification(title, from, datetime, body);
-//        mReceivedNotifications.add(0, notification);
 
         Notification notification = new Notification(title, from, datetime, body);
 

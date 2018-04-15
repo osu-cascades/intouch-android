@@ -80,7 +80,7 @@ public class DisplayNotificationsFragment extends Fragment {
     private void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
 
-        List<Notification> notifications = mailBox.getNotifications(FRAGMENT_TAG);
+        List<Notification> notifications = mailBox.getNotifications();
         if (mAdapter == null) {
             mAdapter = new NotificationAdapter(notifications);
             mNotificationRV.setAdapter(mAdapter);
@@ -109,8 +109,6 @@ public class DisplayNotificationsFragment extends Fragment {
             mTitleTV = itemView.findViewById(R.id.title_tv);
             mDateTV = itemView.findViewById(R.id.date_tv);
             mFromTV = itemView.findViewById(R.id.from_tv);
-
-
 
         }
 
