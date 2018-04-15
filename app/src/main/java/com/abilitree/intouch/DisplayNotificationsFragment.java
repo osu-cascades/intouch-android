@@ -34,9 +34,6 @@ public class DisplayNotificationsFragment extends Fragment {
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
 
-    private Button mLogoutBtn;
-    private TextView mTitleTV;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,20 +48,6 @@ public class DisplayNotificationsFragment extends Fragment {
 
         mNotificationRV =  view.findViewById(R.id.notifcation_rv);
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        mTitleTV = (TextView) view.findViewById(R.id.display_notifications_title_tv);
-        mLogoutBtn = view. findViewById(R.id.logout_btn);
-        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity activity = getActivity();
-                Settings.clearLoginSettings(activity);
-                Intent intent = new Intent(activity, LoginActivity.class);
-                startActivity(intent);
-                activity.finish();
-            }
-        });
-
 
         updateUI();
 
