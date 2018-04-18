@@ -2,6 +2,7 @@ package com.abilitree.intouch;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import java.util.List;
 
 import static java.lang.Boolean.TRUE;
 
-public class DisplayNotificationsFragment extends Fragment {
+public class DisplayNotificationsFragment extends Fragment implements TabViewActivity.UpdateFragmentRecyclerView {
 
 
     private static String FRAGMENT_TAG;
@@ -39,6 +40,17 @@ public class DisplayNotificationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         FRAGMENT_TAG = this.getTag();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((TabViewActivity) context).mUpdateFragmentRecyclerView = this;
+    }
+
+    @Override
+    public void updateView(){
+        updateUI();
     }
 
     @Nullable
@@ -60,7 +72,7 @@ public class DisplayNotificationsFragment extends Fragment {
         updateUI();
     }
 
-    private void updateUI() {
+    public void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
 
         List<Notification> notifications = mailBox.getNotifications();

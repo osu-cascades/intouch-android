@@ -22,12 +22,17 @@ import com.pusher.pushnotifications.PushNotificationReceivedListener;
 import java.util.Map;
 
 
-public class TabViewActivity extends AppCompatActivity {
+public class TabViewActivity extends AppCompatActivity  {
+
+    public interface UpdateFragmentRecyclerView{
+        public void updateView();
+    }
+
+    public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
 
     private static final String TAG = "FireTree-TabView";
     private static final String viewNotificationsFragmentTag = "viewNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
-
 
     private BottomNavigationView mNavViewBnv;
 
@@ -57,6 +62,16 @@ public class TabViewActivity extends AppCompatActivity {
                     // update recycler view
                     MailBox mailBox = MailBox.getInstance(getApplicationContext());
                     mailBox.createNotification(title, from , datetime, body);
+
+                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
+                    if (fragment instanceof DisplayNotificationsFragment)
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mUpdateFragmentRecyclerView.updateView();
+                            }
+                        });
+
                 }
             }
         });
