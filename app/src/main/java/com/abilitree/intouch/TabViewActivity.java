@@ -43,6 +43,10 @@ public class TabViewActivity extends AppCompatActivity {
             @Override
             public void onMessageReceived(RemoteMessage remoteMessage) {
                 Map<String, String> messagePayload = remoteMessage.getData();
+                String title = messagePayload.get("title");
+                String from = messagePayload.get("by");
+                String datetime = messagePayload.get("datetime");
+                String body = messagePayload.get("body");
                 Log.i(TAG, messagePayload.toString());
                 if (messagePayload == null) {
                     // Message payload was not set for this notification
@@ -50,10 +54,9 @@ public class TabViewActivity extends AppCompatActivity {
                 } else {
                     // Do something interesting with your message payload!
                     Log.i(TAG, messagePayload.toString());
-                    // get notification details
-                    // create notification
-                    // insert notification into mail box
                     // update recycler view
+                    MailBox mailBox = MailBox.getInstance(getApplicationContext());
+                    mailBox.createNotification(title, from , datetime, body);
                 }
             }
         });
