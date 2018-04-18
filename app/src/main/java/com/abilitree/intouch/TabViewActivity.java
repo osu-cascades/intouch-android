@@ -28,13 +28,12 @@ public class TabViewActivity extends AppCompatActivity  {
         public void updateView();
     }
 
-    public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
-
     private static final String TAG = "FireTree-TabView";
     private static final String viewNotificationsFragmentTag = "viewNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
 
     private BottomNavigationView mNavViewBnv;
+    public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

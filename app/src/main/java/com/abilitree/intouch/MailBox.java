@@ -107,6 +107,8 @@ public class MailBox {
             cursor.close();
         }
 
+        Collections.reverse(notes);
+
         return notes;
 
     }
