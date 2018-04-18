@@ -15,7 +15,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.RemoteMessage;
 import com.pusher.pushnotifications.PushNotifications;
+import com.pusher.pushnotifications.PushNotificationReceivedListener;
+
+import java.util.Map;
+
 
 public class TabViewActivity extends AppCompatActivity {
 
@@ -30,9 +35,28 @@ public class TabViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_view);
+
         //This is for FCM
         PushNotifications.start(getApplicationContext(), "9313976c-3ca4-4a1c-9538-1627280923f4");
         PushNotifications.subscribe(Settings.getUsername(getApplicationContext()));
+        PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
+            @Override
+            public void onMessageReceived(RemoteMessage remoteMessage) {
+                Map<String, String> messagePayload = remoteMessage.getData();
+                Log.i(TAG, messagePayload.toString());
+                if (messagePayload == null) {
+                    // Message payload was not set for this notification
+                    Log.i(TAG, "Payload was missing");
+                } else {
+                    // Do something interesting with your message payload!
+                    Log.i(TAG, messagePayload.toString());
+                    // get notification details
+                    // create notification
+                    // insert notification into mail box
+                    // update recycler view
+                }
+            }
+        });
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.i("TabViewActivity", "Token: " + refreshedToken);
