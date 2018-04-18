@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="@+id/container"
-        app:layout_constraintBottom_toTopOf="@+id/container">
+        app:layout_constraintBottom_toTopOf="@+id/navigation_bnv"
+        android:layout_marginBottom="55dp">
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
