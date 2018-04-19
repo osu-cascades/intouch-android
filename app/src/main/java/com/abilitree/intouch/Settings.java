@@ -43,5 +43,10 @@ public class Settings {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(LOGGED_IN, false);
     }
 
+    public static String getUserType(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(USER_TYPE, "client");
+
+    }
+
 }
 

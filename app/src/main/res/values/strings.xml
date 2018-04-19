@@ -12,18 +12,6 @@
     <string name="from">FROM:</string>
     <string name="hint_from">from</string>
 
-    <string-array name="groups_array">
-        <item>Select Group</item>
-        <item>All</item>
-        <item>Clients</item>
-        <item>Staff</item>
-        <item>Art</item>
-        <item>Cross Disability</item>
-        <item>Healing Pathways</item>
-        <item>Journey</item>
-    </string-array>
-
-
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--
         This is the name that users will see when interacting with this channel.

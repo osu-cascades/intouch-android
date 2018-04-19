@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -50,6 +51,19 @@ public class CreateNotificationFragment extends Fragment {
         mToSpnr = view.findViewById(R.id.to_spnr);
         mMessageEt = view.findViewById(R.id.message_et);
         mSendBtn = view.findViewById(R.id.send_btn);
+
+        // set groups based on usertype
+        String[] groups = {};
+        if (Settings.getUserType(getContext()).equals("client")) {
+            groups = new String[]{"Art", "Cross-Disability", "Healing Pathways", "Journey"};
+
+        } else {
+            groups = new String[] {"All", "Clients", "Staff", "Art", "Cross-Disability", "Healing Pathways", "Journey"};
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, groups);
+        mToSpnr.setAdapter(adapter);
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -64,8 +64,6 @@
             android:id="@+id/to_spnr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:entries="@array/groups_array"
             android:prompt="@string/groups_spinner_title"/>
 
     </LinearLayout>
