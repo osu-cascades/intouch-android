@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -16,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUsernameEt;
     private EditText mPasswordEt;
     private Button mLoginBtn;
+    private TextView mResponseTv;
 
     private String mUsername = "";
     private String mPassword = "";
@@ -39,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameEt = findViewById(R.id.username_et);
         mPasswordEt = findViewById(R.id.password_et);
         mLoginBtn = findViewById(R.id.login_btn);
+        mResponseTv = findViewById(R.id.response_tv);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +81,14 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                         });
                                     } else {
+                                        final String failResponse = response;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mResponseTv.setText(failResponse);
+                                            }
+                                        });
+
                                        Log.i(TAG, String.format("error response: %s", response));
                                     }
                                 }
