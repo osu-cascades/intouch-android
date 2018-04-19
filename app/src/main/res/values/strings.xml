@@ -15,13 +15,12 @@
     <string-array name="groups_array">
         <item>Select Group</item>
         <item>All</item>
-        <item>All Clients</item>
-        <item>All Staff</item>
-        <item>Cross-Disability</item>
+        <item>Clients</item>
+        <item>Staff</item>
+        <item>Art</item>
+        <item>Cross Disability</item>
         <item>Healing Pathways</item>
-        <item>Looking Ahead</item>
-        <item>Moving A Head</item>
-        <item>Speak Up</item>
+        <item>Journey</item>
     </string-array>
 
 
