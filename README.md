@@ -1,19 +1,20 @@
-# intouch-android
+# InTouch for Android
 Abilitree InTouch, a mobile Android application for notifying clients and staff of schedule changes.
 
+## Dependencies
 
-# Prerequisites
-  * Install Android Studio
-  * Other operating systems see :sparkles: below
-  * Pusher - https://pusher.com/push-notifications
-  
- # Running Application
-  * git clone repository in local directory
-  * Find the directory you cloned the repository in (select it)
-  * Open application in Android Studeio
-  * Build Application in Android Studio
-<br />
-<br />
-<br />
- 
-(c)Aaron Baker & Kyleen Gonzalez
+* Android Studio
+* [Pusher](https://pusher.com) for notifications
+
+## Development
+
+* git clone repository in local directory
+* Start Android Studio, select _Open an Existing Android Studio project_, select the _abilitree-intouch_ directory, and click _Open_.
+* Build the application in Android Studio.
+
+## Testing
+
+TODO
+
+
+(c) 2018 Aaron Baker & Kyleen Gonzalez
