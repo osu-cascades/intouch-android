@@ -16,3 +16,4 @@ Abilitree InTouch, a mobile Android application for notifying clients and staff 
 <br />
 <br />
  
+(c)Aaron Baker & Kyleen Gonzalez
