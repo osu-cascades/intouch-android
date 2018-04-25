@@ -1,4 +1,4 @@
-# InTouch for Android
+# Abilitree InTouch for Android
 Abilitree InTouch, a mobile Android application for notifying clients and staff of schedule changes.
 
 ## Dependencies
@@ -17,4 +17,4 @@ Abilitree InTouch, a mobile Android application for notifying clients and staff 
 TODO
 
 
-(c) 2018 Aaron Baker & Kyleen Gonzalez
+(c) 2018 Aaron Baker, Kyleen Gonzalez and Abilitree
