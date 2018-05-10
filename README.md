@@ -14,7 +14,11 @@ Abilitree InTouch, a mobile Android application for notifying clients and staff 
 
 ## Testing
 
-TODO
+Running the test suite is done via the usual means in Android Studio. Using the
+project panel, right-click on your source code package marked _(test)_, and select
+_Run Unit Tests_ in the context menu.
 
+See the [Android Developer documentation on testing](https://developer.android.com/studio/test/)
+for more information.
 
 (c) 2018 Aaron Baker, Kyleen Gonzalez and Abilitree
