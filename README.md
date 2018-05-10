@@ -9,7 +9,7 @@ Abilitree InTouch, a mobile Android application for notifying clients and staff 
 ## Development
 
 * git clone repository in local directory
-* Start Android Studio, select _Open an Existing Android Studio project_, select the _abilitree-intouch_ directory, and click _Open_.
+* Start Android Studio, select _Open an Existing Android Studio project_, select the _intouch-android_ directory, and click _Open_.
 * Build the application in Android Studio.
 
 ## Testing
