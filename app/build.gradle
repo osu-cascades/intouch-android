@@ -12,9 +12,18 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+
+        debug {
+            buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/auth"'
+            buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/push"'
+
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch.herokuapp.com/auth"'
+            buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch.herokuapp.com/push"'
         }
     }
 }
@@ -26,8 +35,7 @@ repositories {
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.6.2'
     implementation 'com.pusher:push-notifications-android:0.9.9'
-    implementation "com.android.support:support-compat:26.1.0"
-
+    implementation 'com.android.support:support-compat:26.1.0'
     implementation 'com.pusher:pusher-java-client:1.6.0'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
