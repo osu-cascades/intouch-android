@@ -2,6 +2,7 @@ package com.abilitree.intouch;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // Instantiate the RequestQueue.
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                    String url ="https://abilitree-intouch-staging.herokuapp.com/auth";
+                    String url = BuildConfig.AUTH_URL_STR;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -85,7 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                mResponseTv.setText(failResponse);
+                                                //Toast.makeText(LoginActivity.class, failResponse, Toast.LENGTH_SHORT);
+                                                //mResponseTv.setText(failResponse);
                                             }
                                         });
 

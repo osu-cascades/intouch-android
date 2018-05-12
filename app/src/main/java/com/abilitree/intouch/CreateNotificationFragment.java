@@ -78,7 +78,7 @@ public class CreateNotificationFragment extends Fragment {
                     // send post
                     final Activity activity = getActivity();
                     RequestQueue queue = Volley.newRequestQueue(activity);
-                    String url ="https://abilitree-intouch-staging.herokuapp.com/push";
+                    String url = BuildConfig.PUSH_URL_STR;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
