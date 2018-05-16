@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameEt = findViewById(R.id.username_et);
         mPasswordEt = findViewById(R.id.password_et);
         mLoginBtn = findViewById(R.id.login_btn);
-        mResponseTv = findViewById(R.id.response_tv);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
