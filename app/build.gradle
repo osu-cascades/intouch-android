@@ -1,29 +1,35 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'intouchkey'
+            keyPassword 'password123'
+            storeFile file('/Users/Aaron/Documents/school/F2017/capstone/InTouch/ANDROID_KEYSTORE/signature2')
+            storePassword 'password123'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.abilitree.intouch"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-
         debug {
             buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/auth"'
             buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/push"'
-
         }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch.herokuapp.com/auth"'
             buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch.herokuapp.com/push"'
+            signingConfig signingConfigs.config
         }
     }
 }
