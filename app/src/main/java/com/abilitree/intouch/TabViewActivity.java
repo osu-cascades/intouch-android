@@ -1,6 +1,5 @@
 package com.abilitree.intouch;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,16 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.RemoteMessage;
-import com.pusher.pushnotifications.PushNotifications;
-import com.pusher.pushnotifications.PushNotificationReceivedListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.pusher.client.Pusher;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
 
-import java.util.Map;
-
+import java.util.HashMap;
 
 public class TabViewActivity extends AppCompatActivity  {
 
@@ -41,26 +40,24 @@ public class TabViewActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_tab_view);
 
         //This is for FCM
-        PushNotifications.start(getApplicationContext(), "9313976c-3ca4-4a1c-9538-1627280923f4");
-        PushNotifications.subscribe(Settings.getUsername(getApplicationContext()));
-        PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
+
+        PusherOptions options = new PusherOptions();
+        options.setCluster("us2");
+        Pusher pusher = new Pusher("9d82b24b0c3b8eaf2b9f", options);
+
+        Channel channel = pusher.subscribe(Settings.getUsername(getApplicationContext()));
+
+        channel.bind("new-notification", new SubscriptionEventListener() {
             @Override
-            public void onMessageReceived(RemoteMessage remoteMessage) {
-                Map<String, String> messagePayload = remoteMessage.getData();
-                String title = messagePayload.get("title");
-                String from = messagePayload.get("by");
-                String datetime = messagePayload.get("datetime");
-                String body = messagePayload.get("body");
-                Log.i(TAG, messagePayload.toString());
-                if (messagePayload == null) {
-                    // Message payload was not set for this notification
-                    Log.i(TAG, "Payload was missing");
+            public void onEvent(String channelName, String eventName, final String data) {
+                if (data == null) {
+                    Log.i(TAG, "Missing data");
                 } else {
-                    // Do something interesting with your message payload!
-                    Log.i(TAG, messagePayload.toString());
-                    // update recycler view
                     MailBox mailBox = MailBox.getInstance(getApplicationContext());
-                    mailBox.createNotification(title, from , datetime, body);
+
+                    HashMap<String,String> notification = new Gson().fromJson(data, new TypeToken<HashMap<String, String>>(){}.getType());
+
+                    mailBox.createNotification(notification.get("title"), notification.get("datetime") , notification.get("from"), notification.get("body"));
 
                     Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
                     if (fragment instanceof DisplayNotificationsFragment)
@@ -74,6 +71,8 @@ public class TabViewActivity extends AppCompatActivity  {
                 }
             }
         });
+
+        pusher.connect();
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.i("TabViewActivity", "Token: " + refreshedToken);
