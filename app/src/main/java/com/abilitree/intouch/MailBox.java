@@ -6,14 +6,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import java.util.*;
 
 import com.abilitree.intouch.database.NoteBaseHelper;
 import com.abilitree.intouch.database.NoteCursorWrapper;
-import com.abilitree.intouch.database.NoteDbSchema;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MailBox {
@@ -116,7 +115,6 @@ public class MailBox {
 
 
     public void createNotification(String title, String from, String datetime, String body) {
-
         Notification notification = new Notification(title, from, datetime, body);
 
         //Inserting and updating rows for database ch 14 pg279

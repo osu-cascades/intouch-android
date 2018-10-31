@@ -12,14 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.pusher.client.Pusher;
-import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.SubscriptionEventListener;
-
-import java.util.HashMap;
+import com.google.firebase.messaging.RemoteMessage;
+import com.pusher.pushnotifications.PushNotificationReceivedListener;
+import com.pusher.pushnotifications.PushNotifications;
 
 public class TabViewActivity extends AppCompatActivity  {
 
@@ -38,41 +33,9 @@ public class TabViewActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_view);
-
-        //This is for FCM
-
-        PusherOptions options = new PusherOptions();
-        options.setCluster("us2");
-        Pusher pusher = new Pusher("9d82b24b0c3b8eaf2b9f", options);
-
-        Channel channel = pusher.subscribe(Settings.getUsername(getApplicationContext()));
-
-        channel.bind("new-notification", new SubscriptionEventListener() {
-            @Override
-            public void onEvent(String channelName, String eventName, final String data) {
-                if (data == null) {
-                    Log.i(TAG, "Missing data");
-                } else {
-                    MailBox mailBox = MailBox.getInstance(getApplicationContext());
-
-                    HashMap<String,String> notification = new Gson().fromJson(data, new TypeToken<HashMap<String, String>>(){}.getType());
-
-                    mailBox.createNotification(notification.get("title"), notification.get("datetime") , notification.get("from"), notification.get("body"));
-
-                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
-                    if (fragment instanceof DisplayNotificationsFragment)
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mUpdateFragmentRecyclerView.updateView();
-                            }
-                        });
-
-                }
-            }
-        });
-
-        pusher.connect();
+        
+        PushNotifications.start(getApplicationContext(), "d9585a0d-3255-4f45-9f7f-7fb5c52afe0a");
+        PushNotifications.subscribe(Settings.getUsername(getApplicationContext()));
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.i("TabViewActivity", "Token: " + refreshedToken);
@@ -83,6 +46,15 @@ public class TabViewActivity extends AppCompatActivity  {
             fragment = DisplayNotificationsFragment();
             fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, viewNotificationsFragmentTag).commit();
         }
+
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
+        if (frag instanceof DisplayNotificationsFragment)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mUpdateFragmentRecyclerView.updateView();
+                }
+            });
 
         mNavViewBnv = findViewById(R.id.navigation_bnv);
         mNavViewBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -118,6 +90,33 @@ public class TabViewActivity extends AppCompatActivity  {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
+            @Override
+            public void onMessageReceived(RemoteMessage remoteMessage) {
+                Log.i("MainActivity", "body: " + remoteMessage.getNotification().getBody());
+                Log.i("MainActivity", "from: " + remoteMessage.getData().get("sender"));
+                Log.i("MainActivity", "title: " + remoteMessage.getNotification().getTitle());
+                Log.i("MainActivity", "datetime: " + remoteMessage.getData().get("datetime"));
+
+                MailBox mailBox = MailBox.getInstance(getApplicationContext());
+
+                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody());
+
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
+                if (fragment instanceof DisplayNotificationsFragment)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mUpdateFragmentRecyclerView.updateView();
+                        }
+                    });
+            }
+        });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout, menu);
         return true;
@@ -127,7 +126,6 @@ public class TabViewActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.logout_mi:
-                //Log.d(TAG, "logout");
                 Settings.clearLoginSettings(this);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
