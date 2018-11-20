@@ -1,6 +1,5 @@
 package com.abilitree.intouch;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,16 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.RemoteMessage;
-import com.pusher.pushnotifications.PushNotifications;
 import com.pusher.pushnotifications.PushNotificationReceivedListener;
-
-import java.util.Map;
-
+import com.pusher.pushnotifications.PushNotifications;
 
 public class TabViewActivity extends AppCompatActivity  {
 
@@ -39,41 +33,9 @@ public class TabViewActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_view);
-
-        //This is for FCM
-        PushNotifications.start(getApplicationContext(), "9313976c-3ca4-4a1c-9538-1627280923f4");
+        
+        PushNotifications.start(getApplicationContext(), "d9585a0d-3255-4f45-9f7f-7fb5c52afe0a");
         PushNotifications.subscribe(Settings.getUsername(getApplicationContext()));
-        PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
-            @Override
-            public void onMessageReceived(RemoteMessage remoteMessage) {
-                Map<String, String> messagePayload = remoteMessage.getData();
-                String title = messagePayload.get("title");
-                String from = messagePayload.get("by");
-                String datetime = messagePayload.get("datetime");
-                String body = messagePayload.get("body");
-                Log.i(TAG, messagePayload.toString());
-                if (messagePayload == null) {
-                    // Message payload was not set for this notification
-                    Log.i(TAG, "Payload was missing");
-                } else {
-                    // Do something interesting with your message payload!
-                    Log.i(TAG, messagePayload.toString());
-                    // update recycler view
-                    MailBox mailBox = MailBox.getInstance(getApplicationContext());
-                    mailBox.createNotification(title, from , datetime, body);
-
-                    Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
-                    if (fragment instanceof DisplayNotificationsFragment)
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mUpdateFragmentRecyclerView.updateView();
-                            }
-                        });
-
-                }
-            }
-        });
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.i("TabViewActivity", "Token: " + refreshedToken);
@@ -84,6 +46,15 @@ public class TabViewActivity extends AppCompatActivity  {
             fragment = DisplayNotificationsFragment();
             fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, viewNotificationsFragmentTag).commit();
         }
+
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
+        if (frag instanceof DisplayNotificationsFragment)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mUpdateFragmentRecyclerView.updateView();
+                }
+            });
 
         mNavViewBnv = findViewById(R.id.navigation_bnv);
         mNavViewBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -119,6 +90,33 @@ public class TabViewActivity extends AppCompatActivity  {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
+            @Override
+            public void onMessageReceived(RemoteMessage remoteMessage) {
+                Log.i("MainActivity", "body: " + remoteMessage.getNotification().getBody());
+                Log.i("MainActivity", "from: " + remoteMessage.getData().get("sender"));
+                Log.i("MainActivity", "title: " + remoteMessage.getNotification().getTitle());
+                Log.i("MainActivity", "datetime: " + remoteMessage.getData().get("datetime"));
+
+                MailBox mailBox = MailBox.getInstance(getApplicationContext());
+
+                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody());
+
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
+                if (fragment instanceof DisplayNotificationsFragment)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mUpdateFragmentRecyclerView.updateView();
+                        }
+                    });
+            }
+        });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout, menu);
         return true;
@@ -128,7 +126,6 @@ public class TabViewActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.logout_mi:
-                //Log.d(TAG, "logout");
                 Settings.clearLoginSettings(this);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);

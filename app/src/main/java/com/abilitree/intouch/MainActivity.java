@@ -9,11 +9,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "FireTree-Main";
 
-
-//    public static Intent newIntent(Context context) {
-//        return new Intent(context, MainActivity.class);
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,38 +17,31 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, String.format("logged in: %b", loggedIn));
 
         if (!loggedIn) {
-            //start log in activity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-
         } else {
             if (getIntent().getExtras() != null ) {
-
                 Intent intent = getIntent();
                 Bundle bundle = intent.getExtras();
-                String title = bundle.getString("title");
-                String from = bundle.getString("by");
-                String datetime = bundle.getString("datetime");
-                String body = bundle.getString("body");
 
-                Log.d(TAG, "Key: title, Value:  " + title);
-                Log.d(TAG, "Key: by, Value:  " + from);
-                Log.d(TAG, "Key: datetime, Value:  " + datetime);
-                Log.d(TAG, "Key: body, Value:  " + body);
+                String title = bundle.get("title").toString();
+                String from = bundle.get("sender").toString();
+                String datetime = bundle.get("datetime").toString();
+                String body = bundle.get("body").toString();
+
+                Log.i(TAG, "Title:  " + title);
+                Log.i(TAG, "From:  " + from);
+                Log.i(TAG, "Datetime:  " + datetime);
+                Log.i(TAG, "Body:  " + body);
 
                 if (title != null && from != null && datetime != null && body != null) {
                     MailBox mailBox = MailBox.getInstance(this);
                     mailBox.createNotification(title, from, datetime, body);
                 }
-
             }
 
             Intent intent = new Intent(this, TabViewActivity.class);
             startActivity(intent);
         }
-
-
-
     }
-
 }

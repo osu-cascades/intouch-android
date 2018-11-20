@@ -1,71 +1,27 @@
 {
   "project_info": {
-    "project_number": "895715316630",
-    "firebase_url": "https://intouch-813f3.firebaseio.com",
-    "project_id": "intouch-813f3",
-    "storage_bucket": "intouch-813f3.appspot.com"
+    "project_number": "265131098256",
+    "firebase_url": "https://abilitree-intouch.firebaseio.com",
+    "project_id": "abilitree-intouch",
+    "storage_bucket": "abilitree-intouch.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:895715316630:android:ad9e410bc7b328d5",
+        "mobilesdk_app_id": "1:265131098256:android:ae0c01cf0900ef28",
         "android_client_info": {
           "package_name": "com.abilitree.intouch"
         }
       },
       "oauth_client": [
         {
-          "client_id": "895715316630-61badc38j2iulis4de0dbebahkv8ir2g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.abilitree.intouch",
-            "certificate_hash": "4e15395a0059cb5db7f4096d94e2ab0baf235030"
-          }
-        },
-        {
-          "client_id": "895715316630-7fhnvgd67hkqd9aialutldn5sdeku8h5.apps.googleusercontent.com",
+          "client_id": "265131098256-un1g5dqn7rm9thqnr5b0bmsc8ku4q217.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDNV6Dm10ldHwo3wzDwl4zJkyksieFrZzY"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "895715316630-7fhnvgd67hkqd9aialutldn5sdeku8h5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:895715316630:android:5920de3503a2d18c",
-        "android_client_info": {
-          "package_name": "com.google.firebase.quickstart.fcm"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "895715316630-7fhnvgd67hkqd9aialutldn5sdeku8h5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDNV6Dm10ldHwo3wzDwl4zJkyksieFrZzY"
+          "current_key": "AIzaSyADe6VgBRwGFj8vW0KCLG8GLy7S5Aomg9s"
         }
       ],
       "services": {
