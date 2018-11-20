@@ -28,15 +28,17 @@ public class MainActivity extends AppCompatActivity {
                 String from = bundle.get("sender").toString();
                 String datetime = bundle.get("datetime").toString();
                 String body = bundle.get("body").toString();
+                String fromUsername = bundle.get("from_username").toString();
 
                 Log.i(TAG, "Title:  " + title);
                 Log.i(TAG, "From:  " + from);
                 Log.i(TAG, "Datetime:  " + datetime);
                 Log.i(TAG, "Body:  " + body);
+                Log.i(TAG, "From Username:  " + fromUsername);
 
                 if (title != null && from != null && datetime != null && body != null) {
                     MailBox mailBox = MailBox.getInstance(this);
-                    mailBox.createNotification(title, from, datetime, body);
+                    mailBox.createNotification(title, from, datetime, body, fromUsername);
                 }
             }
 

@@ -2,18 +2,16 @@ package com.abilitree.intouch;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class ShowSingleNotification extends AppCompatActivity {
 
     private static final String EXTRA_NOTIFICATION_TITLE = "com.abilitree.intouch.noteTitle";
     private static final String EXTRA_NOTIFICATION_DATE = "com.abilitree.intouch.noteDate";
     private static final String EXTRA_NOTIFICATION_FROM = "com.abilitree.intouch.noteFrom";
+    private static final String EXTRA_NOTIFICATION_FROM_USERNAME = "com.abilitree.intouch.noteFromUsername";
     private static final String EXTRA_NOTIFICATION_BODY = "com.abilitree.intouch.noteBody";
 
     //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
@@ -32,12 +30,13 @@ public class ShowSingleNotification extends AppCompatActivity {
 
 
 
-    public static Intent newIntent(Context packageContext, String noteTitle, String noteDate, String noteFrom, String noteBody) {
+    public static Intent newIntent(Context packageContext, String noteTitle, String noteDate, String noteFrom, String noteBody, String noteFromUsername) {
         Intent intent = new Intent(packageContext, ShowSingleNotification.class);
         intent.putExtra(EXTRA_NOTIFICATION_TITLE, noteTitle);
         intent.putExtra(EXTRA_NOTIFICATION_DATE, noteDate);
         intent.putExtra(EXTRA_NOTIFICATION_FROM, noteFrom);
         intent.putExtra(EXTRA_NOTIFICATION_BODY, noteBody);
+        intent.putExtra(EXTRA_NOTIFICATION_FROM_USERNAME, noteFromUsername);
         return intent;
     }
 
