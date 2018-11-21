@@ -35,9 +35,6 @@ public class ShowSingleNotification extends AppCompatActivity {
     //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
     private static final String EXTRA_NOTIFICATION_READ = "com.abilitree.intouch.noteRead";
 
-    private static final String REPLY_URL = "https://abilitree-intouch-staging.herokuapp.com/reply_to_sender";
-
-
     private String mNoteTitle;
     private String mNoteDate;
     private String mNoteFrom;
@@ -113,7 +110,7 @@ public class ShowSingleNotification extends AppCompatActivity {
                     // send post
                     final Activity activity = ShowSingleNotification.this;
                     RequestQueue queue = Volley.newRequestQueue(activity);
-                    String url = REPLY_URL;
+                    String url = BuildConfig.REPLY_URL_STR;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
