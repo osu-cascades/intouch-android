@@ -24,19 +24,21 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 Bundle bundle = intent.getExtras();
 
-                String title = bundle.get("title").toString();
-                String from = bundle.get("sender").toString();
-                String datetime = bundle.get("datetime").toString();
-                String body = bundle.get("body").toString();
+                Object title_object = bundle.get("title");
+                Object from_object = bundle.get("sender");
+                Object datetime_object = bundle.get("datetime");
+                Object body_object = bundle.get("body");
 
-                Log.i(TAG, "Title:  " + title);
-                Log.i(TAG, "From:  " + from);
-                Log.i(TAG, "Datetime:  " + datetime);
-                Log.i(TAG, "Body:  " + body);
+                if(title_object != null && from_object != null && datetime_object != null && body_object != null) {
+                    String title = title_object.toString();
+                    String from = from_object.toString();
+                    String datetime = datetime_object.toString();
+                    String body = body_object.toString();
 
-                if (title != null && from != null && datetime != null && body != null) {
-                    MailBox mailBox = MailBox.getInstance(this);
-                    mailBox.createNotification(title, from, datetime, body);
+                    if (title != null && from != null && datetime != null && body != null) {
+                        MailBox mailBox = MailBox.getInstance(this);
+                        mailBox.createNotification(title, from, datetime, body);
+                    }
                 }
             }
 
