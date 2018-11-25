@@ -25,7 +25,6 @@ import static java.lang.Boolean.TRUE;
 
 public class DisplayNotificationsFragment extends Fragment implements TabViewActivity.UpdateFragmentRecyclerView {
 
-
     private static String FRAGMENT_TAG;
 
     //This is for intent for opening and closing letter

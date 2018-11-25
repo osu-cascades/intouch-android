@@ -18,6 +18,7 @@ import java.util.List;
 public class MailBox {
 
     String TAG = "FireTree-MailBox";
+    private static String DEBUG_TAG = "DEBUG_TAG";
 
     private static MailBox sMailBox;
     private List<Notification> mReceivedNotifications;
@@ -98,18 +99,16 @@ public class MailBox {
 
         try {
             cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+            while (cursor.moveToNext()) {
                 notes.add(cursor.getNote());
-                cursor.moveToNext();
             }
         } finally {
             cursor.close();
         }
 
         Collections.reverse(notes);
-
+        Log.i(DEBUG_TAG, Integer.toString(notes.size()));
         return notes;
-
     }
 
 
@@ -123,3 +122,8 @@ public class MailBox {
     }
 
 }
+
+/* DEBUG STUFF
+        Log.i(DEBUG_TAG, Integer.toString(notifications.size()));
+
+ */
