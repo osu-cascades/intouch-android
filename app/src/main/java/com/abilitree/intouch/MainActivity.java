@@ -24,21 +24,23 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 Bundle bundle = intent.getExtras();
 
-                String title = bundle.get("title").toString();
-                String from = bundle.get("sender").toString();
-                String datetime = bundle.get("datetime").toString();
-                String body = bundle.get("body").toString();
-                String fromUsername = bundle.get("from_username").toString();
+                Object title_object = bundle.get("title");
+                Object from_object = bundle.get("sender");
+                Object datetime_object = bundle.get("datetime");
+                Object body_object = bundle.get("body");
+                Object from_username_object = bundle.get("from_username");
 
-                Log.i(TAG, "Title:  " + title);
-                Log.i(TAG, "From:  " + from);
-                Log.i(TAG, "Datetime:  " + datetime);
-                Log.i(TAG, "Body:  " + body);
-                Log.i(TAG, "From Username:  " + fromUsername);
+                if(title_object != null && from_object != null && datetime_object != null && body_object != null && from_username_object != null) {
+                    String title = title_object.toString();
+                    String from = from_object.toString();
+                    String datetime = datetime_object.toString();
+                    String body = body_object.toString();
+                    String from_username = from_username_object.toString();
 
-                if (title != null && from != null && datetime != null && body != null) {
-                    MailBox mailBox = MailBox.getInstance(this);
-                    mailBox.createNotification(title, from, datetime, body, fromUsername);
+                    if (title != null && from != null && datetime != null && body != null && from_username != null) {
+                        MailBox mailBox = MailBox.getInstance(this);
+                        mailBox.createNotification(title, from, datetime, body, from_username);
+                    }
                 }
             }
 
