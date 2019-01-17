@@ -17,12 +17,14 @@ public class NoteCursorWrapper extends CursorWrapper{
         String date = getString(getColumnIndex(NoteTable.Cols.DATE));
         String sender = getString(getColumnIndex(NoteTable.Cols.SENDER));
         String body = getString(getColumnIndex(NoteTable.Cols.BODY));
+        String fromUsername = getString(getColumnIndex(NoteTable.Cols.FROM_USERNAME));
 
-        Notification note = new Notification(title, sender,  date, body);
+        Notification note = new Notification(title, sender,  date, body, fromUsername);
         note.setTitle(title);
         note.setDateCreated(date);
         note.setFrom(sender);
         note.setMessageBody(body);
+        note.setFromUsername(fromUsername);
 
         return note;
     }

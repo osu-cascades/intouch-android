@@ -4,24 +4,18 @@ package com.abilitree.intouch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.List;
-
-import static java.lang.Boolean.TRUE;
 
 public class DisplayNotificationsFragment extends Fragment implements TabViewActivity.UpdateFragmentRecyclerView {
 
@@ -124,8 +118,9 @@ This is for passing data from listing notification to viewing single notificatio
             String noteDate = mNotification.getDateCreated();
             String noteFrom = mNotification.getFrom();
             String noteBody = mNotification.getMessageBody();
+            String noteFromUsername = mNotification.getFromUsername();
 
-            Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody);
+            Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody, noteFromUsername);
             //startActivity(intent);
             startActivityForResult(intent, REQUEST_CODE_LETTER);
 

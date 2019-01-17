@@ -99,10 +99,11 @@ public class TabViewActivity extends AppCompatActivity  {
                 Log.i("MainActivity", "from: " + remoteMessage.getData().get("sender"));
                 Log.i("MainActivity", "title: " + remoteMessage.getNotification().getTitle());
                 Log.i("MainActivity", "datetime: " + remoteMessage.getData().get("datetime"));
+                Log.i("MainActivity", "from username: " + remoteMessage.getData().get("from_username"));
 
                 MailBox mailBox = MailBox.getInstance(getApplicationContext());
 
-                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody());
+                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("from_username"));
 
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
                 if (fragment instanceof DisplayNotificationsFragment)

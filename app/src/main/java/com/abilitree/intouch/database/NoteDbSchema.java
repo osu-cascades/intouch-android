@@ -13,6 +13,7 @@ public class NoteDbSchema {
             public static final String DATE = "date";
             public static final String SENDER = "sender";
             public static final String BODY = "body";
+            public static final String FROM_USERNAME = "from_username";
         }
     }
 }

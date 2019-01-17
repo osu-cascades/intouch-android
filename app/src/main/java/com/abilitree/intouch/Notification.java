@@ -1,7 +1,5 @@
 package com.abilitree.intouch;
 
-import java.util.Date;
-
 public class Notification {
 
     private int mDbId;
@@ -11,6 +9,7 @@ public class Notification {
     private boolean isAuthor;
     private String mMessageBody;
     private String mFrom;
+    private String mFromUsername;
     private Boolean mViewed = false;
 
     public Boolean hasBeenViewed() {
@@ -29,11 +28,20 @@ public class Notification {
         mFrom = from;
     }
 
-    public Notification(String title, String from, String datetime, String body) {
+    public String getFromUsername() {
+        return mFromUsername;
+    }
+
+    public void setFromUsername(String fromUsername) {
+        mFromUsername = fromUsername;
+    }
+
+    public Notification(String title, String from, String datetime, String body, String fromUsername) {
         mTitle = title;
         mFrom = from;
         mDateCreated = datetime;
         mMessageBody = body;
+        mFromUsername = fromUsername;
     }
 
 //    public void setDbId(int dbId) {
