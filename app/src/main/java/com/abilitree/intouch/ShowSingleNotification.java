@@ -35,6 +35,8 @@ public class ShowSingleNotification extends AppCompatActivity {
     //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
     private static final String EXTRA_NOTIFICATION_READ = "com.abilitree.intouch.noteRead";
 
+    private String mReplyRecipient = null;
+
     private String mNoteTitle;
     private String mNoteDate;
     private String mNoteFrom;
@@ -48,6 +50,7 @@ public class ShowSingleNotification extends AppCompatActivity {
 
     private EditText mMessageContent;
     private Button mReplyToSenderButton;
+    private Button mReplyAllButton;
     private Button mSendNotificationButton;
 
     public static Intent newIntent(Context packageContext, String noteTitle, String noteDate, String noteFrom, String noteBody, String noteFromUsername) {
@@ -75,7 +78,6 @@ public class ShowSingleNotification extends AppCompatActivity {
         mNoteBody = getIntent().getStringExtra(EXTRA_NOTIFICATION_BODY);
         mNoteFromUsername = getIntent().getStringExtra(EXTRA_NOTIFICATION_FROM_USERNAME);
 
-
         mNotificationTitle = (TextView) findViewById(R.id.title_t);
         mNotificationDate = (TextView) findViewById(R.id.date_t);
         mNotificationFrom = (TextView) findViewById(R.id.from_t);
@@ -94,8 +96,35 @@ public class ShowSingleNotification extends AppCompatActivity {
         mReplyToSenderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mMessageContent.setVisibility(View.VISIBLE);
-                mSendNotificationButton.setVisibility(View.VISIBLE);
+                if (mReplyRecipient == null) {
+                    mReplyRecipient = "sender";
+                    mMessageContent.setVisibility(View.VISIBLE);
+                    mSendNotificationButton.setVisibility(View.VISIBLE);
+                    mReplyAllButton.setVisibility(View.GONE);
+                } else if (mReplyRecipient == "sender") {
+                    mReplyRecipient = null;
+                    mMessageContent.setVisibility(View.GONE);
+                    mSendNotificationButton.setVisibility(View.GONE);
+                    mReplyAllButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        mReplyAllButton = (Button) findViewById(R.id.reply_all_btn);
+        mReplyAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mReplyRecipient == null) {
+                    mReplyRecipient = "all";
+                    mMessageContent.setVisibility(View.VISIBLE);
+                    mSendNotificationButton.setVisibility(View.VISIBLE);
+                    mReplyToSenderButton.setVisibility(View.GONE);
+                } else if (mReplyRecipient == "all") {
+                    mReplyRecipient = null;
+                    mMessageContent.setVisibility(View.GONE);
+                    mSendNotificationButton.setVisibility(View.GONE);
+                    mReplyToSenderButton.setVisibility(View.VISIBLE);
+                }
             }
         });
 
