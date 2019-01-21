@@ -100,10 +100,20 @@ public class TabViewActivity extends AppCompatActivity  {
                 Log.i("MainActivity", "title: " + remoteMessage.getNotification().getTitle());
                 Log.i("MainActivity", "datetime: " + remoteMessage.getData().get("datetime"));
                 Log.i("MainActivity", "from username: " + remoteMessage.getData().get("from_username"));
+                Log.i("MainActivity", "group string: " + remoteMessage.getData().get("group"));
+
+                String group = remoteMessage.getData().get("group");
+                String updatedGroups = group.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
+//                String[] foobar = updatedGroups.split(",");
+//                for (int i = 0; i < foobar.length; i++) {
+//                    Log.i("MainActivity", "array " + foobar[i] + foobar[i].getClass().getName());
+//                }
+
+                Log.i("MainActivity", "updated groups: " + updatedGroups);
 
                 MailBox mailBox = MailBox.getInstance(getApplicationContext());
 
-                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("from_username"));
+                mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("from_username"), updatedGroups);
 
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
                 if (fragment instanceof DisplayNotificationsFragment)

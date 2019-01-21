@@ -30,6 +30,7 @@ public class ShowSingleNotification extends AppCompatActivity {
     private static final String EXTRA_NOTIFICATION_DATE = "com.abilitree.intouch.noteDate";
     private static final String EXTRA_NOTIFICATION_FROM = "com.abilitree.intouch.noteFrom";
     private static final String EXTRA_NOTIFICATION_FROM_USERNAME = "com.abilitree.intouch.noteFromUsername";
+    private static final String EXTRA_NOTIFICATION_GROUP_RECIPIENTS = "com.abilitree.intouch.noteGroupRecipients";
     private static final String EXTRA_NOTIFICATION_BODY = "com.abilitree.intouch.noteBody";
 
     //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
@@ -42,6 +43,7 @@ public class ShowSingleNotification extends AppCompatActivity {
     private String mNoteFrom;
     private String mNoteBody;
     private String mNoteFromUsername;
+    private String mNoteGroupRecipients;
 
     private TextView mNotificationTitle;
     private TextView mNotificationDate;
@@ -53,13 +55,14 @@ public class ShowSingleNotification extends AppCompatActivity {
     private Button mReplyAllButton;
     private Button mSendNotificationButton;
 
-    public static Intent newIntent(Context packageContext, String noteTitle, String noteDate, String noteFrom, String noteBody, String noteFromUsername) {
+    public static Intent newIntent(Context packageContext, String noteTitle, String noteDate, String noteFrom, String noteBody, String noteFromUsername, String noteGroupRecipients) {
         Intent intent = new Intent(packageContext, ShowSingleNotification.class);
         intent.putExtra(EXTRA_NOTIFICATION_TITLE, noteTitle);
         intent.putExtra(EXTRA_NOTIFICATION_DATE, noteDate);
         intent.putExtra(EXTRA_NOTIFICATION_FROM, noteFrom);
         intent.putExtra(EXTRA_NOTIFICATION_BODY, noteBody);
         intent.putExtra(EXTRA_NOTIFICATION_FROM_USERNAME, noteFromUsername);
+        intent.putExtra(EXTRA_NOTIFICATION_GROUP_RECIPIENTS, noteGroupRecipients);
         return intent;
     }
 
@@ -77,6 +80,7 @@ public class ShowSingleNotification extends AppCompatActivity {
         mNoteFrom = getIntent().getStringExtra(EXTRA_NOTIFICATION_FROM);
         mNoteBody = getIntent().getStringExtra(EXTRA_NOTIFICATION_BODY);
         mNoteFromUsername = getIntent().getStringExtra(EXTRA_NOTIFICATION_FROM_USERNAME);
+        mNoteGroupRecipients = getIntent().getStringExtra(EXTRA_NOTIFICATION_GROUP_RECIPIENTS);
 
         mNotificationTitle = (TextView) findViewById(R.id.title_t);
         mNotificationDate = (TextView) findViewById(R.id.date_t);
@@ -139,7 +143,9 @@ public class ShowSingleNotification extends AppCompatActivity {
                     // send post
                     final Activity activity = ShowSingleNotification.this;
                     RequestQueue queue = Volley.newRequestQueue(activity);
-                    String url = BuildConfig.REPLY_URL_STR;
+                    String url = mReplyRecipient == "all" ? BuildConfig.PUSH_URL_STR : BuildConfig.REPLY_URL_STR;
+
+                    // maybe do if all, forEach(group in groups), sendNotification(url, group)
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -172,10 +178,16 @@ public class ShowSingleNotification extends AppCompatActivity {
                             Log.i("ShowSingleNotification", "sender: " + mNoteFromUsername);
                             Log.i("ShowSingleNotification", "body: " + message);
 
-                            params.put("sender", mNoteFromUsername);
                             params.put("body", mMessageContent.getText().toString().trim());
                             params.put("username", Settings.getUsername(ShowSingleNotification.this));
                             params.put("password", Settings.getPassword(ShowSingleNotification.this));
+
+                            if (mReplyRecipient == "all") {
+                                params.put("title", "Reply from " + Settings.getUsername(ShowSingleNotification.this) + " to group " + mNoteGroupRecipients);
+                                params.put("group", mNoteGroupRecipients);
+                            } else {
+                                params.put("sender", mNoteFromUsername);
+                            }
                             return params;
                         }
 

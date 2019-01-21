@@ -119,8 +119,9 @@ This is for passing data from listing notification to viewing single notificatio
             String noteFrom = mNotification.getFrom();
             String noteBody = mNotification.getMessageBody();
             String noteFromUsername = mNotification.getFromUsername();
+            String noteGroupRecipients = mNotification.getGroupRecipients();
 
-            Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody, noteFromUsername);
+            Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody, noteFromUsername, noteGroupRecipients);
             //startActivity(intent);
             startActivityForResult(intent, REQUEST_CODE_LETTER);
 
