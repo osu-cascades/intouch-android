@@ -70,6 +70,59 @@ public class ShowSingleNotification extends AppCompatActivity {
         return true;
     }
 
+    private StringRequest sendNotification(String url, final String recipient) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("ShowSingleNotification", String.format("response: %s", response));
+                        Toast toast= Toast.makeText(ShowSingleNotification.this,
+                                response, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 30);
+                        toast.show();
+                        if (response.contains("notification sent"))
+                            ShowSingleNotification.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mMessageContent.setText("");
+                                }
+                            });
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("ShowSingleNotification", "Request Error");
+            }
+        }) {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+
+                params.put("body", mMessageContent.getText().toString().trim());
+                params.put("username", Settings.getUsername(ShowSingleNotification.this));
+                params.put("password", Settings.getPassword(ShowSingleNotification.this));
+
+                if (mReplyRecipient == "all") {
+                    params.put("title", "Reply from " + Settings.getUsername(ShowSingleNotification.this) + " to group " + recipient);
+                    params.put("group", recipient);
+                } else {
+                    params.put("sender", recipient);
+                }
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+
+        return stringRequest;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,68 +192,27 @@ public class ShowSingleNotification extends AppCompatActivity {
                 if (message.equals("")) {
                     Log.i("ShowSingleNotification", "All fields must have input");
                     return;
+                } else if ((mReplyRecipient == "all" && mNoteGroupRecipients == null) ||
+                            mReplyRecipient == "sender" && mNoteFromUsername == null) {
+                    Log.i("ShowSingleNotification", "Notification recipient is null");
+                    return;
                 } else {
                     // send post
                     final Activity activity = ShowSingleNotification.this;
                     RequestQueue queue = Volley.newRequestQueue(activity);
-                    String url = mReplyRecipient == "all" ? BuildConfig.PUSH_URL_STR : BuildConfig.REPLY_URL_STR;
 
-                    // maybe do if all, forEach(group in groups), sendNotification(url, group)
-
-                    // Request a string response from the provided URL.
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.i("ShowSingleNotification", String.format("response: %s", response));
-                                    Toast toast= Toast.makeText(ShowSingleNotification.this,
-                                            response, Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 30);
-                                    toast.show();
-                                    if (response.contains("notification sent"))
-                                        ShowSingleNotification.this.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                mMessageContent.setText("");
-                                            }
-                                        });
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i("ShowSingleNotification", "Request Error");
+                    if (mReplyRecipient == "all") {
+                        String url = BuildConfig.PUSH_URL_STR;
+                        String[] groups = mNoteGroupRecipients.split(",");
+                        for (int i = 0; i < groups.length; i++) {
+                            StringRequest request = sendNotification(url, groups[i]);
+                            queue.add(request);
                         }
-                    }) {
-                        @Override
-                        protected Map<String,String> getParams(){
-                            Map<String,String> params = new HashMap<String, String>();
-
-                            Log.i("ShowSingleNotification", "sender: " + mNoteFromUsername);
-                            Log.i("ShowSingleNotification", "body: " + message);
-
-                            params.put("body", mMessageContent.getText().toString().trim());
-                            params.put("username", Settings.getUsername(ShowSingleNotification.this));
-                            params.put("password", Settings.getPassword(ShowSingleNotification.this));
-
-                            if (mReplyRecipient == "all") {
-                                params.put("title", "Reply from " + Settings.getUsername(ShowSingleNotification.this) + " to group " + mNoteGroupRecipients);
-                                params.put("group", mNoteGroupRecipients);
-                            } else {
-                                params.put("sender", mNoteFromUsername);
-                            }
-                            return params;
-                        }
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String,String> params = new HashMap<String, String>();
-                            params.put("Content-Type","application/x-www-form-urlencoded");
-                            return params;
-                        }
-                    };
-
-                    // Add the request to the RequestQueue.
-                    queue.add(stringRequest);
+                    } else {
+                        String url = BuildConfig.REPLY_URL_STR;
+                        StringRequest request = sendNotification(url, mNoteFromUsername);
+                        queue.add(request);
+                    }
                 }
             }
         });

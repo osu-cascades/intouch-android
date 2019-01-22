@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 Object datetime_object = bundle.get("datetime");
                 Object body_object = bundle.get("body");
                 Object from_username_object = bundle.get("from_username");
-                // TODO: change this to get("group_recipients") when push rails updates
-                Object group_recipients_object = bundle.get("group");
+                Object group_recipients_object = bundle.get("group_recipients");
 
                 if(title_object != null && from_object != null && datetime_object != null && body_object != null && from_username_object != null && group_recipients_object != null) {
                     String title = title_object.toString();
@@ -40,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
                     String from_username = from_username_object.toString();
                     String group_recipients = group_recipients_object.toString();
 
-                    Log.i("HannaB", "group recipients: " + group_recipients);
+                    String updatedGroups = group_recipients.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
 
-                    if (title != null && from != null && datetime != null && body != null && from_username != null && group_recipients != null) {
+                    if (title != null && from != null && datetime != null && body != null && from_username != null && updatedGroups != null) {
                         MailBox mailBox = MailBox.getInstance(this);
-                        mailBox.createNotification(title, from, datetime, body, from_username, group_recipients);
+                        mailBox.createNotification(title, from, datetime, body, from_username, updatedGroups);
                     }
                 }
             }
