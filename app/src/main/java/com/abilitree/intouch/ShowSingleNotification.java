@@ -103,8 +103,7 @@ public class ShowSingleNotification extends AppCompatActivity {
                 params.put("password", Settings.getPassword(ShowSingleNotification.this));
 
                 if (mReplyRecipient == "all") {
-                    params.put("title", "Reply from " + Settings.getUsername(ShowSingleNotification.this) + " to group " + recipient);
-                    params.put("group", recipient);
+                    params.put("group_recipients", recipient);
                 } else {
                     params.put("sender", recipient);
                 }
@@ -202,14 +201,11 @@ public class ShowSingleNotification extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(activity);
 
                     if (mReplyRecipient == "all") {
-                        String url = BuildConfig.PUSH_URL_STR;
-                        String[] groups = mNoteGroupRecipients.split(",");
-                        for (int i = 0; i < groups.length; i++) {
-                            StringRequest request = sendNotification(url, groups[i]);
-                            queue.add(request);
-                        }
+                        String url = BuildConfig.REPLY_ALL_URL_STR;
+                        StringRequest request = sendNotification(url, mNoteGroupRecipients);
+                        queue.add(request);
                     } else {
-                        String url = BuildConfig.REPLY_URL_STR;
+                        String url = BuildConfig.REPLY_TO_SENDER_URL_STR;
                         StringRequest request = sendNotification(url, mNoteFromUsername);
                         queue.add(request);
                     }

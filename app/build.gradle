@@ -23,14 +23,16 @@ android {
         debug {
             buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/auth"'
             buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/push"'
-            buildConfigField 'String', 'REPLY_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_to_sender"'
+            buildConfigField 'String', 'REPLY_TO_SENDER_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_to_sender"'
+            buildConfigField 'String', 'REPLY_ALL_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_all"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'AUTH_URL_STR', '"https://abilitree-intouch.herokuapp.com/auth"'
             buildConfigField 'String', 'PUSH_URL_STR', '"https://abilitree-intouch.herokuapp.com/push"'
-            buildConfigField 'String', 'REPLY_URL_STR', '"https://abilitree-intouch.herokuapp.com/reply_to_sender"'
+            buildConfigField 'String', 'REPLY_TO_SENDER_URL_STR', '"https://abilitree-intouch.herokuapp.com/reply_to_sender"'
+            buildConfigField 'String', 'REPLY_ALL_URL_STR', '"https://abilitree-intouch.herokuapp.com/reply_all"'
             signingConfig signingConfigs.config
         }
     }
