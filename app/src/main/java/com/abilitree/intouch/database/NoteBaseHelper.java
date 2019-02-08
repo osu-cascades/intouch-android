@@ -11,7 +11,7 @@ import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
  */
 
 public class NoteBaseHelper extends SQLiteOpenHelper{
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
     private static final String DATABASE_NAME = "noteBase.db";
 
     public NoteBaseHelper(Context context) {
@@ -34,6 +34,7 @@ public class NoteBaseHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // If you need to add a column
         if (newVersion > oldVersion) {
+            db.execSQL("ALTER TABLE " + NoteTable.NAME + " ADD COLUMN " + NoteTable.Cols.FROM_USERNAME + " VARCHAR(50) DEFAULT NULL");
             db.execSQL("ALTER TABLE " + NoteTable.NAME + " ADD COLUMN " + NoteTable.Cols.GROUP_RECIPIENTS + " VARCHAR(2048) DEFAULT NULL");
         }
     }

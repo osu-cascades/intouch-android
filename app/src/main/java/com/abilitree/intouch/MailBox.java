@@ -123,6 +123,10 @@ public class MailBox {
         mDatabase.insert(NoteTable.NAME, null, values);
     }
 
+    public void deleteAllNotifications() {
+        mDatabase.delete(NoteTable.NAME, null, null);
+    }
+
 }
 
 /* DEBUG STUFF

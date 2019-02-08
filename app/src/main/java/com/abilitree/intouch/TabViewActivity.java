@@ -136,6 +136,11 @@ public class TabViewActivity extends AppCompatActivity  {
                 startActivity(intent);
                 finish();
                 return true;
+            case R.id.delete_all_mi:
+                MailBox mailBox = MailBox.getInstance(getApplicationContext());
+                mailBox.deleteAllNotifications();
+                mUpdateFragmentRecyclerView.updateView();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
