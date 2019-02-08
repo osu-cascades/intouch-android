@@ -52,7 +52,6 @@ public class CreateNotificationFragment extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "Groups: " + response);
                 try {
                     JSONArray jsonArr = new JSONArray(response);
 

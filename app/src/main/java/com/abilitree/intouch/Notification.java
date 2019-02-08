@@ -10,6 +10,7 @@ public class Notification {
     private String mMessageBody;
     private String mFrom;
     private String mFromUsername;
+    private String mGroupRecipients;
     private Boolean mViewed = false;
 
     public Boolean hasBeenViewed() {
@@ -36,12 +37,21 @@ public class Notification {
         mFromUsername = fromUsername;
     }
 
-    public Notification(String title, String from, String datetime, String body, String fromUsername) {
+    public String getGroupRecipients() {
+        return mGroupRecipients;
+    }
+
+    public void setGroupRecipients(String groupRecipients) {
+        mGroupRecipients = groupRecipients;
+    }
+
+    public Notification(String title, String from, String datetime, String body, String fromUsername, String groupRecipients) {
         mTitle = title;
         mFrom = from;
         mDateCreated = datetime;
         mMessageBody = body;
         mFromUsername = fromUsername;
+        mGroupRecipients = groupRecipients;
     }
 
 //    public void setDbId(int dbId) {

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.abilitree.intouch.database.NoteBaseHelper;
 import com.abilitree.intouch.database.NoteCursorWrapper;
@@ -53,6 +54,7 @@ public class MailBox {
         values.put(NoteTable.Cols.SENDER, note.getFrom());
         values.put(NoteTable.Cols.BODY, note.getMessageBody());
         values.put(NoteTable.Cols.FROM_USERNAME, note.getFromUsername());
+        values.put(NoteTable.Cols.GROUP_RECIPIENTS, note.getGroupRecipients());
 
         return values;
     }
@@ -113,8 +115,8 @@ public class MailBox {
 
 
 
-    public void createNotification(String title, String from, String datetime, String body, String fromUsername) {
-        Notification notification = new Notification(title, from, datetime, body, fromUsername);
+    public void createNotification(String title, String from, String datetime, String body, String fromUsername, String groupRecipients) {
+        Notification notification = new Notification(title, from, datetime, body, fromUsername, groupRecipients);
 
         //Inserting and updating rows for database ch 14 pg279
         ContentValues values = getContentValues(notification);
