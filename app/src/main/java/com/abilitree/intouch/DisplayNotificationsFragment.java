@@ -1,14 +1,16 @@
 package com.abilitree.intouch;
 
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,6 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FRAGMENT_TAG = this.getTag();
-
     }
 
     @Override
@@ -42,7 +43,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     }
 
     @Override
-    public void updateView(){
+    public void updateView() {
         updateUI();
     }
 
@@ -79,7 +80,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     }
 
     private class NotificationHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private Notification mNotification;
 
@@ -93,6 +94,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
             super(inflater.inflate(R.layout.list_item_notification, parent, false));
 
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
 
             mTitleTV = itemView.findViewById(R.id.title_tv);
             mDateTV = itemView.findViewById(R.id.date_tv);
@@ -107,10 +109,32 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
             mFromTV.setText(mNotification.getFrom());
         }
 
+        private AlertDialog confirmDeletion() {
+            AlertDialog confirmDeletion =new AlertDialog.Builder(getActivity())
+                    .setTitle("Delete")
+                    .setMessage("Are you sure you want to delete this notification?")
+                    .setIcon(R.drawable.ic_delete)
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            MailBox mailBox = MailBox.getInstance(getActivity());
+                            boolean isDeleted = mailBox.deleteNotification(mNotification);
+                            Log.i("DeleteDialog", "Deleted notification: " + isDeleted);
+                            updateUI();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+            return confirmDeletion;
+        }
 
-/*
-This is for passing data from listing notification to viewing single notifications
- */
+        /*
+        This is for passing data from listing notification to viewing single notifications
+         */
         @Override
         public void onClick(View view){
             //Have to use getActivity() passing a fragment as Context is invalid
@@ -122,11 +146,16 @@ This is for passing data from listing notification to viewing single notificatio
             String noteGroupRecipients = mNotification.getGroupRecipients();
 
             Intent intent = ShowSingleNotification.newIntent(getActivity(), noteTitle, noteDate, noteFrom, noteBody, noteFromUsername, noteGroupRecipients);
-            //startActivity(intent);
             startActivityForResult(intent, REQUEST_CODE_LETTER);
 
         }
 
+        @Override
+        public boolean onLongClick(View view) {
+            AlertDialog confirmDeletion = confirmDeletion();
+            confirmDeletion.show();
+            return true;
+        }
     }
 
     @Override
@@ -175,5 +204,4 @@ This is for passing data from listing notification to viewing single notificatio
             mNotifications = notifications;
         }
     }
-
 }

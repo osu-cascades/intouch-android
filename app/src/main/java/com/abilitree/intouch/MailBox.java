@@ -24,7 +24,6 @@ public class MailBox {
     private List<Notification> mReceivedNotifications;
     private List<Notification> mSentNotifications;
 
-    //THIS IS FOR DATABASE
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
@@ -37,16 +36,14 @@ public class MailBox {
     }
 
     private MailBox(Context context){
-       // mReceivedNotifications = new ArrayList<>();
         mSentNotifications = new ArrayList<>();
 
-        //THIS IS FOR DATABASE
         mContext = context.getApplicationContext();
         mDatabase = new NoteBaseHelper(mContext)
                 .getWritableDatabase();
     }
 
-    //THis is for database Writing to the database
+    //This is for writing to the database
     private static ContentValues getContentValues(Notification note) {
         ContentValues values = new ContentValues();
         values.put(NoteTable.Cols.TITLE, note.getTitle());
@@ -127,9 +124,23 @@ public class MailBox {
         mDatabase.delete(NoteTable.NAME, null, null);
     }
 
+    public boolean deleteNotification(Notification notification) {
+        return mDatabase.delete(
+                NoteTable.NAME,
+                NoteTable.Cols.BODY + "=? and " +
+                        NoteTable.Cols.FROM_USERNAME + "=? and " +
+                        NoteTable.Cols.DATE + "=? and " +
+                        NoteTable.Cols.SENDER + "=? and " +
+                        NoteTable.Cols.TITLE + "=? and " +
+                        NoteTable.Cols.GROUP_RECIPIENTS + "=?",
+                new String[]{
+                        notification.getMessageBody(),
+                        notification.getFromUsername(),
+                        notification.getDateCreated(),
+                        notification.getFrom(),
+                        notification.getTitle(),
+                        notification.getGroupRecipients()
+                }
+        ) > 0;
+    }
 }
-
-/* DEBUG STUFF
-        Log.i(DEBUG_TAG, Integer.toString(notifications.size()));
-
- */
