@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.i(TAG, "Request error: %s", error);
+                                Log.i(TAG, String.format("Request error: %s", error));
                                 Toast toast= Toast.makeText(getApplicationContext(),
                                         "Request error: " + error, Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 30);

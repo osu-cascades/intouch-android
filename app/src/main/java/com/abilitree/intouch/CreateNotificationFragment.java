@@ -33,8 +33,7 @@ import java.util.Map;
 
 public class CreateNotificationFragment extends Fragment {
 
-    private static final String TAG = "FireTree-Create";
-    private static final String URL = "https://abilitree-intouch-staging.herokuapp.com/get_groups";
+    private static final String TAG = "CreateNotificationFragment";
 
     private Button mSendBtn;
     private EditText mTitleEt;
@@ -47,9 +46,9 @@ public class CreateNotificationFragment extends Fragment {
 
     private ArrayList<String> mGroups;
 
-    private void loadSpinnerData(String url) {
-    RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+    private void loadSpinnerData() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, BuildConfig.GET_GROUPS_URL_STR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -63,13 +62,19 @@ public class CreateNotificationFragment extends Fragment {
 
                     mToSpnr.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mGroups));
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.i(TAG, String.format("JSON error occured: %s", e));
+                    Toast toast= Toast.makeText(getActivity(), String.format("Failed to fetch groups: %s", e), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                Log.i(TAG, String.format("Error response: %s", error));
+                Toast toast= Toast.makeText(getActivity(), String.format("Failed to fetch groups: %s", error), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         }) {
             @Override
@@ -79,11 +84,10 @@ public class CreateNotificationFragment extends Fragment {
                 params.put("password", Settings.getPassword(getContext()));
                 return params;
             }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
@@ -101,7 +105,7 @@ public class CreateNotificationFragment extends Fragment {
         mGroups = new ArrayList<>();
         mToSpnr = view.findViewById(R.id.to_spnr);
 
-        loadSpinnerData(URL);
+        loadSpinnerData();
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,38 +115,39 @@ public class CreateNotificationFragment extends Fragment {
                 mMessage = mMessageEt.getText().toString().trim();
                 if (mTitle.equals("") || mTo.equals("") || mMessage.equals("")) {
                     Log.i(TAG, "All fields must have input");
+                    Toast toast= Toast.makeText(getActivity(), "All fields must have input", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return;
                 } else {
-                    // send post
                     final Activity activity = getActivity();
                     RequestQueue queue = Volley.newRequestQueue(activity);
-                    String url = BuildConfig.PUSH_URL_STR;
 
-                    // Request a string response from the provided URL.
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.i(TAG, String.format("response: %s", response));
-                                    Toast toast= Toast.makeText(getActivity(),
-                                            response, Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 30);
-                                    toast.show();
-                                    if (response.contains("notification sent"))
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                mTitleEt.setText("");
-                                                mMessageEt.setText("");
-                                            }
-                                        });
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, BuildConfig.PUSH_URL_STR,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.i(TAG, String.format("Response: %s", response));
+                                Toast toast= Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                if (response.contains("notification sent")) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mTitleEt.setText("");
+                                            mMessageEt.setText("");
+                                        }
+                                    });
                                 }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i(TAG, "Request Error");
-                        }
-                    }) {
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i(TAG, String.format("Request error: %s", error));
+                            }
+                        }) {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
@@ -153,16 +158,13 @@ public class CreateNotificationFragment extends Fragment {
                             params.put("password", Settings.getPassword(getContext()));
                             return params;
                         }
-
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
                             Map<String,String> params = new HashMap<String, String>();
-                            params.put("Content-Type","application/x-www-form-urlencoded");
+                            params.put("Content-Type", "application/x-www-form-urlencoded");
                             return params;
                         }
                     };
-
-                    // Add the request to the RequestQueue.
                     queue.add(stringRequest);
                 }
             }
@@ -170,5 +172,4 @@ public class CreateNotificationFragment extends Fragment {
 
         return view;
     }
-
 }
