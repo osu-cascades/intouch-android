@@ -54,8 +54,7 @@ public class CreateNotificationFragment extends Fragment {
                 try {
                     JSONArray jsonArr = new JSONArray(response);
 
-                    for (int i = 0; i < jsonArr.length(); i++)
-                    {
+                    for (int i = 0; i < jsonArr.length(); i++) {
                         String group = jsonArr.getString(i);
                         mGroups.add(group);
                     }
@@ -78,7 +77,7 @@ public class CreateNotificationFragment extends Fragment {
             }
         }) {
             @Override
-            protected Map<String,String> getParams(){
+            protected Map<String,String> getParams() {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("username", Settings.getUsername(getContext()));
                 params.put("password", Settings.getPassword(getContext()));
@@ -149,7 +148,7 @@ public class CreateNotificationFragment extends Fragment {
                             }
                         }) {
                         @Override
-                        protected Map<String,String> getParams(){
+                        protected Map<String,String> getParams() {
                             Map<String,String> params = new HashMap<String, String>();
                             params.put("title", mTitle);
                             params.put("group", mTo);
