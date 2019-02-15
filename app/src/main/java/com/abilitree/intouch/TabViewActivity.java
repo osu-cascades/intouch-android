@@ -18,47 +18,48 @@ import com.pusher.pushnotifications.PushNotifications;
 
 public class TabViewActivity extends AppCompatActivity  {
 
-    public interface UpdateFragmentRecyclerView{
-        public void updateView();
-    }
-
-    private static final String TAG = "FireTree-TabView";
+    private static final String TAG = "TabViewActivity";
     private static final String viewNotificationsFragmentTag = "viewNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
 
     private BottomNavigationView mNavViewBnv;
     public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
 
+    public interface UpdateFragmentRecyclerView {
+        public void updateView();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_view);
         
-        PushNotifications.start(getApplicationContext(), "d9585a0d-3255-4f45-9f7f-7fb5c52afe0a");
+        PushNotifications.start(getApplicationContext(), BuildConfig.PUSHER_INSTANCE_ID_STR);
         PushNotifications.subscribe(Settings.getUsername(getApplicationContext()));
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.i("TabViewActivity", "Token: " + refreshedToken);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.activity_tab_view_fragment_container);
+
         if (fragment == null) {
             fragment = DisplayNotificationsFragment();
             fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, viewNotificationsFragmentTag).commit();
         }
 
         Fragment frag = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
-        if (frag instanceof DisplayNotificationsFragment)
+
+        if (frag instanceof DisplayNotificationsFragment) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mUpdateFragmentRecyclerView.updateView();
                 }
             });
+        }
 
         mNavViewBnv = findViewById(R.id.navigation_bnv);
         mNavViewBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -72,7 +73,6 @@ public class TabViewActivity extends AppCompatActivity  {
                         }
                         fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, viewNotificationsFragmentTag).commit();
                         return true;
-
                     case R.id.navigation_create:
                         fragment = fm.findFragmentByTag(createNotificationFragmentTag);
                         if (fragment == null) {
@@ -81,12 +81,11 @@ public class TabViewActivity extends AppCompatActivity  {
                         }
                         fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, createNotificationFragmentTag).commit();
                         return true;
-
                 }
+
                 return false;
             }
         });
-
     }
 
     @Override
@@ -95,12 +94,12 @@ public class TabViewActivity extends AppCompatActivity  {
         PushNotifications.setOnMessageReceivedListener(new PushNotificationReceivedListener() {
             @Override
             public void onMessageReceived(RemoteMessage remoteMessage) {
-                Log.i("MainActivity", "body: " + remoteMessage.getNotification().getBody());
-                Log.i("MainActivity", "from: " + remoteMessage.getData().get("sender"));
-                Log.i("MainActivity", "title: " + remoteMessage.getNotification().getTitle());
-                Log.i("MainActivity", "datetime: " + remoteMessage.getData().get("datetime"));
-                Log.i("MainActivity", "from username: " + remoteMessage.getData().get("from_username"));
-                Log.i("MainActivity", "group string: " + remoteMessage.getData().get("group_recipients"));
+                Log.i(TAG, "body: " + remoteMessage.getNotification().getBody());
+                Log.i(TAG, "from: " + remoteMessage.getData().get("sender"));
+                Log.i(TAG, "title: " + remoteMessage.getNotification().getTitle());
+                Log.i(TAG, "datetime: " + remoteMessage.getData().get("datetime"));
+                Log.i(TAG, "from username: " + remoteMessage.getData().get("from_username"));
+                Log.i(TAG, "group string: " + remoteMessage.getData().get("group_recipients"));
 
                 String group = remoteMessage.getData().get("group_recipients");
                 String updatedGroups = group.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
@@ -110,13 +109,15 @@ public class TabViewActivity extends AppCompatActivity  {
                 mailBox.createNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getData().get("sender"), remoteMessage.getData().get("datetime"), remoteMessage.getNotification().getBody(), remoteMessage.getData().get("from_username"), updatedGroups);
 
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(viewNotificationsFragmentTag);
-                if (fragment instanceof DisplayNotificationsFragment)
+
+                if (fragment instanceof DisplayNotificationsFragment) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mUpdateFragmentRecyclerView.updateView();
                         }
                     });
+                }
             }
         });
     }
@@ -147,13 +148,10 @@ public class TabViewActivity extends AppCompatActivity  {
     }
 
     protected Fragment DisplayNotificationsFragment() {
-
         return new DisplayNotificationsFragment();
     }
 
     protected Fragment CreateNotificationFragment() {
-
         return new CreateNotificationFragment();
     }
-
 }

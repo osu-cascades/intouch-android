@@ -26,6 +26,7 @@ android {
             buildConfigField 'String', 'REPLY_TO_SENDER_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_to_sender"'
             buildConfigField 'String', 'REPLY_ALL_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_all"'
             buildConfigField 'String', 'GET_GROUPS_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/get_groups"'
+            buildConfigField 'String', 'PUSHER_INSTANCE_ID_STR', '"d9585a0d-3255-4f45-9f7f-7fb5c52afe0a"'
         }
         release {
             minifyEnabled false
@@ -35,6 +36,7 @@ android {
             buildConfigField 'String', 'REPLY_TO_SENDER_URL_STR', '"https://abilitree-intouch.herokuapp.com/reply_to_sender"'
             buildConfigField 'String', 'REPLY_ALL_URL_STR', '"https://abilitree-intouch.herokuapp.com/reply_all"'
             buildConfigField 'String', 'GET_GROUPS_URL_STR', '"https://abilitree-intouch.herokuapp.com/get_groups"'
+            buildConfigField 'String', 'PUSHER_INSTANCE_ID_STR', '"TO DO"'
             signingConfig signingConfigs.config
         }
     }
