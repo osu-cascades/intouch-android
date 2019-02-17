@@ -4,6 +4,7 @@ package com.abilitree.intouch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,8 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     private RecyclerView mNotificationRV;
     private NotificationAdapter mAdapter;
 
+    private TextView mNotificationMainTitle;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,9 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.display_notifications_fragment, container, false);
+
+        mNotificationMainTitle = view.findViewById(R.id.display_notifications_title_tv);
+        mNotificationMainTitle.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/BebasNeue-Regular.ttf"));
 
         mNotificationRV =  view.findViewById(R.id.notifcation_rv);
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
