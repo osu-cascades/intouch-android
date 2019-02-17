@@ -2,6 +2,8 @@ package com.abilitree.intouch;
 
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private String mUsername = "";
     private String mPassword = "";
 
+    AssetManager am;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameEt = findViewById(R.id.username_et);
         mPasswordEt = findViewById(R.id.password_et);
         mLoginBtn = findViewById(R.id.login_btn);
+
+        am = getApplicationContext().getAssets();
+        Typeface bebas_font = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue-Regular.ttf");
+
+        mUsernameEt.setTypeface(bebas_font);
+        mPasswordEt.setTypeface(bebas_font);
+        mLoginBtn.setTypeface(bebas_font);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
