@@ -42,23 +42,25 @@
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="142dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:letterSpacing="0.1"
+        android:textSize="20dp"
+        android:drawableRight="@drawable/ic_navigate_next"
         android:text="Login"
         app:layout_constraintStart_toStartOf="@+id/password_et"
-        app:layout_constraintTop_toBottomOf="@+id/password_et"/>
+        app:layout_constraintTop_toBottomOf="@+id/password_et" />
 
     <View
         android:id="@+id/solid_background_horizontal_bottom"
         android:layout_width="match_parent"
-        android:layout_height="302dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="150dp"
         android:background="#333333"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
 
 </android.support.constraint.ConstraintLayout>

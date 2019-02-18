@@ -102,6 +102,7 @@ public class MailBox {
         try {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
+                Log.i(DEBUG_TAG, "MESSAGE QUEUE SIZE: " + Integer.toString(notes.size()));
                 notes.add(cursor.getNote());
             }
         } finally {
@@ -109,7 +110,6 @@ public class MailBox {
         }
 
         Collections.reverse(notes);
-        Log.i(DEBUG_TAG, Integer.toString(notes.size()));
         return notes;
     }
 

@@ -1,6 +1,7 @@
 package com.abilitree.intouch;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +47,8 @@ public class CreateNotificationFragment extends Fragment {
     private String mTitle;
     private String mTo;
     private String mMessage;
+
+    private TextView mCreateNotificationPageTitle;
 
     private ArrayList<String> mGroups;
 
@@ -94,6 +99,11 @@ public class CreateNotificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_notification_fragment, container, false);
+
+        Typeface bebas_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/BebasNeue-Regular.ttf");
+
+        mCreateNotificationPageTitle = view.findViewById(R.id.screen_title_text_view);
+        mCreateNotificationPageTitle.setTypeface((bebas_font));
 
         mTitleEt = view.findViewById(R.id.title_et);
         mMessageEt = view.findViewById(R.id.message_et);
