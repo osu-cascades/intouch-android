@@ -27,6 +27,7 @@ android {
             buildConfigField 'String', 'REPLY_ALL_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/reply_all"'
             buildConfigField 'String', 'GET_GROUPS_URL_STR', '"https://abilitree-intouch-staging.herokuapp.com/get_groups"'
             buildConfigField 'String', 'PUSHER_INSTANCE_ID_STR', '"d9585a0d-3255-4f45-9f7f-7fb5c52afe0a"'
+            testCoverageEnabled true
         }
         release {
             minifyEnabled false
@@ -39,6 +40,9 @@ android {
             buildConfigField 'String', 'PUSHER_INSTANCE_ID_STR', '"TO DO"'
             signingConfig signingConfigs.config
         }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -59,7 +63,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    testImplementation('com.android.support.test:runner:1.0.1') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.volley:volley:1.1.0'
