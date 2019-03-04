@@ -101,6 +101,7 @@ public class CreateNotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.create_notification_fragment, container, false);
 
         Typeface bebas_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/BebasNeue-Regular.ttf");
+        Typeface gotham_font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/GothamRnd-BookIta.otf");
 
         mCreateNotificationPageTitle = view.findViewById(R.id.screen_title_text_view);
         mCreateNotificationPageTitle.setTypeface((bebas_font));
@@ -110,6 +111,9 @@ public class CreateNotificationFragment extends Fragment {
         mSendBtn = view.findViewById(R.id.send_btn);
         mGroups = new ArrayList<>();
         mToSpnr = view.findViewById(R.id.to_spnr);
+
+        mTitleEt.setTypeface(gotham_font);
+        mMessageEt.setTypeface(gotham_font);
 
         loadSpinnerData(URL);
 

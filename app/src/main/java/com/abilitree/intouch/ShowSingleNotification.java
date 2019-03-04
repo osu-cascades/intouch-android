@@ -3,6 +3,7 @@ package com.abilitree.intouch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -49,6 +50,8 @@ public class ShowSingleNotification extends AppCompatActivity {
     private TextView mNotificationDate;
     private TextView mNotificationFrom;
     private TextView mNotificationBody;
+
+    private TextView mFragmentTitle;
 
     private EditText mMessageContent;
     private Button mReplyToSenderButton;
@@ -147,6 +150,9 @@ public class ShowSingleNotification extends AppCompatActivity {
         mNotificationDate.setText(mNoteDate);
         mNotificationFrom.setText(mNoteFrom);
         mNotificationBody.setText(mNoteBody);
+
+        mFragmentTitle = (TextView) findViewById(R.id.fragment_title_tv);
+        mFragmentTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue-Regular.ttf"));
 
         mReplyToSenderButton = (Button) findViewById(R.id.reply_btn);
         mReplyToSenderButton.setOnClickListener(new View.OnClickListener() {
