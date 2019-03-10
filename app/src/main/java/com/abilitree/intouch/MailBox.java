@@ -54,24 +54,6 @@ public class MailBox {
         return values;
     }
 
-    public Notification getNotification(String type, int id) {
-        NoteCursorWrapper cursor = queryNotes(
-                NoteTable.Cols.TITLE + " = ?",
-                new String[] {}
-        );
-
-        try {
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            cursor.moveToFirst();
-            return cursor.getNote();
-        } finally {
-            cursor.close();
-        }
-    }
-
-
     private NoteCursorWrapper queryNotes(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 NoteTable.NAME,

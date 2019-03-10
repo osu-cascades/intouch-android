@@ -2,23 +2,12 @@ package com.abilitree.intouch;
 
 public class Notification {
 
-    private int mDbId;
     private String mTitle;
     private String mDateCreated;
-    private boolean isAuthor;
     private String mMessageBody;
     private String mFrom;
     private String mFromUsername;
     private String mGroupRecipients;
-    private Boolean mViewed = false;
-
-    public Boolean hasBeenViewed() {
-        return mViewed;
-    }
-
-    public void setViewed() {
-        mViewed = true;
-    }
 
     public String getFrom() {
         return mFrom;
@@ -55,10 +44,6 @@ public class Notification {
 
     public void setTitle(String title) {
         mTitle = title;
-    }
-
-    public int getDbId() {
-        return mDbId;
     }
 
     public String getTitle() {
