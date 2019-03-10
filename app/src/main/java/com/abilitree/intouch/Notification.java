@@ -5,7 +5,6 @@ public class Notification {
     private int mDbId;
     private String mTitle;
     private String mDateCreated;
-    //private String mDateCreated;
     private boolean isAuthor;
     private String mMessageBody;
     private String mFrom;
@@ -54,25 +53,9 @@ public class Notification {
         mGroupRecipients = groupRecipients;
     }
 
-//    public void setDbId(int dbId) {
-//        mDbId = dbId;
-//    }
-
     public void setTitle(String title) {
         mTitle = title;
     }
-
-//    public void setDateCreated(String dateCreated) {
-//        mDateCreated = dateCreated;
-//    }
-//
-//    public void setAuthor(boolean author) {
-//        isAuthor = author;
-//    }
-//
-//    public void setMessageBody(String messageBody) {
-//        mMessageBody = messageBody;
-//    }
 
     public int getDbId() {
         return mDbId;
@@ -89,10 +72,6 @@ public class Notification {
     public String getDateCreated() {
         return mDateCreated;
     }
-
-//    public boolean isAuthor() {
-//        return isAuthor;
-//    }
 
     public void setMessageBody(String messageBody) {
         mMessageBody = messageBody;

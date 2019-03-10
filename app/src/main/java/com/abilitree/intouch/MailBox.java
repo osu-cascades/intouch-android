@@ -17,14 +17,12 @@ import java.util.List;
 
 public class MailBox {
 
-    String TAG = "FireTree-MailBox";
-    private static String DEBUG_TAG = "DEBUG_TAG";
+    private static final String TAG = "MailBox";
 
     private static MailBox sMailBox;
     private List<Notification> mReceivedNotifications;
     private List<Notification> mSentNotifications;
 
-    //THIS IS FOR DATABASE
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
@@ -37,16 +35,13 @@ public class MailBox {
     }
 
     private MailBox(Context context){
-       // mReceivedNotifications = new ArrayList<>();
         mSentNotifications = new ArrayList<>();
 
-        //THIS IS FOR DATABASE
         mContext = context.getApplicationContext();
-        mDatabase = new NoteBaseHelper(mContext)
-                .getWritableDatabase();
+        mDatabase = new NoteBaseHelper(mContext).getWritableDatabase();
     }
 
-    //THis is for database Writing to the database
+    // This is for writing to the database
     private static ContentValues getContentValues(Notification note) {
         ContentValues values = new ContentValues();
         values.put(NoteTable.Cols.TITLE, note.getTitle());
@@ -60,7 +55,6 @@ public class MailBox {
     }
 
     public Notification getNotification(String type, int id) {
-
         NoteCursorWrapper cursor = queryNotes(
                 NoteTable.Cols.TITLE + " = ?",
                 new String[] {}
@@ -75,7 +69,6 @@ public class MailBox {
         } finally {
             cursor.close();
         }
-
     }
 
 
@@ -92,9 +85,7 @@ public class MailBox {
         return new NoteCursorWrapper(cursor);
     }
 
-
     public List<Notification> getNotifications() {
-
         List<Notification> notes = new ArrayList<>();
 
         NoteCursorWrapper cursor = queryNotes(null, null);
@@ -109,11 +100,9 @@ public class MailBox {
         }
 
         Collections.reverse(notes);
-        Log.i(DEBUG_TAG, Integer.toString(notes.size()));
+        Log.i(TAG, "Number of notifications: " + Integer.toString(notes.size()));
         return notes;
     }
-
-
 
     public void createNotification(String title, String from, String datetime, String body, String fromUsername, String groupRecipients) {
         Notification notification = new Notification(title, from, datetime, body, fromUsername, groupRecipients);
@@ -123,9 +112,27 @@ public class MailBox {
         mDatabase.insert(NoteTable.NAME, null, values);
     }
 
+    public void deleteAllNotifications() {
+        mDatabase.delete(NoteTable.NAME, null, null);
+    }
+
+    public boolean deleteNotification(Notification notification) {
+        return mDatabase.delete(
+                NoteTable.NAME,
+                NoteTable.Cols.BODY + "=? and " +
+                        NoteTable.Cols.FROM_USERNAME + "=? and " +
+                        NoteTable.Cols.DATE + "=? and " +
+                        NoteTable.Cols.SENDER + "=? and " +
+                        NoteTable.Cols.TITLE + "=? and " +
+                        NoteTable.Cols.GROUP_RECIPIENTS + "=?",
+                new String[]{
+                        notification.getMessageBody(),
+                        notification.getFromUsername(),
+                        notification.getDateCreated(),
+                        notification.getFrom(),
+                        notification.getTitle(),
+                        notification.getGroupRecipients()
+                }
+        ) > 0;
+    }
 }
-
-/* DEBUG STUFF
-        Log.i(DEBUG_TAG, Integer.toString(notifications.size()));
-
- */

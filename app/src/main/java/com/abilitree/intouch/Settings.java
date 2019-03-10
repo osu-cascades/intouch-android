@@ -18,17 +18,16 @@ public class Settings {
             .putBoolean(LOGGED_IN, true)
             .putString(USER_TYPE, usertype)
             .apply();
-}
+    }
 
     public static void clearLoginSettings(Context context) {
         PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(USERNAME, null)
-                .putString(PASSWORD, null)
-                .putBoolean(LOGGED_IN, false)
-                .putString(USER_TYPE, null)
-                .apply();
-
+            .edit()
+            .putString(USERNAME, null)
+            .putString(PASSWORD, null)
+            .putBoolean(LOGGED_IN, false)
+            .putString(USER_TYPE, null)
+            .apply();
     }
 
     public static String getUsername(Context context) {
@@ -45,8 +44,6 @@ public class Settings {
 
     public static String getUserType(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(USER_TYPE, "client");
-
     }
-
 }
 

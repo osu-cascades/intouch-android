@@ -7,14 +7,14 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "FireTree-Main";
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         boolean loggedIn = Settings.getLoginStatus(getApplicationContext());
-        Log.i(TAG, String.format("logged in: %b", loggedIn));
+        Log.i(TAG, String.format("Logged in: %b", loggedIn));
 
         if (!loggedIn) {
             Intent intent = new Intent(this, LoginActivity.class);

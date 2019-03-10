@@ -26,6 +26,8 @@ import java.util.Map;
 
 public class ShowSingleNotification extends AppCompatActivity {
 
+    private static final String TAG = "ShowSingleNotification";
+
     private static final String EXTRA_NOTIFICATION_TITLE = "com.abilitree.intouch.noteTitle";
     private static final String EXTRA_NOTIFICATION_DATE = "com.abilitree.intouch.noteDate";
     private static final String EXTRA_NOTIFICATION_FROM = "com.abilitree.intouch.noteFrom";
@@ -33,11 +35,10 @@ public class ShowSingleNotification extends AppCompatActivity {
     private static final String EXTRA_NOTIFICATION_GROUP_RECIPIENTS = "com.abilitree.intouch.noteGroupRecipients";
     private static final String EXTRA_NOTIFICATION_BODY = "com.abilitree.intouch.noteBody";
 
-    //Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
+    // Sending intent back to DisplayNotificationsFragment for changing letter from open to closed
     private static final String EXTRA_NOTIFICATION_READ = "com.abilitree.intouch.noteRead";
 
     private String mReplyRecipient = null;
-
     private String mNoteTitle;
     private String mNoteDate;
     private String mNoteFrom;
@@ -72,28 +73,32 @@ public class ShowSingleNotification extends AppCompatActivity {
 
     private StringRequest sendNotification(String url, final String recipient) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.i("ShowSingleNotification", String.format("response: %s", response));
-                        Toast toast= Toast.makeText(ShowSingleNotification.this,
-                                response, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 30);
-                        toast.show();
-                        if (response.contains("notification sent"))
-                            ShowSingleNotification.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mMessageContent.setText("");
-                                }
-                            });
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i(TAG, String.format("Response: %s", response));
+                    Toast toast= Toast.makeText(ShowSingleNotification.this, response, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    if (response.contains("notification sent")) {
+                        ShowSingleNotification.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMessageContent.setText("");
+                            }
+                        });
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("ShowSingleNotification", "Request Error");
-            }
-        }) {
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i(TAG, String.format("Request error: %s", error));
+                    Toast toast= Toast.makeText(ShowSingleNotification.this, String.format("Request error: %s", error), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            }) {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
@@ -110,11 +115,10 @@ public class ShowSingleNotification extends AppCompatActivity {
 
                 return params;
             }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 return params;
             }
         };
@@ -189,14 +193,19 @@ public class ShowSingleNotification extends AppCompatActivity {
             public void onClick(View view) {
                 final String message = mMessageContent.getText().toString().trim();
                 if (message.equals("")) {
-                    Log.i("ShowSingleNotification", "All fields must have input");
+                    Log.i(TAG, "All fields must have input");
+                    Toast toast= Toast.makeText(ShowSingleNotification.this, "All fields must have input", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return;
                 } else if ((mReplyRecipient == "all" && mNoteGroupRecipients == null) ||
                             mReplyRecipient == "sender" && mNoteFromUsername == null) {
-                    Log.i("ShowSingleNotification", "Notification recipient is null");
+                    Log.i(TAG, "Notification recipient is null");
+                    Toast toast= Toast.makeText(ShowSingleNotification.this, "Notification recipient is null", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return;
                 } else {
-                    // send post
                     final Activity activity = ShowSingleNotification.this;
                     RequestQueue queue = Volley.newRequestQueue(activity);
 

@@ -1,13 +1,12 @@
 package com.abilitree.intouch.database;
 
-
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.abilitree.intouch.Notification;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
-public class NoteCursorWrapper extends CursorWrapper{
+public class NoteCursorWrapper extends CursorWrapper {
     public NoteCursorWrapper(Cursor cursor) {
         super(cursor);
     }
