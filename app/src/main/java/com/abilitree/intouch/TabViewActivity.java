@@ -130,15 +130,17 @@ public class TabViewActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        MailBox mailBox = MailBox.getInstance(getApplicationContext());
+
         switch(item.getItemId()) {
             case R.id.logout_mi:
+                mailBox.deleteAllNotifications();
                 Settings.clearLoginSettings(this);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
             case R.id.delete_all_mi:
-                MailBox mailBox = MailBox.getInstance(getApplicationContext());
                 mailBox.deleteAllNotifications();
                 mUpdateFragmentRecyclerView.updateView();
                 return true;
