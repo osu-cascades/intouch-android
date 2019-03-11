@@ -4,6 +4,7 @@ package com.abilitree.intouch;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -91,7 +92,12 @@ public class MailBox {
 
         //Inserting and updating rows for database ch 14 pg279
         ContentValues values = getContentValues(notification);
-        mDatabase.insert(NoteTable.NAME, null, values);
+        try {
+            long row = mDatabase.insertOrThrow(NoteTable.NAME, null, values);
+            Log.i(TAG, "Inserted row: " + row);
+        } catch (SQLException e) {
+            Log.i(TAG, "SQL exception: " + e);
+        }
     }
 
     public void deleteAllNotifications() {
