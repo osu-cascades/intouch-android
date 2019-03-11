@@ -18,6 +18,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUsernameEt;
     private EditText mPasswordEt;
     private Button mLoginBtn;
+    private JSONArray mNotifications;
+    private MailBox mailBox = MailBox.getInstance(this);
 
     private String mUsername = "";
     private String mPassword = "";
@@ -60,30 +66,44 @@ public class LoginActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if (response.contains("usertype")) {
-                                    String usertype = response.substring(9);
-                                    Log.i(TAG, String.format("Usertype: %s", usertype));
-                                    Settings.setLoginSettings(getApplicationContext(), mUsername, mPassword, usertype);
-                                    boolean isLoggedIn = Settings.getLoginStatus(getApplicationContext());
-                                    Log.i(TAG, String.format("Login status: %b", isLoggedIn));
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
-                                            startActivity(intent);
+                                try {
+                                    final JSONObject jsonObj = new JSONObject(response);
+
+                                    if (jsonObj.has("error")) {
+                                        Log.i(TAG, "Error response: " + jsonObj);
+                                        try {
+                                            final String error = jsonObj.getString("error");
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast toast= Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT);
+                                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                                    toast.show();
+                                                }
+                                            });
+                                        } catch (JSONException e) {
+                                            Log.i(TAG, "JSON exception: " + e);
                                         }
-                                    });
-                                } else {
-                                    final String failResponse = response;
-                                    Log.i(TAG, String.format("Error response: %s", response));
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast toast= Toast.makeText(getApplicationContext(), failResponse, Toast.LENGTH_SHORT);
-                                            toast.setGravity(Gravity.CENTER, 0, 0);
-                                            toast.show();
-                                        }
-                                    });
+                                    } else {
+                                        String usertype = jsonObj.getString("usertype");
+                                        JSONArray notifications = jsonObj.getJSONArray("notifications");
+                                        mNotifications = notifications;
+                                        createNotifications(notifications);
+                                        Settings.setLoginSettings(getApplicationContext(), mUsername, mPassword, usertype);
+                                        boolean isLoggedIn = Settings.getLoginStatus(getApplicationContext());
+                                        Log.i(TAG, String.format("Login status: %b", isLoggedIn));
+
+                                        createNotifications(mNotifications);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                } catch (JSONException e) {
+                                    Log.i(TAG, "JSON exception: " + e);
                                 }
                             }
                         },
@@ -115,5 +135,29 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void createNotifications(JSONArray notifications) {
+        MailBox mailBox = MailBox.getInstance(this);
+
+        for (int i = 0; i < notifications.length(); i++) {
+            try {
+                JSONObject notification = notifications.getJSONObject(i);
+                String groupRecipients = notification.optString("group_recipients", null);
+                String updatedGroups = groupRecipients.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
+                mailBox.createNotification(
+                        notification.optString("title", null),
+                        notification.optString("from", null),
+                        notification.optString("created_at", null),
+                        notification.optString("content", null),
+                        notification.optString("from_username", null),
+                        updatedGroups
+                );
+                Log.i(TAG, "notification: " + notifications.getJSONObject(i));
+
+            } catch (JSONException e) {
+                Log.i(TAG, "JSON exception: " + e);
+            }
+        }
     }
 }
