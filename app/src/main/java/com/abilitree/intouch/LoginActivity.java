@@ -1,6 +1,7 @@
 package com.abilitree.intouch;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -63,60 +64,52 @@ public class LoginActivity extends AppCompatActivity {
                     String url = BuildConfig.AUTH_URL_STR;
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    final JSONObject jsonObj = new JSONObject(response);
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        final JSONObject jsonObj = new JSONObject(response);
 
-                                    if (jsonObj.has("error")) {
-                                        Log.i(TAG, "Error response: " + jsonObj);
-                                        try {
-                                            final String error = jsonObj.getString("error");
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast toast= Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT);
-                                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                                    toast.show();
-                                                }
-                                            });
-                                        } catch (JSONException e) {
-                                            Log.i(TAG, "JSON exception: " + e);
-                                        }
-                                    } else {
-                                        String usertype = jsonObj.getString("usertype");
-                                        JSONArray notifications = jsonObj.getJSONArray("notifications");
-                                        mNotifications = notifications;
-                                        createNotifications(notifications);
-                                        Settings.setLoginSettings(getApplicationContext(), mUsername, mPassword, usertype);
-                                        boolean isLoggedIn = Settings.getLoginStatus(getApplicationContext());
-                                        Log.i(TAG, String.format("Login status: %b", isLoggedIn));
-
-                                        createNotifications(mNotifications);
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
-                                                startActivity(intent);
+                                        if (jsonObj.has("error")) {
+                                            Log.i(TAG, "Error response: " + jsonObj);
+                                            try {
+                                                final String error = jsonObj.getString("error");
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast toast= Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT);
+                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.show();
+                                                    }
+                                                });
+                                            } catch (JSONException e) {
+                                                Log.i(TAG, "JSON exception: " + e);
                                             }
-                                        });
+                                        } else {
+                                            String usertype = jsonObj.getString("usertype");
+                                            JSONArray notifications = jsonObj.getJSONArray("notifications");
+                                            mNotifications = notifications;
+                                            Settings.setLoginSettings(getApplicationContext(), mUsername, mPassword, usertype);
+                                            boolean isLoggedIn = Settings.getLoginStatus(getApplicationContext());
+                                            Log.i(TAG, String.format("Login status: %b", isLoggedIn));
+
+                                            new InsertNotifications().execute();
+                                        }
+                                    } catch (JSONException e) {
+                                        Log.i(TAG, "JSON exception: " + e);
                                     }
-                                } catch (JSONException e) {
-                                    Log.i(TAG, "JSON exception: " + e);
                                 }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.i(TAG, String.format("Request error: %s", error));
-                                Toast toast= Toast.makeText(getApplicationContext(),
-                                        "Request error: " + error, Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 30);
-                                toast.show();
-                            }
-                        }) {
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.i(TAG, String.format("Request error: %s", error));
+                                    Toast toast= Toast.makeText(getApplicationContext(),
+                                            "Request error: " + error, Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 30);
+                                    toast.show();
+                                }
+                            }) {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
@@ -137,27 +130,42 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void createNotifications(JSONArray notifications) {
-        MailBox mailBox = MailBox.getInstance(this);
+    private class InsertNotifications extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... foo) {
+            for (int i = 0; i < mNotifications.length(); i++) {
+                try {
+                    JSONObject notification = mNotifications.getJSONObject(i);
+                    String groupRecipients = notification.optString("group_recipients", null);
+                    String updatedGroups = groupRecipients.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
+                    mailBox.createNotification(
+                            notification.optString("title", null),
+                            notification.optString("from", null),
+                            notification.optString("created_at", null),
+                            notification.optString("content", null),
+                            notification.optString("from_username", null),
+                            updatedGroups
+                    );
 
-        for (int i = 0; i < notifications.length(); i++) {
-            try {
-                JSONObject notification = notifications.getJSONObject(i);
-                String groupRecipients = notification.optString("group_recipients", null);
-                String updatedGroups = groupRecipients.replace("[", "").replace("]", "").replace(", ", "").replace("\"", "");
-                mailBox.createNotification(
-                        notification.optString("title", null),
-                        notification.optString("from", null),
-                        notification.optString("created_at", null),
-                        notification.optString("content", null),
-                        notification.optString("from_username", null),
-                        updatedGroups
-                );
-                Log.i(TAG, "notification: " + notifications.getJSONObject(i));
-
-            } catch (JSONException e) {
-                Log.i(TAG, "JSON exception: " + e);
+                } catch (JSONException e) {
+                    Log.i(TAG, "JSON exception: " + e);
+                }
             }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void bar)
+        {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(getApplicationContext(), TabViewActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 }
