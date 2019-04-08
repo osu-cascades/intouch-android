@@ -21,6 +21,7 @@ public class TabViewActivity extends AppCompatActivity  {
     private static final String TAG = "TabViewActivity";
     private static final String viewNotificationsFragmentTag = "viewNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
+    private static final String calendarFragmentTag = "calendar";
 
     private BottomNavigationView mNavViewBnv;
     public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
@@ -80,6 +81,14 @@ public class TabViewActivity extends AppCompatActivity  {
                             fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, createNotificationFragmentTag).commit();
                         }
                         fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, createNotificationFragmentTag).commit();
+                        return true;
+                    case R.id.navigation_calendar:
+                        fragment = fm.findFragmentByTag(calendarFragmentTag);
+                        if (fragment == null) {
+                            fragment = CalendarFragment();
+                            fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, calendarFragmentTag).commit();
+                        }
+                        fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, calendarFragmentTag).commit();
                         return true;
                 }
 
@@ -155,5 +164,9 @@ public class TabViewActivity extends AppCompatActivity  {
 
     protected Fragment CreateNotificationFragment() {
         return new CreateNotificationFragment();
+    }
+
+    protected Fragment CalendarFragment() {
+        return new CalendarFragment();
     }
 }
