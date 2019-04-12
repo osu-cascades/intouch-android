@@ -7,14 +7,15 @@ package com.abilitree.intouch;
 public class Event {
 
     private String mTitle;
-    private String mDate;
+    // date example: 042019 = April 20th, 2019 - makes event lookup from calendar easier
+    private Integer mDate;
     private String mTime;
     private String mLocation;
     private String mNotes;
     private String mParticipants;
     private String mColor;
 
-    public Event(String title, String date, String time, String location, String notes, String participants, String color) {
+    public Event(String title, Integer date, String time, String location, String notes, String participants, String color) {
         mTitle = title;
         mDate = date;
         mTime = time;
@@ -32,11 +33,11 @@ public class Event {
         return mTitle;
     }
 
-    public void setDate(String date) {
+    public void setDate(Integer date) {
         mDate = date;
     }
 
-    public String getDate() {
+    public Integer getDate() {
         return mDate;
     }
 

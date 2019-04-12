@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 /**
@@ -11,7 +12,7 @@ import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
  */
 
 public class NoteBaseHelper extends SQLiteOpenHelper {
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
     private static final String DATABASE_NAME = "noteBase.db";
 
     public NoteBaseHelper(Context context) {
@@ -39,6 +40,21 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
 
         if (oldVersion < 4) {
             db.execSQL("ALTER TABLE " + NoteTable.NAME + " ADD COLUMN " + NoteTable.Cols.GROUP_RECIPIENTS + " VARCHAR(2048) DEFAULT NULL");
+        }
+
+        if (oldVersion < 5) {
+            db.execSQL(
+                    "CREATE TABLE " + EventTable.NAME + "(" +
+                    " _id integer primary key autoincrement, " +
+                    EventTable.Cols.TITLE + "TEXT NOT NULL, " +
+                    EventTable.Cols.DATE + "INTEGER NOT NULL, " +
+                    EventTable.Cols.TIME + "TEXT NOT NULL, " +
+                    EventTable.Cols.LOCATION + "TEXT NOT NULL, " +
+                    EventTable.Cols.NOTES + "TEXT NOT NULL, " +
+                    EventTable.Cols.PARTICIPANTS + "TEXT NOT NULL, " +
+                    EventTable.Cols.COLOR + "TEXT NOT NULL" +
+                    ")"
+            );
         }
     }
 }

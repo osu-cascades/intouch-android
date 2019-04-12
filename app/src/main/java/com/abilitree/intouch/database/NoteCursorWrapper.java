@@ -3,8 +3,10 @@ package com.abilitree.intouch.database;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
+import com.abilitree.intouch.Event;
 import com.abilitree.intouch.Notification;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
+import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 
 public class NoteCursorWrapper extends CursorWrapper {
     public NoteCursorWrapper(Cursor cursor) {
@@ -28,5 +30,19 @@ public class NoteCursorWrapper extends CursorWrapper {
         note.setGroupRecipients(groupRecipients);
 
         return note;
+    }
+
+    public Event getEvent() {
+        String title = getString(getColumnIndex(EventTable.Cols.TITLE));
+        Integer date = getInt(getColumnIndex(EventTable.Cols.DATE));
+        String time = getString(getColumnIndex(EventTable.Cols.TIME));
+        String location = getString(getColumnIndex(EventTable.Cols.LOCATION));
+        String notes = getString(getColumnIndex(EventTable.Cols.NOTES));
+        String participants = getString(getColumnIndex(EventTable.Cols.PARTICIPANTS));
+        String color = getString(getColumnIndex(EventTable.Cols.COLOR));
+
+        Event event = new Event(title, date,  time, location, notes, participants, color);
+
+        return event;
     }
 }
