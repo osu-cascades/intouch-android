@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class CreateNotificationFragment extends Fragment {
 
-    private static final String TAG = "CreateNotificationFragment";
+    private static final String TAG = "CreateNotificationFrag";
 
     private Button mSendBtn;
     private EditText mTitleEt;
