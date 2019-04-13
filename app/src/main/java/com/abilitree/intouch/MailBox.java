@@ -15,6 +15,7 @@ import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class MailBox {
@@ -132,6 +133,30 @@ public class MailBox {
         return events;
     }
 
+    public ArrayList<HashMap<String, String>> getEventForDate(Integer date){
+        ArrayList<HashMap<String, String>> eventList = new ArrayList<>();
+        Cursor cursor = mDatabase.query(EventTable.NAME,
+                null,
+                NoteTable.Cols.DATE + "=?",
+                new String[] { date.toString() },
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()){
+            HashMap<String,String> event = new HashMap<>();
+            event.put("title", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TITLE)));
+            event.put("date", cursor.getString(cursor.getColumnIndex(EventTable.Cols.DATE)));
+            event.put("time", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TIME)));
+            event.put("location", cursor.getString(cursor.getColumnIndex(EventTable.Cols.LOCATION)));
+            event.put("notes", cursor.getString(cursor.getColumnIndex(EventTable.Cols.NOTES)));
+            event.put("participants", cursor.getString(cursor.getColumnIndex(EventTable.Cols.PARTICIPANTS)));
+            event.put("color", cursor.getString(cursor.getColumnIndex(EventTable.Cols.COLOR)));
+            eventList.add(event);
+        }
+        return  eventList;
+    }
+
     public void createNotification(String title, String from, String datetime, String body, String fromUsername, String groupRecipients) {
         Notification notification = new Notification(title, from, datetime, body, fromUsername, groupRecipients);
 
@@ -188,7 +213,8 @@ public class MailBox {
     public boolean deleteEvent(Event event) {
         return mDatabase.delete(
                 EventTable.NAME,
-                EventTable.Cols.DATE + "=? AND " +
+                EventTable.Cols.TITLE + "=? AND " +
+                        EventTable.Cols.DATE + "=? AND " +
                         EventTable.Cols.TIME + "=? AND " +
                         EventTable.Cols.LOCATION + "=? AND " +
                         EventTable.Cols.NOTES + "=? AND " +

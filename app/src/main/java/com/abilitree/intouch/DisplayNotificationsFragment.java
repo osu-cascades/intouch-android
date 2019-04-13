@@ -54,7 +54,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.display_notifications_fragment, container, false);
 
-        mNotificationRV =  view.findViewById(R.id.notifcation_rv);
+        mNotificationRV = view.findViewById(R.id.notifcation_rv);
         mNotificationRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
