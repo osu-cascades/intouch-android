@@ -9,9 +9,16 @@
     <string name="title">TITLE:</string>
     <string name="hint_title">title</string>
     <string name="date">DATE:</string>
+    <string name="hint_date">date</string>
     <string name="nov_4th">NOV 4th</string>
     <string name="from">FROM:</string>
     <string name="hint_from">from</string>
+    <string name="time">TIME:</string>
+    <string name="hint_time">time</string>
+    <string name="location">LOCATION:</string>
+    <string name="hint_location">location</string>
+    <string name="notes">NOTES:</string>
+    <string name="hint_notes">notes</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--
