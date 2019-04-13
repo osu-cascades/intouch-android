@@ -6,19 +6,25 @@
 
     <string name="groups_spinner_title">Choose a group</string>
     <string name="send_notification">Send Notification</string>
+
     <string name="title">TITLE:</string>
     <string name="hint_title">title</string>
+    <string name="description">DESCRIPTION:</string>
+    <string name="hint_description">description</string>
     <string name="date">DATE:</string>
     <string name="hint_date">date</string>
-    <string name="nov_4th">NOV 4th</string>
     <string name="from">FROM:</string>
     <string name="hint_from">from</string>
-    <string name="time">TIME:</string>
+    <string name="time">\@</string>
     <string name="hint_time">time</string>
     <string name="location">LOCATION:</string>
     <string name="hint_location">location</string>
+    <string name="host">HOSTED BY:</string>
+    <string name="hint_host">host</string>
     <string name="notes">NOTES:</string>
     <string name="hint_notes">notes</string>
+    <string name="body">BODY:</string>
+    <string name="body_hint">body</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--
@@ -26,16 +32,16 @@
         It should describe the category of notifications that will be sent through this channel
      -->
     <string name="default_notification_channel_name" translatable="true">Abilitree</string>
-    <string name="body">BODY:</string>
-    <string name="body_hint">body</string>
 
-    <string name="error">Error</string>
     <string name="received_sent">Received/Sent</string>
     <string name="title_single_note">Title:</string>
-    <string name="message_title">message title</string>
     <string name="date_single_note">Date:</string>
+    <string name="from_single_note">From:</string>
+    <string name="message">Message:</string>
+    <string name="hint_message">message</string>
+    <string name="hint_message_edit">Put message here...</string>
     <string name="create_notification">Create Notification</string>
-    <string name="nov_17th">Nov 17th</string>
-    <string name="Envelope">Envelope</string>
 
+    <string name="reply_to_sender">Reply to Sender</string>
+    <string name="reply_all">Reply All</string>
 </resources>

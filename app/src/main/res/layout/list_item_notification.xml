@@ -60,7 +60,7 @@
               android:layout_marginLeft="4dp"
               android:layout_marginRight="4dp"
               android:textSize="15sp"
-              android:hint="@string/nov_4th"
+              android:hint="@string/hint_date"
               android:textColor="@android:color/black"/>
       </LinearLayout>
 
