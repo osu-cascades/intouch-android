@@ -1,26 +1,28 @@
 package com.abilitree.intouch;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class CalendarFragment extends Fragment {
 
     private static final String TAG = "CalendarFragment";
 
     private CalendarView mCalendarView;
-    private ListView mEventListView;
+    private RecyclerView mEventRV;
+    private EventAdapter mAdapter;
+
     private ArrayList<HashMap<String, String>> mEventList;
 
     @Nullable
@@ -29,23 +31,95 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.calendar_fragment, container, false);
 
         mCalendarView = view.findViewById(R.id.calendar_view);
-//        mEventListView = view.findViewById(R.id.event_list_view);
+        mEventRV = view.findViewById(R.id.event_rv);
+        mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        MailBox mailBox = MailBox.getInstance(getActivity());
-
-        Calendar now = Calendar.getInstance();
-
-        Integer yearMonthDay = Integer.valueOf("" + now.get(Calendar.YEAR) + now.get(Calendar.MONTH) + now.get(Calendar.DAY_OF_MONTH));
-        Log.i(TAG, "yearmonthday" + yearMonthDay);
-//        mEventList = mailBox.getEventForDate(yearMonthDay);
-
-        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                Log.i(TAG, "year, month, dayofmonth" + year + month + dayOfMonth);
-            }
-        });
+        updateUI();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    public void updateUI() {
+        MailBox mailBox = MailBox.getInstance(getActivity());
+
+        List<Event> events = mailBox.getEvents();
+        if (mAdapter == null) {
+            mAdapter = new EventAdapter(events);
+            mEventRV.setAdapter(mAdapter);
+        } else {
+            mAdapter.setEvents(events);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class EventHolder extends RecyclerView.ViewHolder {
+        private Event mEvent;
+
+        private TextView mTitleTV;
+        private TextView mDescriptionTV;
+        private TextView mDateTV;
+        private TextView mTimeTV;
+        private TextView mPlaceTV;
+        private TextView mHostTV;
+        private TextView mNotesTV;
+
+        public EventHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_event, parent, false));
+
+            mTitleTV = itemView.findViewById(R.id.title);
+            mDescriptionTV = itemView.findViewById(R.id.description);
+            mDateTV = itemView.findViewById(R.id.date);
+            mTimeTV = itemView.findViewById(R.id.time);
+            mPlaceTV = itemView.findViewById(R.id.place);
+            mHostTV = itemView.findViewById(R.id.host);
+            mNotesTV = itemView.findViewById(R.id.notes);
+        }
+
+        public void bind(Event event) {
+            mEvent = event;
+
+            mTitleTV.setText(event.getTitle());
+            mDescriptionTV.setText(event.getDescription());
+            mDateTV.setText(event.getDate());
+            mTimeTV.setText(event.getTime());
+            mPlaceTV.setText(event.getPlace());
+            mHostTV.setText(event.getHost());
+            mNotesTV.setText(event.getNotes());
+        }
+    }
+
+    private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
+        private List<Event> mEvents;
+
+        public EventAdapter(List<Event> events) {
+            mEvents = events;
+        }
+
+        @Override
+        public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new EventHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder(EventHolder holder, int position) {
+            Event event = mEvents.get(position);
+            holder.bind(event);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mEvents.size();
+        }
+
+        public void setEvents(List<Event> events) {
+            mEvents = events;
+        }
     }
 }

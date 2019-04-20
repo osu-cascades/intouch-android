@@ -17,8 +17,8 @@
     <string name="hint_from">from</string>
     <string name="time">\@</string>
     <string name="hint_time">time</string>
-    <string name="location">LOCATION:</string>
-    <string name="hint_location">location</string>
+    <string name="place">PLACE:</string>
+    <string name="hint_place">place</string>
     <string name="host">HOSTED BY:</string>
     <string name="hint_host">host</string>
     <string name="notes">NOTES:</string>
