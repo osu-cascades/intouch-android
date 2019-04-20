@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"/>
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_title"
                 android:textColor="@android:color/black"/>
         </LinearLayout>
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/description"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"/>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_description"
                 android:textColor="@android:color/black"/>
         </LinearLayout>
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/date"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"/>
 
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_date"
                 android:textColor="@android:color/black"/>
 
@@ -93,7 +93,7 @@
                 android:text="@string/time"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/time"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_time"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -118,7 +118,7 @@
                 android:text="@string/place"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/place"
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_place"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -143,7 +143,7 @@
                 android:text="@string/host"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/host"
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_host"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -168,7 +168,7 @@
                 android:text="@string/notes"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/notes"
@@ -176,9 +176,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:textSize="15sp"
+                android:textSize="10sp"
                 android:hint="@string/hint_notes"
                 android:textColor="@android:color/black" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
     </LinearLayout>
 </LinearLayout>

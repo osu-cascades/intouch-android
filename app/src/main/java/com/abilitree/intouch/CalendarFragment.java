@@ -1,10 +1,12 @@
 package com.abilitree.intouch;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,13 @@ public class CalendarFragment extends Fragment {
         mEventRV = view.findViewById(R.id.event_rv);
         mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                Log.i(TAG, String.format("year = %d, month = %d, dayofmonth = %d", i, i1, i2));
+            }
+        });
+
         updateUI();
 
         return view;
@@ -48,7 +57,15 @@ public class CalendarFragment extends Fragment {
     public void updateUI() {
         MailBox mailBox = MailBox.getInstance(getActivity());
 
-        List<Event> events = mailBox.getEvents();
+//        List<Event> events = mailBox.getEvents();
+
+        List<Event> events = new ArrayList<Event>();
+        Event event = new Event("title", "description", "date", "time", "place", "notes", "groups", "host", "color");
+        Event event2 = new Event("t", "d", "d", "t", "p", "n", "g", "h", "c");
+
+        events.add(event);
+        events.add(event2);
+
         if (mAdapter == null) {
             mAdapter = new EventAdapter(events);
             mEventRV.setAdapter(mAdapter);
