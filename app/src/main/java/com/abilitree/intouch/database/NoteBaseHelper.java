@@ -69,6 +69,7 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
                 EventTable.Cols.PLACE + "TEXT NOT NULL, " +
                 EventTable.Cols.NOTES + "TEXT NOT NULL, " +
                 EventTable.Cols.GROUP_PARTICIPANTS + "TEXT NOT NULL, " +
+                EventTable.Cols.HOST + "TEXT NOT NULL, " +
                 EventTable.Cols.COLOR + "TEXT NOT NULL" +
                 ")"
             );

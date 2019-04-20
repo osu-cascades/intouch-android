@@ -67,6 +67,7 @@ public class MailBox {
         values.put(EventTable.Cols.PLACE, event.getPlace());
         values.put(EventTable.Cols.NOTES, event.getNotes());
         values.put(EventTable.Cols.GROUP_PARTICIPANTS, event.getGroupParticipants());
+        values.put(EventTable.Cols.HOST, event.getHost());
         values.put(EventTable.Cols.COLOR, event.getColor());
 
         return values;
@@ -158,6 +159,7 @@ public class MailBox {
             event.put("place", cursor.getString(cursor.getColumnIndex(EventTable.Cols.PLACE)));
             event.put("notes", cursor.getString(cursor.getColumnIndex(EventTable.Cols.NOTES)));
             event.put("group_participants", cursor.getString(cursor.getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS)));
+            event.put("host", cursor.getString(cursor.getColumnIndex(EventTable.Cols.HOST)));
             event.put("color", cursor.getString(cursor.getColumnIndex(EventTable.Cols.COLOR)));
             eventList.add(event);
         }
@@ -177,8 +179,8 @@ public class MailBox {
         }
     }
 
-    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String color) {
-        Event event = new Event(title, description, date, time, place, notes, groupParticipants, color);
+    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color) {
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color);
 
         ContentValues values = getEventContentValues(event);
         try {
@@ -227,6 +229,7 @@ public class MailBox {
                         EventTable.Cols.PLACE + "=? AND " +
                         EventTable.Cols.NOTES + "=? AND " +
                         EventTable.Cols.GROUP_PARTICIPANTS + "=? AND" +
+                        EventTable.Cols.HOST + "=? AND" +
                         EventTable.Cols.COLOR + "=?",
                 new String[] {
                         event.getTitle(),
@@ -236,6 +239,7 @@ public class MailBox {
                         event.getPlace(),
                         event.getNotes(),
                         event.getGroupParticipants(),
+                        event.getHost(),
                         event.getColor()
                 }
         ) > 0;

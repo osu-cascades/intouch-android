@@ -13,9 +13,10 @@ public class Event {
     private String mPlace;
     private String mNotes;
     private String mGroupParticipants;
+    private String mHost;
     private String mColor;
 
-    public Event(String title, String description, String date, String time, String place, String notes, String groupParticipants, String color) {
+    public Event(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color) {
         mTitle = title;
         mDescription = description;
         mDate = date;
@@ -23,6 +24,7 @@ public class Event {
         mPlace = place;
         mNotes = notes;
         mGroupParticipants = groupParticipants;
+        mHost = host;
         mColor = color;
     }
 
@@ -80,6 +82,14 @@ public class Event {
 
     public String getGroupParticipants() {
         return mGroupParticipants;
+    }
+
+    public void setHost(String host) {
+        mHost = host;
+    }
+
+    public String getHost() {
+        return mHost;
     }
 
     public void setColor(String color) {
