@@ -34,14 +34,15 @@ public class NoteCursorWrapper extends CursorWrapper {
 
     public Event getEvent() {
         String title = getString(getColumnIndex(EventTable.Cols.TITLE));
-        Integer date = getInt(getColumnIndex(EventTable.Cols.DATE));
+        String description = getString(getColumnIndex(EventTable.Cols.DESCRIPTION));
+        String date = getString(getColumnIndex(EventTable.Cols.DATE));
         String time = getString(getColumnIndex(EventTable.Cols.TIME));
-        String location = getString(getColumnIndex(EventTable.Cols.LOCATION));
+        String place = getString(getColumnIndex(EventTable.Cols.PLACE));
         String notes = getString(getColumnIndex(EventTable.Cols.NOTES));
-        String participants = getString(getColumnIndex(EventTable.Cols.PARTICIPANTS));
+        String groupParticipants = getString(getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS));
         String color = getString(getColumnIndex(EventTable.Cols.COLOR));
 
-        Event event = new Event(title, date,  time, location, notes, participants, color);
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, color);
 
         return event;
     }

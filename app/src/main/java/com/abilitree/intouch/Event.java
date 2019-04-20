@@ -7,21 +7,22 @@ package com.abilitree.intouch;
 public class Event {
 
     private String mTitle;
-    // date example: 042019 = April 20th, 2019 - makes event lookup from calendar easier
-    private Integer mDate;
+    private String mDescription;
+    private String mDate;
     private String mTime;
-    private String mLocation;
+    private String mPlace;
     private String mNotes;
-    private String mParticipants;
+    private String mGroupParticipants;
     private String mColor;
 
-    public Event(String title, Integer date, String time, String location, String notes, String participants, String color) {
+    public Event(String title, String description, String date, String time, String place, String notes, String groupParticipants, String color) {
         mTitle = title;
+        mDescription = description;
         mDate = date;
         mTime = time;
-        mLocation = location;
+        mPlace = place;
         mNotes = notes;
-        mParticipants = participants;
+        mGroupParticipants = groupParticipants;
         mColor = color;
     }
 
@@ -33,11 +34,19 @@ public class Event {
         return mTitle;
     }
 
-    public void setDate(Integer date) {
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDate(String date) {
         mDate = date;
     }
 
-    public Integer getDate() {
+    public String getDate() {
         return mDate;
     }
 
@@ -49,12 +58,12 @@ public class Event {
         return mTime;
     }
 
-    public void setLocation(String location) {
-        mLocation = location;
+    public void setPlace(String place) {
+        mPlace = place;
     }
 
-    public String getLocation() {
-        return mLocation;
+    public String getPlace() {
+        return mPlace;
     }
 
     public void setNotes(String notes) {
@@ -65,12 +74,12 @@ public class Event {
         return mNotes;
     }
 
-    public void setParticipants(String participants) {
-        mParticipants = participants;
+    public void setGroupParticipants(String groupParticipants) {
+        mGroupParticipants = groupParticipants;
     }
 
-    public String getParticipants() {
-        return mParticipants;
+    public String getGroupParticipants() {
+        return mGroupParticipants;
     }
 
     public void setColor(String color) {

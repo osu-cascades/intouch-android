@@ -23,11 +23,12 @@ public class NoteDbSchema {
 
         public static final class Cols {
             public static final String TITLE = "title";
+            public static final String DESCRIPTION = "description";
             public static final String DATE = "date";
             public static final String TIME = "time";
-            public static final String LOCATION = "location";
+            public static final String PLACE = "place";
             public static final String NOTES = "notes";
-            public static final String PARTICIPANTS = "participants";
+            public static final String GROUP_PARTICIPANTS = "group_participants";
             public static final String COLOR = "color";
         }
     }

@@ -14,6 +14,7 @@ import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -60,11 +61,12 @@ public class MailBox {
     private static ContentValues getEventContentValues(Event event) {
         ContentValues values = new ContentValues();
         values.put(EventTable.Cols.TITLE, event.getTitle());
+        values.put(EventTable.Cols.DESCRIPTION, event.getDescription());
         values.put(EventTable.Cols.DATE, event.getDate());
         values.put(EventTable.Cols.TIME, event.getTime());
-        values.put(EventTable.Cols.LOCATION, event.getLocation());
+        values.put(EventTable.Cols.PLACE, event.getPlace());
         values.put(EventTable.Cols.NOTES, event.getNotes());
-        values.put(EventTable.Cols.PARTICIPANTS, event.getParticipants());
+        values.put(EventTable.Cols.GROUP_PARTICIPANTS, event.getGroupParticipants());
         values.put(EventTable.Cols.COLOR, event.getColor());
 
         return values;
@@ -111,6 +113,10 @@ public class MailBox {
         }
 
         Collections.reverse(notes);
+
+        Cursor dbCursor = mDatabase.query(EventTable.NAME, null, null, null, null, null, null);
+        String[] columnNames = dbCursor.getColumnNames();
+        Log.i(TAG, "database version: " + Arrays.toString(columnNames));
         Log.i(TAG, "Number of notifications: " + Integer.toString(notes.size()));
         return notes;
     }
@@ -133,12 +139,12 @@ public class MailBox {
         return events;
     }
 
-    public ArrayList<HashMap<String, String>> getEventForDate(Integer date){
+    public ArrayList<HashMap<String, String>> getEventForDate(String date){
         ArrayList<HashMap<String, String>> eventList = new ArrayList<>();
         Cursor cursor = mDatabase.query(EventTable.NAME,
                 null,
                 NoteTable.Cols.DATE + "=?",
-                new String[] { date.toString() },
+                new String[] { date },
                 null,
                 null,
                 null);
@@ -146,11 +152,12 @@ public class MailBox {
         while (cursor.moveToNext()){
             HashMap<String,String> event = new HashMap<>();
             event.put("title", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TITLE)));
+            event.put("description", cursor.getString(cursor.getColumnIndex(EventTable.Cols.DESCRIPTION)));
             event.put("date", cursor.getString(cursor.getColumnIndex(EventTable.Cols.DATE)));
             event.put("time", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TIME)));
-            event.put("location", cursor.getString(cursor.getColumnIndex(EventTable.Cols.LOCATION)));
+            event.put("place", cursor.getString(cursor.getColumnIndex(EventTable.Cols.PLACE)));
             event.put("notes", cursor.getString(cursor.getColumnIndex(EventTable.Cols.NOTES)));
-            event.put("participants", cursor.getString(cursor.getColumnIndex(EventTable.Cols.PARTICIPANTS)));
+            event.put("group_participants", cursor.getString(cursor.getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS)));
             event.put("color", cursor.getString(cursor.getColumnIndex(EventTable.Cols.COLOR)));
             eventList.add(event);
         }
@@ -170,8 +177,8 @@ public class MailBox {
         }
     }
 
-    public void createEvent(String title, Integer date, String time, String location, String notes, String participants, String color) {
-        Event event = new Event(title, date, time, location, notes, participants, color);
+    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String color) {
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, color);
 
         ContentValues values = getEventContentValues(event);
         try {
@@ -214,19 +221,21 @@ public class MailBox {
         return mDatabase.delete(
                 EventTable.NAME,
                 EventTable.Cols.TITLE + "=? AND " +
+                        EventTable.Cols.DESCRIPTION + "=? AND " +
                         EventTable.Cols.DATE + "=? AND " +
                         EventTable.Cols.TIME + "=? AND " +
-                        EventTable.Cols.LOCATION + "=? AND " +
+                        EventTable.Cols.PLACE + "=? AND " +
                         EventTable.Cols.NOTES + "=? AND " +
-                        EventTable.Cols.PARTICIPANTS + "=? AND" +
+                        EventTable.Cols.GROUP_PARTICIPANTS + "=? AND" +
                         EventTable.Cols.COLOR + "=?",
                 new String[] {
                         event.getTitle(),
-                        event.getDate().toString(),
+                        event.getDescription(),
+                        event.getDate(),
                         event.getTime(),
-                        event.getLocation(),
+                        event.getPlace(),
                         event.getNotes(),
-                        event.getParticipants(),
+                        event.getGroupParticipants(),
                         event.getColor()
                 }
         ) > 0;

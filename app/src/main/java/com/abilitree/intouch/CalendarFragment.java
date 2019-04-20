@@ -29,7 +29,7 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.calendar_fragment, container, false);
 
         mCalendarView = view.findViewById(R.id.calendar_view);
-        mEventListView = view.findViewById(R.id.event_list_view);
+//        mEventListView = view.findViewById(R.id.event_list_view);
 
         MailBox mailBox = MailBox.getInstance(getActivity());
 
