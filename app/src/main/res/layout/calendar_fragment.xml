@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         app:mcv_showOtherDates="none"
-        app:mcv_selectionColor="@color/colorPrimary"
+        app:mcv_selectionColor="@color/colorAccent"
+        app:mcv_tileSize="40dp"
         app:mcv_weekDayLabels="@array/custom_weekdays" />
 
     <android.support.v7.widget.RecyclerView

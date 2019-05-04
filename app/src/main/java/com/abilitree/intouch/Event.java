@@ -52,6 +52,33 @@ public class Event {
         return mDate;
     }
 
+    public Integer getYear() {
+        try {
+            return Integer.parseInt(mDate.split("-")[0]);
+        } catch(NumberFormatException nfe) {
+            System.out.println("Could not parse year: " + nfe);
+            return 0;
+        }
+    }
+
+    public Integer getMonth() {
+        try {
+            return Integer.parseInt(mDate.split("-")[1]);
+        } catch(NumberFormatException nfe) {
+            System.out.println("Could not parse month: " + nfe);
+            return 0;
+        }
+    }
+
+    public Integer getDay() {
+        try {
+            return Integer.parseInt(mDate.split("-")[2]);
+        } catch(NumberFormatException nfe) {
+            System.out.println("Could not parse day: " + nfe);
+            return 0;
+        }
+    }
+
     public void setTime(String time) {
         mTime = time;
     }

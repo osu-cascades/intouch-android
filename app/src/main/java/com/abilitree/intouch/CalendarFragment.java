@@ -1,5 +1,9 @@
 package com.abilitree.intouch;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +17,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
@@ -28,7 +33,8 @@ public class CalendarFragment extends Fragment {
     private RecyclerView mEventRV;
     private EventAdapter mAdapter;
 
-    private ArrayList<HashMap<String, String>> mEventList;
+    private List<Event> mEventList;
+    private List<CalendarDay> mDaysWithEvents;
 
     @Nullable
     @Override
@@ -47,6 +53,8 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        mCalendarView.addDecorator(new EventDecorator(getActivity()));
+
         updateUI();
 
         return view;
@@ -63,18 +71,24 @@ public class CalendarFragment extends Fragment {
 
 //        List<Event> events = mailBox.getEvents();
 
-        List<Event> events = new ArrayList<Event>();
-        Event event = new Event("title", "description", "date", "time", "place", "notes", "groups", "host", "color");
-        Event event2 = new Event("t", "d", "d", "t", "p", "n", "g", "h", "c");
+        // When retrieve events from Rails API, will need to split 'time' at 'T' and remove trailing timezone
+        mEventList = new ArrayList<Event>();
+        mDaysWithEvents = new ArrayList<CalendarDay>();
+        Event event = new Event("title", "description",  "2019-05-30", "01:00:00.000", "place", "notes", "groups", "host", "#F596EB");
+        Event event2 = new Event("t", "d",  "2019-05-13", "01:00:00.000", "p", "n", "g", "h", "#A396F5");
 
-        events.add(event);
-        events.add(event2);
+        mEventList.add(event);
+        mEventList.add(event2);
+
+        for (Event e : mEventList) {
+            mDaysWithEvents.add(CalendarDay.from(e.getYear(), e.getMonth(), e.getDay()));
+        }
 
         if (mAdapter == null) {
-            mAdapter = new EventAdapter(events);
+            mAdapter = new EventAdapter(mEventList);
             mEventRV.setAdapter(mAdapter);
         } else {
-            mAdapter.setEvents(events);
+            mAdapter.setEvents(mEventList);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -112,6 +126,16 @@ public class CalendarFragment extends Fragment {
             mPlaceTV.setText(event.getPlace());
             mHostTV.setText(event.getHost());
             mNotesTV.setText(event.getNotes());
+
+            // Set border color
+            GradientDrawable border = new GradientDrawable();
+            border.setColor(Color.WHITE);
+            border.setCornerRadius(5);
+            border.setStroke(10, Color.parseColor(event.getColor()));
+            itemView.setBackground(border);
+
+            // Set whole event background color
+//            itemView.setBackgroundColor(Color.parseColor(event.getColor()));
         }
     }
 
@@ -141,6 +165,25 @@ public class CalendarFragment extends Fragment {
 
         public void setEvents(List<Event> events) {
             mEvents = events;
+        }
+    }
+
+    private class EventDecorator implements DayViewDecorator {
+
+        private Drawable highlightDrawable;
+        private Context mContext;
+
+        public EventDecorator(Context context) {
+            mContext = context;
+            highlightDrawable = mContext.getResources().getDrawable(R.drawable.circle_background);
+        }
+
+        @Override public boolean shouldDecorate(final CalendarDay day) {
+            return mDaysWithEvents.contains(day);
+        }
+
+        @Override public void decorate(final DayViewFacade view) {
+            view.setBackgroundDrawable(highlightDrawable);
         }
     }
 }
