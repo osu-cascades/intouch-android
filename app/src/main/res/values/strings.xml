@@ -44,4 +44,14 @@
 
     <string name="reply_to_sender">Reply to Sender</string>
     <string name="reply_all">Reply All</string>
+
+    <string-array name="custom_weekdays">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
 </resources>

@@ -10,8 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.TextView;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +24,7 @@ public class CalendarFragment extends Fragment {
 
     private static final String TAG = "CalendarFragment";
 
-    private CalendarView mCalendarView;
+    private MaterialCalendarView mCalendarView;
     private RecyclerView mEventRV;
     private EventAdapter mAdapter;
 
@@ -36,10 +39,11 @@ public class CalendarFragment extends Fragment {
         mEventRV = view.findViewById(R.id.event_rv);
         mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                Log.i(TAG, String.format("year = %d, month = %d, dayofmonth = %d", i, i1, i2));
+        mCalendarView.setDateSelected(CalendarDay.today(), true);
+
+        mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Log.i(TAG, "date: " + date.toString());
             }
         });
 
