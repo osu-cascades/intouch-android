@@ -3,7 +3,7 @@ package com.abilitree.intouch;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,19 +11,34 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CalendarFragment extends Fragment {
 
@@ -35,6 +50,10 @@ public class CalendarFragment extends Fragment {
 
     private List<Event> mEventList;
     private List<CalendarDay> mDaysWithEvents;
+
+    private JSONArray mEvents;
+
+    private MailBox mailBox = MailBox.getInstance(getActivity());
 
     @Nullable
     @Override
@@ -55,7 +74,8 @@ public class CalendarFragment extends Fragment {
 
         mCalendarView.addDecorator(new EventDecorator(getActivity()));
 
-        updateUI();
+        retrieveEvents();
+//        updateUI();
 
         return view;
     }
@@ -67,18 +87,15 @@ public class CalendarFragment extends Fragment {
     }
 
     public void updateUI() {
-        MailBox mailBox = MailBox.getInstance(getActivity());
+        mEventList = mailBox.getEvents();
 
-//        List<Event> events = mailBox.getEvents();
-
-        // When retrieve events from Rails API, will need to split 'time' at 'T' and remove trailing timezone
-        mEventList = new ArrayList<Event>();
+//        mEventList = new ArrayList<Event>();
         mDaysWithEvents = new ArrayList<CalendarDay>();
-        Event event = new Event("title", "description",  "2019-05-30", "01:00:00.000", "place", "notes", "groups", "host", "#F596EB");
-        Event event2 = new Event("t", "d",  "2019-05-13", "01:00:00.000", "p", "n", "g", "h", "#A396F5");
+//        Event event = new Event("title", "description",  "2019-05-30", "01:00:00.000", "place", "notes", "groups", "host", "#F596EB");
+//        Event event2 = new Event("t", "d",  "2019-05-13", "01:00:00.000", "p", "n", "g", "h", "#A396F5");
 
-        mEventList.add(event);
-        mEventList.add(event2);
+//        mEventList.add(event);
+//        mEventList.add(event2);
 
         for (Event e : mEventList) {
             mDaysWithEvents.add(CalendarDay.from(e.getYear(), e.getMonth(), e.getDay()));
@@ -91,6 +108,61 @@ public class CalendarFragment extends Fragment {
             mAdapter.setEvents(mEventList);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void retrieveEvents() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, BuildConfig.EVENTS_URL_STR, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    final JSONObject jsonObj = new JSONObject(response);
+
+                    if (jsonObj.has("error")) {
+                        Log.i(TAG, "Error response: " + jsonObj);
+                        try {
+                            final String error = jsonObj.getString("error");
+                            Log.i(TAG, String.format("JSON error occured: %s", error));
+                            Toast toast= Toast.makeText(getActivity(), String.format("Failed to fetch events: %s", error), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        } catch (JSONException e) {
+                            Log.i(TAG, "JSON exception: " + e);
+                        }
+                    } else {
+                        JSONArray events = jsonObj.getJSONArray("notifications");
+                        mEvents = events;
+
+                        new InsertEvents().execute();
+                    }
+                } catch (JSONException e) {
+                    Log.i(TAG, "JSON exception: " + e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, String.format("Error response: %s", error));
+                Toast toast= Toast.makeText(getActivity(), String.format("Failed to fetch groups: %s", error), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        }) {
+            @Override
+            protected Map<String,String> getParams() {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username", Settings.getUsername(getContext()));
+                params.put("password", Settings.getPassword(getContext()));
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     private class EventHolder extends RecyclerView.ViewHolder {
@@ -127,15 +199,7 @@ public class CalendarFragment extends Fragment {
             mHostTV.setText(event.getHost());
             mNotesTV.setText(event.getNotes());
 
-            // Set border color
-            GradientDrawable border = new GradientDrawable();
-            border.setColor(Color.WHITE);
-            border.setCornerRadius(5);
-            border.setStroke(10, Color.parseColor(event.getColor()));
-            itemView.setBackground(border);
-
-            // Set whole event background color
-//            itemView.setBackgroundColor(Color.parseColor(event.getColor()));
+            itemView.setBackgroundColor(Color.parseColor(event.getColor()));
         }
     }
 
@@ -184,6 +248,43 @@ public class CalendarFragment extends Fragment {
 
         @Override public void decorate(final DayViewFacade view) {
             view.setBackgroundDrawable(highlightDrawable);
+        }
+    }
+
+    private class InsertEvents extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... foo) {
+            for (int i = 0; i < mEvents.length(); i++) {
+                try {
+                    JSONObject event = mEvents.getJSONObject(i);
+                    String dateTime = event.optString("time", null);
+                    String[] dateTimeArray = dateTime.split("T");
+
+                    // will want to change this to create or update
+                    mailBox.createEvent(
+                            event.optString("title", null),
+                            event.optString("description", null),
+                            dateTimeArray[0],
+                            dateTimeArray[1].split("-")[0],
+                            event.optString("place", null),
+                            event.optString("notes", null),
+                            event.optString("group_participants", null),
+                            event.optString("host", null),
+                            event.optString("color", "#77961c")
+                    );
+                } catch (JSONException e) {
+                    Log.i(TAG, "JSON exception: " + e);
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void bar)
+        {
+            updateUI();
         }
     }
 }
