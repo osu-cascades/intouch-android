@@ -60,6 +60,8 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_fragment, container, false);
 
+        mDaysWithEvents = new ArrayList<CalendarDay>();
+
         mCalendarView = view.findViewById(R.id.calendar_view);
         mEventRV = view.findViewById(R.id.event_rv);
         mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -83,14 +85,14 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+//        updateUI();
+        retrieveEvents();
     }
 
     public void updateUI() {
         mEventList = mailBox.getEvents();
 
 //        mEventList = new ArrayList<Event>();
-        mDaysWithEvents = new ArrayList<CalendarDay>();
 //        Event event = new Event("title", "description",  "2019-05-30", "01:00:00.000", "place", "notes", "groups", "host", "#F596EB");
 //        Event event2 = new Event("t", "d",  "2019-05-13", "01:00:00.000", "p", "n", "g", "h", "#A396F5");
 
@@ -111,6 +113,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void retrieveEvents() {
+        Log.i(TAG, "HERE RETRIEVE EVENTS");
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, BuildConfig.EVENTS_URL_STR, new Response.Listener<String>() {
             @Override
@@ -130,7 +133,7 @@ public class CalendarFragment extends Fragment {
                             Log.i(TAG, "JSON exception: " + e);
                         }
                     } else {
-                        JSONArray events = jsonObj.getJSONArray("notifications");
+                        JSONArray events = jsonObj.getJSONArray("events");
                         mEvents = events;
 
                         new InsertEvents().execute();
@@ -255,6 +258,7 @@ public class CalendarFragment extends Fragment {
     {
         @Override
         protected Void doInBackground(Void... foo) {
+            Log.i(TAG, "HERE DO IN BACKGROUND");
             for (int i = 0; i < mEvents.length(); i++) {
                 try {
                     JSONObject event = mEvents.getJSONObject(i);
@@ -262,6 +266,7 @@ public class CalendarFragment extends Fragment {
                     String[] dateTimeArray = dateTime.split("T");
 
                     // will want to change this to create or update
+                    // add rails_id set to unique then when try to insert if conflict, update
                     mailBox.createEvent(
                             event.optString("title", null),
                             event.optString("description", null),
@@ -284,6 +289,7 @@ public class CalendarFragment extends Fragment {
         @Override
         protected void onPostExecute(Void bar)
         {
+            Log.i(TAG, "HERE ON POST EXECUTE");
             updateUI();
         }
     }
