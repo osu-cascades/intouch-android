@@ -77,7 +77,6 @@ public class CalendarFragment extends Fragment {
         mCalendarView.addDecorator(new EventDecorator(getActivity()));
 
         retrieveEvents();
-//        updateUI();
 
         return view;
     }
@@ -85,19 +84,11 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        updateUI();
         retrieveEvents();
     }
 
     public void updateUI() {
         mEventList = mailBox.getEvents();
-
-//        mEventList = new ArrayList<Event>();
-//        Event event = new Event("title", "description",  "2019-05-30", "01:00:00.000", "place", "notes", "groups", "host", "#F596EB");
-//        Event event2 = new Event("t", "d",  "2019-05-13", "01:00:00.000", "p", "n", "g", "h", "#A396F5");
-
-//        mEventList.add(event);
-//        mEventList.add(event2);
 
         for (Event e : mEventList) {
             mDaysWithEvents.add(CalendarDay.from(e.getYear(), e.getMonth(), e.getDay()));
@@ -275,7 +266,7 @@ public class CalendarFragment extends Fragment {
                             event.optString("place", null),
                             event.optString("notes", null),
                             event.optString("group_participants", null),
-                            event.optString("host", null),
+                            event.optString("hosted_by", null),
                             event.optString("color", "#77961c")
                     );
                 } catch (JSONException e) {
@@ -283,6 +274,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
 
+            mEventList = mailBox.getEvents();
             return null;
         }
 

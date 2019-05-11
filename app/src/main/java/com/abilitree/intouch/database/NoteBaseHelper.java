@@ -3,6 +3,7 @@ package com.abilitree.intouch.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
@@ -27,7 +28,24 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
             NoteTable.Cols.TITLE + "," +
             NoteTable.Cols.DATE + ", " +
             NoteTable.Cols.SENDER + ", " +
-            NoteTable.Cols.BODY +
+            NoteTable.Cols.BODY + ", " +
+            NoteTable.Cols.FROM_USERNAME + " VARCHAR(50) DEFAULT NULL, " +
+            NoteTable.Cols.GROUP_RECIPIENTS + " VARCHAR(2048) DEFAULT NULL" +
+            ")"
+        );
+
+        db.execSQL(
+            "CREATE TABLE " + EventTable.NAME + "(" +
+            " _id integer primary key autoincrement, " +
+            EventTable.Cols.TITLE + " TEXT NOT NULL, " +
+            EventTable.Cols.DESCRIPTION + " TEXT NOT NULL, " +
+            EventTable.Cols.DATE + " TEXT NOT NULL, " +
+            EventTable.Cols.TIME + " TEXT NOT NULL, " +
+            EventTable.Cols.PLACE + " TEXT NOT NULL, " +
+            EventTable.Cols.NOTES + " TEXT NOT NULL, " +
+            EventTable.Cols.GROUP_PARTICIPANTS + " TEXT NOT NULL, " +
+            EventTable.Cols.HOST + " TEXT NOT NULL, " +
+            EventTable.Cols.COLOR + " TEXT NOT NULL" +
             ")"
         );
     }
@@ -46,13 +64,13 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
             db.execSQL(
                     "CREATE TABLE " + EventTable.NAME + "(" +
                     " _id integer primary key autoincrement, " +
-                    EventTable.Cols.TITLE + "TEXT NOT NULL, " +
-                    EventTable.Cols.DATE + "INTEGER NOT NULL, " +
-                    EventTable.Cols.TIME + "TEXT NOT NULL, " +
+                    EventTable.Cols.TITLE + " TEXT NOT NULL, " +
+                    EventTable.Cols.DATE + " INTEGER NOT NULL, " +
+                    EventTable.Cols.TIME + " TEXT NOT NULL, " +
                     "location TEXT NOT NULL, " +
-                    EventTable.Cols.NOTES + "TEXT NOT NULL, " +
+                    EventTable.Cols.NOTES + " TEXT NOT NULL, " +
                     "participants TEXT NOT NULL, " +
-                    EventTable.Cols.COLOR + "TEXT NOT NULL" +
+                    EventTable.Cols.COLOR + " TEXT NOT NULL" +
                     ")"
             );
         }
@@ -62,15 +80,15 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
             db.execSQL(
                 "CREATE TABLE " + EventTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                EventTable.Cols.TITLE + "TEXT NOT NULL, " +
-                EventTable.Cols.DESCRIPTION + "TEXT NOT NULL, " +
-                EventTable.Cols.DATE + "TEXT NOT NULL, " +
-                EventTable.Cols.TIME + "TEXT NOT NULL, " +
-                EventTable.Cols.PLACE + "TEXT NOT NULL, " +
-                EventTable.Cols.NOTES + "TEXT NOT NULL, " +
-                EventTable.Cols.GROUP_PARTICIPANTS + "TEXT NOT NULL, " +
-                EventTable.Cols.HOST + "TEXT NOT NULL, " +
-                EventTable.Cols.COLOR + "TEXT NOT NULL" +
+                EventTable.Cols.TITLE + " TEXT NOT NULL, " +
+                EventTable.Cols.DESCRIPTION + " TEXT NOT NULL, " +
+                EventTable.Cols.DATE + " TEXT NOT NULL, " +
+                EventTable.Cols.TIME + " TEXT NOT NULL, " +
+                EventTable.Cols.PLACE + " TEXT NOT NULL, " +
+                EventTable.Cols.NOTES + " TEXT NOT NULL, " +
+                EventTable.Cols.GROUP_PARTICIPANTS + " TEXT NOT NULL, " +
+                EventTable.Cols.HOST + " TEXT NOT NULL, " +
+                EventTable.Cols.COLOR + " TEXT NOT NULL" +
                 ")"
             );
         }

@@ -14,7 +14,6 @@ import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -115,9 +114,6 @@ public class MailBox {
 
         Collections.reverse(notes);
 
-        Cursor dbCursor = mDatabase.query(EventTable.NAME, null, null, null, null, null, null);
-        String[] columnNames = dbCursor.getColumnNames();
-        Log.i(TAG, "database version: " + Arrays.toString(columnNames));
         Log.i(TAG, "Number of notifications: " + Integer.toString(notes.size()));
         return notes;
     }

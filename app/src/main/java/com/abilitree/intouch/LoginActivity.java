@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordEt;
     private Button mLoginBtn;
     private JSONArray mNotifications;
-    private MailBox mailBox = MailBox.getInstance(this);
+    private MailBox mailBox;
 
     private String mUsername = "";
     private String mPassword = "";
@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mailBox = MailBox.getInstance(this);
 
         mUsernameEt = findViewById(R.id.username_et);
         mPasswordEt = findViewById(R.id.password_et);
