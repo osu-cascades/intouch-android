@@ -24,9 +24,9 @@ public class TabViewActivity extends AppCompatActivity  {
     private static final String calendarFragmentTag = "calendar";
 
     private BottomNavigationView mNavViewBnv;
-    public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
+    public UpdateFragmentView mUpdateFragmentView;
 
-    public interface UpdateFragmentRecyclerView {
+    public interface UpdateFragmentView {
         public void updateView();
     }
 
@@ -54,7 +54,7 @@ public class TabViewActivity extends AppCompatActivity  {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mUpdateFragmentRecyclerView.updateView();
+                    mUpdateFragmentView.updateView();
                 }
             });
         }
@@ -123,7 +123,7 @@ public class TabViewActivity extends AppCompatActivity  {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mUpdateFragmentRecyclerView.updateView();
+                            mUpdateFragmentView.updateView();
                         }
                     });
                 }
@@ -149,9 +149,13 @@ public class TabViewActivity extends AppCompatActivity  {
                 startActivity(intent);
                 finish();
                 return true;
-            case R.id.delete_all_mi:
+            case R.id.delete_all_notifications_mi:
                 mailBox.deleteAllNotifications();
-                mUpdateFragmentRecyclerView.updateView();
+                mUpdateFragmentView.updateView();
+                return true;
+            case R.id.delete_all_events_mi:
+                mailBox.deleteAllEvents();
+                mUpdateFragmentView.updateView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

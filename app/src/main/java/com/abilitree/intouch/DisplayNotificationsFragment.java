@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class DisplayNotificationsFragment extends Fragment implements TabViewActivity.UpdateFragmentRecyclerView {
+public class DisplayNotificationsFragment extends Fragment implements TabViewActivity.UpdateFragmentView {
 
     private static String FRAGMENT_TAG;
 
@@ -41,7 +41,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((TabViewActivity) context).mUpdateFragmentRecyclerView = this;
+        ((TabViewActivity) context).mUpdateFragmentView = this;
     }
 
     @Override
@@ -72,6 +72,7 @@ public class DisplayNotificationsFragment extends Fragment implements TabViewAct
         MailBox mailBox = MailBox.getInstance(getActivity());
 
         List<Notification> notifications = mailBox.getNotifications();
+        Log.i("DisplayNotFrag", "on update ui - number notifications: " + notifications.size());
         if (mAdapter == null) {
             mAdapter = new NotificationAdapter(notifications);
             mNotificationRV.setAdapter(mAdapter);

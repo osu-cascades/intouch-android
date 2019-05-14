@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements TabViewActivity.UpdateFragmentView {
 
     private static final String TAG = "CalendarFragment";
 
@@ -60,8 +60,6 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.calendar_fragment, container, false);
 
-        mDaysWithEvents = new ArrayList<CalendarDay>();
-
         mCalendarView = view.findViewById(R.id.calendar_view);
         mEventRV = view.findViewById(R.id.event_rv);
         mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -74,11 +72,15 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        mCalendarView.addDecorator(new EventDecorator(getActivity()));
-
         retrieveEvents();
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((TabViewActivity) context).mUpdateFragmentView = this;
     }
 
     @Override
@@ -87,12 +89,21 @@ public class CalendarFragment extends Fragment {
         retrieveEvents();
     }
 
+    @Override
+    public void updateView() {
+        updateUI();
+    }
+
     public void updateUI() {
         mEventList = mailBox.getEvents();
+
+        mDaysWithEvents = new ArrayList<CalendarDay>();
 
         for (Event e : mEventList) {
             mDaysWithEvents.add(CalendarDay.from(e.getYear(), e.getMonth(), e.getDay()));
         }
+
+        mCalendarView.addDecorator(new EventDecorator(getActivity()));
 
         if (mAdapter == null) {
             mAdapter = new EventAdapter(mEventList);
@@ -274,7 +285,6 @@ public class CalendarFragment extends Fragment {
                 }
             }
 
-            mEventList = mailBox.getEvents();
             return null;
         }
 

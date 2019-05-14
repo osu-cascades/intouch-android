@@ -121,7 +121,7 @@ public class MailBox {
     public List<Event> getEvents() {
         List<Event> events = new ArrayList<>();
 
-        NoteCursorWrapper cursor = queryNotes(null, null);
+        NoteCursorWrapper cursor = queryEvents(null, null);
 
         try {
             cursor.moveToFirst();
