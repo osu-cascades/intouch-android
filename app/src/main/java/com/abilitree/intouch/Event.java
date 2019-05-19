@@ -15,8 +15,9 @@ public class Event {
     private String mGroupParticipants;
     private String mHost;
     private String mColor;
+    private Integer mRailsId;
 
-    public Event(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color) {
+    public Event(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color, Integer railsId) {
         mTitle = title;
         mDescription = description;
         mDate = date;
@@ -26,6 +27,7 @@ public class Event {
         mGroupParticipants = groupParticipants;
         mHost = host;
         mColor = color;
+        mRailsId = railsId;
     }
 
     public void setTitle(String title) {
@@ -125,5 +127,13 @@ public class Event {
 
     public String getColor() {
         return mColor;
+    }
+
+    public Integer getRailsId() {
+        return mRailsId;
+    }
+
+    public void setRailsId(Integer railsId) {
+        mRailsId = railsId;
     }
 }

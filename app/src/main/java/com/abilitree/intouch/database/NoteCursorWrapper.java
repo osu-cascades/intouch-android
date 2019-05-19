@@ -42,8 +42,9 @@ public class NoteCursorWrapper extends CursorWrapper {
         String groupParticipants = getString(getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS));
         String host = getString(getColumnIndex(EventTable.Cols.HOST));
         String color = getString(getColumnIndex(EventTable.Cols.COLOR));
+        Integer railsId = getInt(getColumnIndex(EventTable.Cols.RAILS_ID));
 
-        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color);
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color, railsId);
 
         return event;
     }

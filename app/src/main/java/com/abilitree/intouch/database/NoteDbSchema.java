@@ -31,6 +31,7 @@ public class NoteDbSchema {
             public static final String GROUP_PARTICIPANTS = "group_participants";
             public static final String HOST = "host";
             public static final String COLOR = "color";
+            public static final String RAILS_ID = "rails_id";
         }
     }
 }

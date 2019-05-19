@@ -68,6 +68,7 @@ public class MailBox {
         values.put(EventTable.Cols.GROUP_PARTICIPANTS, event.getGroupParticipants());
         values.put(EventTable.Cols.HOST, event.getHost());
         values.put(EventTable.Cols.COLOR, event.getColor());
+        values.put(EventTable.Cols.RAILS_ID, event.getRailsId());
 
         return values;
     }
@@ -105,8 +106,9 @@ public class MailBox {
 
         try {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            while (!cursor.isAfterLast()) {
                 notes.add(cursor.getNote());
+                cursor.moveToNext();
             }
         } finally {
             cursor.close();
@@ -125,8 +127,9 @@ public class MailBox {
 
         try {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            while (!cursor.isAfterLast()) {
                 events.add(cursor.getEvent());
+                cursor.moveToNext();
             }
         } finally {
             cursor.close();
@@ -140,7 +143,7 @@ public class MailBox {
         ArrayList<HashMap<String, String>> eventList = new ArrayList<>();
         Cursor cursor = mDatabase.query(EventTable.NAME,
                 null,
-                NoteTable.Cols.DATE + "=?",
+                NoteTable.Cols.DATE + " = ? ",
                 new String[] { date },
                 null,
                 null,
@@ -175,15 +178,13 @@ public class MailBox {
         }
     }
 
-    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color) {
-        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color);
+    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color, Integer railsId) {
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color, railsId);
 
         ContentValues values = getEventContentValues(event);
-        try {
-            long row = mDatabase.insertOrThrow(EventTable.NAME, null, values);
-            Log.i(TAG, "Inserted event: " + row);
-        } catch (SQLException e) {
-            Log.i(TAG, "SQL exception inserting event: " + e);
+        long row = mDatabase.insertWithOnConflict(EventTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        if (row > 0) {
+            Log.i(TAG, "Inserted/updated event: " + row);
         }
     }
 
@@ -198,12 +199,12 @@ public class MailBox {
     public boolean deleteNotification(Notification notification) {
         return mDatabase.delete(
                 NoteTable.NAME,
-                NoteTable.Cols.BODY + "=? AND " +
-                        NoteTable.Cols.FROM_USERNAME + "=? AND " +
-                        NoteTable.Cols.DATE + "=? AND " +
-                        NoteTable.Cols.SENDER + "=? AND " +
-                        NoteTable.Cols.TITLE + "=? AND " +
-                        NoteTable.Cols.GROUP_RECIPIENTS + "=?",
+                NoteTable.Cols.BODY + " = ? AND " +
+                        NoteTable.Cols.FROM_USERNAME + " = ? AND " +
+                        NoteTable.Cols.DATE + " = ? AND " +
+                        NoteTable.Cols.SENDER + " = ? AND " +
+                        NoteTable.Cols.TITLE + " = ? AND " +
+                        NoteTable.Cols.GROUP_RECIPIENTS + " = ?",
                 new String[]{
                         notification.getMessageBody(),
                         notification.getFromUsername(),
@@ -218,15 +219,15 @@ public class MailBox {
     public boolean deleteEvent(Event event) {
         return mDatabase.delete(
                 EventTable.NAME,
-                EventTable.Cols.TITLE + "=? AND " +
-                        EventTable.Cols.DESCRIPTION + "=? AND " +
-                        EventTable.Cols.DATE + "=? AND " +
-                        EventTable.Cols.TIME + "=? AND " +
-                        EventTable.Cols.PLACE + "=? AND " +
-                        EventTable.Cols.NOTES + "=? AND " +
-                        EventTable.Cols.GROUP_PARTICIPANTS + "=? AND" +
-                        EventTable.Cols.HOST + "=? AND" +
-                        EventTable.Cols.COLOR + "=?",
+                EventTable.Cols.TITLE + " = ? AND " +
+                        EventTable.Cols.DESCRIPTION + " = ? AND " +
+                        EventTable.Cols.DATE + " = ? AND " +
+                        EventTable.Cols.TIME + " = ? AND " +
+                        EventTable.Cols.PLACE + " = ? AND " +
+                        EventTable.Cols.NOTES + " = ? AND " +
+                        EventTable.Cols.GROUP_PARTICIPANTS + " = ? AND " +
+                        EventTable.Cols.HOST + " = ? AND " +
+                        EventTable.Cols.COLOR + " = ?",
                 new String[] {
                         event.getTitle(),
                         event.getDescription(),

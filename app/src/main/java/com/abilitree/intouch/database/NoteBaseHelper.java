@@ -3,7 +3,6 @@ package com.abilitree.intouch.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
@@ -13,7 +12,7 @@ import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
  */
 
 public class NoteBaseHelper extends SQLiteOpenHelper {
-    private static final int VERSION = 6;
+    private static final int VERSION = 7;
     private static final String DATABASE_NAME = "noteBase.db";
 
     public NoteBaseHelper(Context context) {
@@ -45,7 +44,8 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
             EventTable.Cols.NOTES + " TEXT NOT NULL, " +
             EventTable.Cols.GROUP_PARTICIPANTS + " TEXT NOT NULL, " +
             EventTable.Cols.HOST + " TEXT NOT NULL, " +
-            EventTable.Cols.COLOR + " TEXT NOT NULL" +
+            EventTable.Cols.COLOR + " TEXT NOT NULL, " +
+            EventTable.Cols.RAILS_ID + " INTEGER UNIQUE" +
             ")"
         );
     }
@@ -91,6 +91,11 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
                 EventTable.Cols.COLOR + " TEXT NOT NULL" +
                 ")"
             );
+        }
+
+        if (oldVersion < 7) {
+            db.execSQL("ALTER TABLE " + EventTable.NAME + " ADD COLUMN " + EventTable.Cols.RAILS_ID + " INTEGER");
+            db.execSQL("CREATE UNIQUE INDEX rails_id_index ON " + EventTable.NAME + "(" + EventTable.Cols.RAILS_ID + ")");
         }
     }
 }

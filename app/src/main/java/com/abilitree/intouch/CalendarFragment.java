@@ -127,7 +127,7 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
                         Log.i(TAG, "Error response: " + jsonObj);
                         try {
                             final String error = jsonObj.getString("error");
-                            Log.i(TAG, String.format("JSON error occured: %s", error));
+                            Log.i(TAG, String.format("JSON error occurred: %s", error));
                             Toast toast= Toast.makeText(getActivity(), String.format("Failed to fetch events: %s", error), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -260,15 +260,12 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
     {
         @Override
         protected Void doInBackground(Void... foo) {
-            Log.i(TAG, "HERE DO IN BACKGROUND");
             for (int i = 0; i < mEvents.length(); i++) {
                 try {
                     JSONObject event = mEvents.getJSONObject(i);
                     String dateTime = event.optString("time", null);
                     String[] dateTimeArray = dateTime.split("T");
 
-                    // will want to change this to create or update
-                    // add rails_id set to unique then when try to insert if conflict, update
                     mailBox.createEvent(
                             event.optString("title", null),
                             event.optString("description", null),
@@ -278,7 +275,8 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
                             event.optString("notes", null),
                             event.optString("group_participants", null),
                             event.optString("hosted_by", null),
-                            event.optString("color", "#77961c")
+                            event.optString("color", "#77961c"),
+                            event.optInt("id", 0)
                     );
                 } catch (JSONException e) {
                     Log.i(TAG, "JSON exception: " + e);
@@ -291,7 +289,6 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
         @Override
         protected void onPostExecute(Void bar)
         {
-            Log.i(TAG, "HERE ON POST EXECUTE");
             updateUI();
         }
     }
