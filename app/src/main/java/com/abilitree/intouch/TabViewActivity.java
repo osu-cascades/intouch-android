@@ -21,11 +21,12 @@ public class TabViewActivity extends AppCompatActivity  {
     private static final String TAG = "TabViewActivity";
     private static final String viewNotificationsFragmentTag = "viewNotifications";
     private static final String createNotificationFragmentTag = "createNotification";
+    private static final String calendarFragmentTag = "calendar";
 
     private BottomNavigationView mNavViewBnv;
-    public UpdateFragmentRecyclerView mUpdateFragmentRecyclerView;
+    public UpdateFragmentView mUpdateFragmentView;
 
-    public interface UpdateFragmentRecyclerView {
+    public interface UpdateFragmentView {
         public void updateView();
     }
 
@@ -53,7 +54,7 @@ public class TabViewActivity extends AppCompatActivity  {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mUpdateFragmentRecyclerView.updateView();
+                    mUpdateFragmentView.updateView();
                 }
             });
         }
@@ -80,6 +81,14 @@ public class TabViewActivity extends AppCompatActivity  {
                             fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, createNotificationFragmentTag).commit();
                         }
                         fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, createNotificationFragmentTag).commit();
+                        return true;
+                    case R.id.navigation_calendar:
+                        fragment = fm.findFragmentByTag(calendarFragmentTag);
+                        if (fragment == null) {
+                            fragment = CalendarFragment();
+                            fm.beginTransaction().add(R.id.activity_tab_view_fragment_container, fragment, calendarFragmentTag).commit();
+                        }
+                        fm.beginTransaction().replace(R.id.activity_tab_view_fragment_container, fragment, calendarFragmentTag).commit();
                         return true;
                 }
 
@@ -114,7 +123,7 @@ public class TabViewActivity extends AppCompatActivity  {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mUpdateFragmentRecyclerView.updateView();
+                            mUpdateFragmentView.updateView();
                         }
                     });
                 }
@@ -130,17 +139,23 @@ public class TabViewActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        MailBox mailBox = MailBox.getInstance(getApplicationContext());
+
         switch(item.getItemId()) {
             case R.id.logout_mi:
+                mailBox.deleteAllNotifications();
                 Settings.clearLoginSettings(this);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
-            case R.id.delete_all_mi:
-                MailBox mailBox = MailBox.getInstance(getApplicationContext());
+            case R.id.delete_all_notifications_mi:
                 mailBox.deleteAllNotifications();
-                mUpdateFragmentRecyclerView.updateView();
+                mUpdateFragmentView.updateView();
+                return true;
+            case R.id.delete_all_events_mi:
+                mailBox.deleteAllEvents();
+                mUpdateFragmentView.updateView();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,5 +168,9 @@ public class TabViewActivity extends AppCompatActivity  {
 
     protected Fragment CreateNotificationFragment() {
         return new CreateNotificationFragment();
+    }
+
+    protected Fragment CalendarFragment() {
+        return new CalendarFragment();
     }
 }

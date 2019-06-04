@@ -4,15 +4,19 @@ package com.abilitree.intouch;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.abilitree.intouch.database.NoteBaseHelper;
 import com.abilitree.intouch.database.NoteCursorWrapper;
+import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class MailBox {
@@ -42,7 +46,7 @@ public class MailBox {
     }
 
     // This is for writing to the database
-    private static ContentValues getContentValues(Notification note) {
+    private static ContentValues getNotificationContentValues(Notification note) {
         ContentValues values = new ContentValues();
         values.put(NoteTable.Cols.TITLE, note.getTitle());
         values.put(NoteTable.Cols.DATE, note.getDateCreated());
@@ -50,6 +54,22 @@ public class MailBox {
         values.put(NoteTable.Cols.BODY, note.getMessageBody());
         values.put(NoteTable.Cols.FROM_USERNAME, note.getFromUsername());
         values.put(NoteTable.Cols.GROUP_RECIPIENTS, note.getGroupRecipients());
+
+        return values;
+    }
+
+    private static ContentValues getEventContentValues(Event event) {
+        ContentValues values = new ContentValues();
+        values.put(EventTable.Cols.TITLE, event.getTitle());
+        values.put(EventTable.Cols.DESCRIPTION, event.getDescription());
+        values.put(EventTable.Cols.DATE, event.getDate());
+        values.put(EventTable.Cols.TIME, event.getTime());
+        values.put(EventTable.Cols.PLACE, event.getPlace());
+        values.put(EventTable.Cols.NOTES, event.getNotes());
+        values.put(EventTable.Cols.GROUP_PARTICIPANTS, event.getGroupParticipants());
+        values.put(EventTable.Cols.HOST, event.getHost());
+        values.put(EventTable.Cols.COLOR, event.getColor());
+        values.put(EventTable.Cols.RAILS_ID, event.getRailsId());
 
         return values;
     }
@@ -67,6 +87,19 @@ public class MailBox {
         return new NoteCursorWrapper(cursor);
     }
 
+    private NoteCursorWrapper queryEvents(String whereClause, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(
+                EventTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new NoteCursorWrapper(cursor);
+    }
+
     public List<Notification> getNotifications() {
         List<Notification> notes = new ArrayList<>();
 
@@ -74,39 +107,108 @@ public class MailBox {
 
         try {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            while (!cursor.isAfterLast()) {
                 notes.add(cursor.getNote());
+                cursor.moveToNext();
             }
         } finally {
             cursor.close();
         }
 
         Collections.reverse(notes);
+
         Log.i(TAG, "Number of notifications: " + Integer.toString(notes.size()));
         return notes;
+    }
+
+    public List<Event> getEvents() {
+        List<Event> events = new ArrayList<>();
+
+        NoteCursorWrapper cursor = queryEvents(null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                events.add(cursor.getEvent());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        Log.i(TAG, "Number of events: " + Integer.toString(events.size()));
+        Collections.sort(events, new SortByDate());
+        Collections.sort(events, new SortByTime());
+
+        return events;
+    }
+
+    public ArrayList<HashMap<String, String>> getEventForDate(String date){
+        ArrayList<HashMap<String, String>> eventList = new ArrayList<>();
+        Cursor cursor = mDatabase.query(EventTable.NAME,
+                null,
+                NoteTable.Cols.DATE + " = ? ",
+                new String[] { date },
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()){
+            HashMap<String,String> event = new HashMap<>();
+            event.put("title", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TITLE)));
+            event.put("description", cursor.getString(cursor.getColumnIndex(EventTable.Cols.DESCRIPTION)));
+            event.put("date", cursor.getString(cursor.getColumnIndex(EventTable.Cols.DATE)));
+            event.put("time", cursor.getString(cursor.getColumnIndex(EventTable.Cols.TIME)));
+            event.put("place", cursor.getString(cursor.getColumnIndex(EventTable.Cols.PLACE)));
+            event.put("notes", cursor.getString(cursor.getColumnIndex(EventTable.Cols.NOTES)));
+            event.put("group_participants", cursor.getString(cursor.getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS)));
+            event.put("host", cursor.getString(cursor.getColumnIndex(EventTable.Cols.HOST)));
+            event.put("color", cursor.getString(cursor.getColumnIndex(EventTable.Cols.COLOR)));
+            eventList.add(event);
+        }
+        return  eventList;
     }
 
     public void createNotification(String title, String from, String datetime, String body, String fromUsername, String groupRecipients) {
         Notification notification = new Notification(title, from, datetime, body, fromUsername, groupRecipients);
 
         //Inserting and updating rows for database ch 14 pg279
-        ContentValues values = getContentValues(notification);
-        mDatabase.insert(NoteTable.NAME, null, values);
+        ContentValues values = getNotificationContentValues(notification);
+        try {
+            long row = mDatabase.insertOrThrow(NoteTable.NAME, null, values);
+            Log.i(TAG, "Inserted notification: " + row);
+        } catch (SQLException e) {
+            Log.i(TAG, "SQL exception inserting notification: " + e);
+        }
+    }
+
+    public void createEvent(String title, String description, String date, String time, String place, String notes, String groupParticipants, String host, String color, Integer railsId) {
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color, railsId);
+
+        ContentValues values = getEventContentValues(event);
+        long row = mDatabase.insertWithOnConflict(EventTable.NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        if (row > 0) {
+            Log.i(TAG, "Inserted/updated event: " + row);
+        }
     }
 
     public void deleteAllNotifications() {
         mDatabase.delete(NoteTable.NAME, null, null);
     }
 
+    public void deleteAllEvents() {
+        mDatabase.delete(EventTable.NAME, null, null);
+    }
+
     public boolean deleteNotification(Notification notification) {
         return mDatabase.delete(
                 NoteTable.NAME,
-                NoteTable.Cols.BODY + "=? and " +
-                        NoteTable.Cols.FROM_USERNAME + "=? and " +
-                        NoteTable.Cols.DATE + "=? and " +
-                        NoteTable.Cols.SENDER + "=? and " +
-                        NoteTable.Cols.TITLE + "=? and " +
-                        NoteTable.Cols.GROUP_RECIPIENTS + "=?",
+                NoteTable.Cols.BODY + " = ? AND " +
+                        NoteTable.Cols.FROM_USERNAME + " = ? AND " +
+                        NoteTable.Cols.DATE + " = ? AND " +
+                        NoteTable.Cols.SENDER + " = ? AND " +
+                        NoteTable.Cols.TITLE + " = ? AND " +
+                        NoteTable.Cols.GROUP_RECIPIENTS + " = ?",
                 new String[]{
                         notification.getMessageBody(),
                         notification.getFromUsername(),
@@ -116,5 +218,45 @@ public class MailBox {
                         notification.getGroupRecipients()
                 }
         ) > 0;
+    }
+
+    public boolean deleteEvent(Event event) {
+        return mDatabase.delete(
+                EventTable.NAME,
+                EventTable.Cols.TITLE + " = ? AND " +
+                        EventTable.Cols.DESCRIPTION + " = ? AND " +
+                        EventTable.Cols.DATE + " = ? AND " +
+                        EventTable.Cols.TIME + " = ? AND " +
+                        EventTable.Cols.PLACE + " = ? AND " +
+                        EventTable.Cols.NOTES + " = ? AND " +
+                        EventTable.Cols.GROUP_PARTICIPANTS + " = ? AND " +
+                        EventTable.Cols.HOST + " = ? AND " +
+                        EventTable.Cols.COLOR + " = ?",
+                new String[] {
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getDate(),
+                        event.getTime(),
+                        event.getPlace(),
+                        event.getNotes(),
+                        event.getGroupParticipants(),
+                        event.getHost(),
+                        event.getColor()
+                }
+        ) > 0;
+    }
+
+    private class SortByDate implements Comparator<Event> {
+        @Override
+        public int compare(Event event1, Event event2) {
+            return event1.getDate().compareTo(event2.getDate());
+        }
+    }
+
+    private class SortByTime implements Comparator<Event> {
+        @Override
+        public int compare(Event event1, Event event2) {
+            return event1.getTime().compareTo(event2.getTime());
+        }
     }
 }

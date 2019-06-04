@@ -3,8 +3,10 @@ package com.abilitree.intouch.database;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
+import com.abilitree.intouch.Event;
 import com.abilitree.intouch.Notification;
 import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
+import com.abilitree.intouch.database.NoteDbSchema.EventTable;
 
 public class NoteCursorWrapper extends CursorWrapper {
     public NoteCursorWrapper(Cursor cursor) {
@@ -28,5 +30,22 @@ public class NoteCursorWrapper extends CursorWrapper {
         note.setGroupRecipients(groupRecipients);
 
         return note;
+    }
+
+    public Event getEvent() {
+        String title = getString(getColumnIndex(EventTable.Cols.TITLE));
+        String description = getString(getColumnIndex(EventTable.Cols.DESCRIPTION));
+        String date = getString(getColumnIndex(EventTable.Cols.DATE));
+        String time = getString(getColumnIndex(EventTable.Cols.TIME));
+        String place = getString(getColumnIndex(EventTable.Cols.PLACE));
+        String notes = getString(getColumnIndex(EventTable.Cols.NOTES));
+        String groupParticipants = getString(getColumnIndex(EventTable.Cols.GROUP_PARTICIPANTS));
+        String host = getString(getColumnIndex(EventTable.Cols.HOST));
+        String color = getString(getColumnIndex(EventTable.Cols.COLOR));
+        Integer railsId = getInt(getColumnIndex(EventTable.Cols.RAILS_ID));
+
+        Event event = new Event(title, description, date, time, place, notes, groupParticipants, host, color, railsId);
+
+        return event;
     }
 }

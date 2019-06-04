@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/logout_mi"
           android:title="Logout"/>
-    <item android:id="@+id/delete_all_mi"
-        android:title="Delete All"/>
+    <item android:id="@+id/delete_all_notifications_mi"
+        android:title="Delete All Notifications"/>
+    <item android:id="@+id/delete_all_events_mi"
+        android:title="Delete All Events"/>
 </menu>
