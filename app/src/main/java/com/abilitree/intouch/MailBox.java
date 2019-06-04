@@ -15,6 +15,7 @@ import com.abilitree.intouch.database.NoteDbSchema.NoteTable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,6 +137,10 @@ public class MailBox {
         }
 
         Log.i(TAG, "Number of events: " + Integer.toString(events.size()));
+        Collections.sort(events, new SortByDate());
+        Collections.sort(events, new SortByTime());
+        Collections.reverse(events);
+
         return events;
     }
 
@@ -240,5 +245,19 @@ public class MailBox {
                         event.getColor()
                 }
         ) > 0;
+    }
+
+    private class SortByDate implements Comparator<Event> {
+        @Override
+        public int compare(Event event1, Event event2) {
+            return event1.getDate().compareTo(event2.getDate());
+        }
+    }
+
+    private class SortByTime implements Comparator<Event> {
+        @Override
+        public int compare(Event event1, Event event2) {
+            return event1.getTime().compareTo(event2.getTime());
+        }
     }
 }
