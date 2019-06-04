@@ -50,8 +50,10 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
 
     private List<Event> mEventList;
     private List<CalendarDay> mDaysWithEvents;
+    private List<Event> mSelectedDaysEvents;
 
     private JSONArray mEvents;
+    private String mSelectedDay;
 
     private MailBox mailBox = MailBox.getInstance(getActivity());
 
@@ -64,15 +66,41 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
         mEventRV = view.findViewById(R.id.event_rv);
         mEventRV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        String month = String.format("%02d", CalendarDay.today().getMonth());
+        String day = String.format("%02d", CalendarDay.today().getDay());
+
+        mSelectedDay = String.format("%1$s-%2$s-%3$s", CalendarDay.today().getYear(), month, day);
+
         mCalendarView.setDateSelected(CalendarDay.today(), true);
+
+        retrieveEvents();
 
         mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Log.i(TAG, "date: " + date.toString());
+                mEventList = mailBox.getEvents();
+
+                String month = String.format("%02d", date.getMonth());
+                String day = String.format("%02d", date.getDay());
+
+                mSelectedDay = String.format("%1$s-%2$s-%3$s", date.getYear(), month, day);
+
+                mSelectedDaysEvents = new ArrayList<Event>();
+
+                for (Event e : mEventList) {
+                    if (mSelectedDay.equals(e.getDate())) {
+                        mSelectedDaysEvents.add(e);
+                    }
+                }
+
+                if (mAdapter == null) {
+                    mAdapter = new EventAdapter(mSelectedDaysEvents);
+                    mEventRV.setAdapter(mAdapter);
+                } else {
+                    mAdapter.setEvents(mSelectedDaysEvents);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
-
-        retrieveEvents();
 
         return view;
     }
@@ -98,24 +126,27 @@ public class CalendarFragment extends Fragment implements TabViewActivity.Update
         mEventList = mailBox.getEvents();
 
         mDaysWithEvents = new ArrayList<CalendarDay>();
+        mSelectedDaysEvents = new ArrayList<Event>();
 
         for (Event e : mEventList) {
             mDaysWithEvents.add(CalendarDay.from(e.getYear(), e.getMonth(), e.getDay()));
+            if (mSelectedDay.equals(e.getDate())) {
+                mSelectedDaysEvents.add(e);
+            }
         }
 
         mCalendarView.addDecorator(new EventDecorator(getActivity()));
 
         if (mAdapter == null) {
-            mAdapter = new EventAdapter(mEventList);
+            mAdapter = new EventAdapter(mSelectedDaysEvents);
             mEventRV.setAdapter(mAdapter);
         } else {
-            mAdapter.setEvents(mEventList);
+            mAdapter.setEvents(mSelectedDaysEvents);
             mAdapter.notifyDataSetChanged();
         }
     }
 
     private void retrieveEvents() {
-        Log.i(TAG, "HERE RETRIEVE EVENTS");
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, BuildConfig.EVENTS_URL_STR, new Response.Listener<String>() {
             @Override

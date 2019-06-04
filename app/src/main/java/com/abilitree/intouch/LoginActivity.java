@@ -149,7 +149,6 @@ public class LoginActivity extends AppCompatActivity {
                             notification.optString("from_username", null),
                             updatedGroups
                     );
-
                 } catch (JSONException e) {
                     Log.i(TAG, "JSON exception: " + e);
                 }
