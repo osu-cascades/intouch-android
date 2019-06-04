@@ -139,7 +139,6 @@ public class MailBox {
         Log.i(TAG, "Number of events: " + Integer.toString(events.size()));
         Collections.sort(events, new SortByDate());
         Collections.sort(events, new SortByTime());
-        Collections.reverse(events);
 
         return events;
     }
